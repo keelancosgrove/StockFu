@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <title>StockFu</title>
 </head>
 
@@ -98,7 +99,7 @@
 
     <?php
         //Example of getting start date from FB stock data up to yesterday
-        $json = file_get_contents("https://www.quandl.com/api/v3/datasets/WIKI/AAPL.json?end_date=2015-05-28");
+        $json = file_get_contents("https://www.quandl.com/api/v3/datasets/WIKI/AAPL.json?end_date=2015-05-28&api_key=KDzspapgf7Mv2zbUmTgd");
         $ob = json_decode($json);
         $dataset = $ob -> dataset;
         $companySymbol = $dataset -> dataset_code;
@@ -114,6 +115,19 @@
             </div>
             </div>");
     ?>
+
+    <script type="text/javascript">
+    //Same example using Ajax/JQuery
+    $.getJSON("https://www.quandl.com/api/v3/datasets/WIKI/AAPL.json?end_date=2015-05-28&api_key=KDzspapgf7Mv2zbUmTgd", function(result){
+        var data = result["dataset"];
+        var startDate = data["start_date"];
+        var endDate = data["end_date"];
+        var companySymbol = data["dataset_code"];
+        var companyName = data["name"];
+        var newStock =  '<div class="col-md-4" id="stock"><h1 class="symbol">' + companySymbol + '</h1><p class="company">' + companyName + '</p><p class="name">Example Name JQuery</p><p class="dates">' + startDate + " - " + endDate + '</p></div>';
+        $("body").append(newStock);
+    });
+    </script>
     <footer>
         <!-- Tell people that this is my website do not steal -->
         <div id="copyright">
