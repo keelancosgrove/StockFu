@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <meta charset="UTF-8" />	
+    <meta charset="UTF-8" />    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,15 +31,50 @@
         color: white;
     }
     .symbol{
-        font-size: 75px;
+        font-size: 75px;∂
     }
     .multi-symbol{
         font-size: 40px;
     }
+    footer{
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        height: 50px;
+        color: white;
+        text-align: center;
+        background: #9C9A9A;
+    }
+    #toolbar{
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        position: absolute;
+        height: 50px;
+        background: #9C9A9A;
+        width: 100%
+    }
+    #page-title{
+        font-size: 200px;
+    }
 </style>
 
 <body>
-	<div class="container">
+    <div id="toolbar">
+        <table>
+            <tr>
+                <td><a href="">Home</a></td>
+                <td><a href="">Public Charts</a></td>
+                <td><a href="">About StockFu</a></td>
+                <td><a href="">Logout</a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="container">
+        <div class="row">
+            <h1 class="page-title">Your Charts<h1>
+        </div>
         <div class="row">
             <div class="col-md-4" id="stock">
                 <h1 class="symbol">AAPL</h1>
@@ -74,7 +109,7 @@
                 <h1 class="symbol">CMCSA</h1>
                 <p class="company">Comcast Corporation</p>
                 <p class="dates">Aug. 19, 2004 - Aug. 19, 2014</p>
-            </div>  
+            </div>
         </div>
         <div class="row">
             <div class="col-md-4" id="stock">
@@ -87,21 +122,21 @@
                 <h1 class="multi-symbol">GM</h1>
                 <p class="company">Ford Motor Co. & General Motors Co.</p>
                 <p class="dates">Aug. 19, 2004 - Aug. 19, 2014</p>
-            </div> 
+            </div>
             <div class="col-md-4" id="stock">
                 <h1 class="symbol">CMCSA</h1>
                 <p class="company">Comcast Corporation</p>
                 <p class="dates">Aug. 19, 2004 - Aug. 19, 2014</p>
-            </div>  
+            </div>
         </div>    
     </div>
 
     <footer>
         <!-- Tell people that this is my website do not steal -->
         <div id="copyright">
-            Copyright &copy; 2016 Kevin Guo. All rights reserved.
+            Copyright &copy; 2016 The Web Development Group. All rights reserved.
         </div>
-	</footer> 
+    </footer> 
     
 </body>
 </html>
