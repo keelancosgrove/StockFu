@@ -7,7 +7,7 @@
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>StockFu | New Chart</title>
+    <title>StockFu | View Public Chart</title>
 </head>
 
 <style type="text/css">
@@ -22,8 +22,14 @@
         background: #9C9A9A;
     }
     td{
-        padding: 30px;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-bottom: 5px;
+        padding-top: 5px;
         text-align: center;
+    }
+    h1{
+        font-size: 75px;
     }
     .stockChart{
         border-style: solid;
@@ -60,56 +66,22 @@
     </nav>
     <div class="container">
         <div class="row">
-            <h1 class="page-title">Make a new chart<h1>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <table>
-                    <tr>
-                        <td>
-                            Stock name or symbol:<br>
-                            <input type="text" name="stock">
-                            <input type="button" name="addstock" id="add" value="+">
-                        </td>
-                        <td>
-                            Start Date:<br>
-                            <input type="button" name="startDate" value="Start Date">
-                        </td>
-                        <td>
-                            End Date:<br>
-                            <input type="button" name="endDate" value="End Date">
-                        </td>
-                        <td>
-                            Type of chart you want to show:<br>
-                            <input type="button" name="type" value="Choose One">
-                        </td>
-                        <td>
-                            Make chart public?<br>
-                            <input type="checkbox" name="public">
-                        </td>
-                        <td>
-                            <a href="test.html">
-                                <input type="button" name="finish" value="Finish">
-                            </a>
-                        </td>
-                    </tr>
-                    <tr id="secondOne" style="display: none;">
-                        <td>
-                            Stock name or symbol:<br>
-                            <input type="text" name="stock">
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <table>
+                <tr>
+                    <td><h1 class="page-title">AAPL<h1></td>
+                </tr>
+                <tr>
+                    <td><h2 class="page-title">Apple Inc.<h2></td>
+                    <td><p>Jan. 4, 2000 - Present</p></td>
+                    <td><a href="public.html"><button id="finish">Exit</button></a></td>
+                </tr>
+                <tr>
+                    <td>Made by <i>Keelan C.</i></td>
+                </tr>
+            </table>
         </div>
         <img src="sample.png" id="stockChart">
     </div>
-    <script type="text/javascript">
-        $('#add').click(function(){
-            $('#secondOne').toggle("fast");
-        });
-    </script>
     <footer>
         <!-- Tell people that this is my website do not steal -->
         <div id="copyright">
