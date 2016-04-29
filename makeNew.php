@@ -1,3 +1,10 @@
+<?php 
+session_start();
+if (!isset($_SESSION['logged_user'])){
+    header('Location: StockFuLogin.php');
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -7,7 +14,7 @@
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>StockFu | View Your Chart</title>
+    <title>StockFu | New Chart</title>
 </head>
 
 <style type="text/css">
@@ -22,14 +29,8 @@
         background: #9C9A9A;
     }
     td{
-        padding-left: 30px;
-        padding-right: 30px;
-        padding-bottom: 5px;
-        padding-top: 5px;
+        padding: 30px;
         text-align: center;
-    }
-    h1{
-        font-size: 75px;
     }
     .stockChart{
         border-style: solid;
@@ -57,39 +58,19 @@
 </style>
 
 <body>
-    <nav id="toolbar">
-        StockFu
-        <a href="test.html" id="navbar-element">Home</a>
-        <a href="public.html" id="navbar-element">Public Charts</a>
-        <a href="about.html" id="navbar-element">About StockFu</a>
-        <a href="" id="navbar-element">Logout</a>
-    </nav>
+    <?php include 'navbar.php'; ?>
     <div class="container">
         <div class="row">
-            <table>
-                <tr>
-                    <td><h1 class="page-title">GOOG<h1></td>
-                </tr>
-                <tr>
-                    <td><h2 class="page-title">Alphabet Inc.<h2></td>
-                    <td><p>Aug. 19, 2004 - Aug. 19, 2014</p></td>
-                    <td><button id="edit">Edit Chart</button></td>
-                    <td>
-                        Make chart public?<br>
-                        <input type="checkbox" name="public">
-                    </td>
-                    <td><a href="test.html"><button id="finish">Finish</button></a></td>
-                </tr>
-            </table>
+            <h1 class="page-title">Make a new chart<h1>
         </div>
 
-        <div class="row" id="editPane" style="display: none;">
+        <div class="row">
             <div class="col-md-12">
                 <table>
                     <tr>
                         <td>
                             Stock name or symbol:<br>
-                            <input type="text" name="stock" value="GOOG">
+                            <input type="text" name="stock">
                             <input type="button" name="addstock" id="add" value="+">
                         </td>
                         <td>
@@ -104,7 +85,10 @@
                             Type of chart you want to show:<br>
                             <input type="button" name="type" value="Choose One">
                         </td>
-
+                        <td>
+                            Make chart public?<br>
+                            <input type="checkbox" name="public">
+                        </td>
                         <td>
                             <a href="test.html">
                                 <input type="button" name="finish" value="Finish">
@@ -123,9 +107,6 @@
         <img src="sample.png" id="stockChart">
     </div>
     <script type="text/javascript">
-        $('#edit').click(function(){
-            $('#editPane').toggle("fast");
-        });
         $('#add').click(function(){
             $('#secondOne').toggle("fast");
         });

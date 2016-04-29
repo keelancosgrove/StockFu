@@ -1,3 +1,10 @@
+<?php 
+session_start();
+if (!isset($_SESSION['logged_user'])){
+    header('Location: StockFuLogin.php');
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -57,13 +64,7 @@
 </style>
 
 <body>
-    <nav id="toolbar">
-        StockFu
-        <a href="test.html" id="navbar-element">Home</a>
-        <a href="public.html" id="navbar-element">Public Charts</a>
-        <a href="about.html" id="navbar-element">About StockFu</a>
-        <a href="" id="navbar-element">Logout</a>
-    </nav>
+    <?php include 'navbar.php'; ?>
     <div class="container">
         <div class="row">
             <table>
