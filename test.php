@@ -2,11 +2,12 @@
 <html>
 
 <head>
-    <meta charset="UTF-8" />	
+    <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>	
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <title>StockFu</title>
 </head>
 
@@ -128,6 +129,25 @@
         $("body").append(newStock);
     });
     </script>
+
+    <svg id="bruh" width="500px" height="500px"></svg>
+    <script type="text/javascript">
+    //Bar graph from array data
+    var dataset = [3,4,5,4.5,3.2];
+    d3.select("body").data(dataset).enter().append("div").style("width",25).style("background-color","blue").style("display","inline-block").style("height",function(d){
+        var barHeight = 50*d;
+        return barHeight + "px";
+    })
+
+    xScale = d3.scale.linear().range([100,400]).domain([0,10]);
+    yScale = d3.scale.linear().range([100,400]).domain([0,100]);
+
+    xAxis = d3.svg.axis().scale(xScale);
+    yAxis = d3.svg.axis().scale(yScale).orient("left");
+    d3.select("#bruh").append("svg:g").call(xAxis);
+    d3.select("#bruh").append("svg:g").attr("transform","translate(200,0)").call(yAxis);
+    </script>
+    <svg><circle cx="250" cy="25" r="25"></circle></svg>
     <footer>
         <!-- Tell people that this is my website do not steal -->
         <div id="copyright">
