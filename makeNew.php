@@ -13,6 +13,16 @@ if (!isset($_SESSION['logged_user'])){
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!-- JS file for easyAutocomplete-->
+    <script src="EasyAutocomplete-1.3.3/jquery.easy-autocomplete.min.js"></script> 
+
+    <!-- CSS file -->
+    <link rel="stylesheet" href="EasyAutocomplete-1.3.3/easy-autocomplete.min.css"> 
+
+    <!-- Additional CSS Themes file - not required-->
+    <link rel="stylesheet" href="EasyAutocomplete-1.3.3/easy-autocomplete.themes.min.css"> 
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StockFu | New Chart</title>
 </head>
@@ -70,7 +80,13 @@ if (!isset($_SESSION['logged_user'])){
                     <tr>
                         <td>
                             Stock name or symbol:<br>
-                            <input type="text" name="stock">
+                            <!--<input type="text" name="stock">-->
+                            <input id="stock" />
+                            <script>
+                            var optionsList = [{"name":"blue"},{"name":"blargh"},{"name":"green"}];
+                            var options = {data: optionsList, getValue: "name", list: { match: { enabled: true}}};
+                            $("#stock").easyAutocomplete(options);
+                            </script>
                             <input type="button" name="addstock" id="add" value="+">
                         </td>
                         <td>
@@ -83,14 +99,16 @@ if (!isset($_SESSION['logged_user'])){
                         </td>
                         <td>
                             Type of chart you want to show:<br>
-                            <input type="button" name="type" value="Choose One">
+                            <input type="radio" name="stockValue" value="Open"> Open<br>
+                            <input type="radio" name="stockValue" value="High"> High<br>
+                            <input type="radio" name="stockValue" value="Low"> Low
                         </td>
                         <td>
                             Make chart public?<br>
                             <input type="checkbox" name="public">
                         </td>
                         <td>
-                            <a href="test.html">
+                            <a href="test.php">
                                 <input type="button" name="finish" value="Finish">
                             </a>
                         </td>
