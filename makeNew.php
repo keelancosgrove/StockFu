@@ -11,19 +11,25 @@ if (!isset($_SESSION['logged_user'])){
 <head>
     <meta charset="UTF-8" />	
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-    <!-- JS file for easyAutocomplete-->
-    <script src="EasyAutocomplete-1.3.3/jquery.easy-autocomplete.min.js"></script> 
-
-    <!-- CSS file -->
-    <link rel="stylesheet" href="EasyAutocomplete-1.3.3/easy-autocomplete.min.css"> 
-
-    <!-- Additional CSS Themes file - not required-->
-    <link rel="stylesheet" href="EasyAutocomplete-1.3.3/easy-autocomplete.themes.min.css"> 
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+    $(function() {
+        $(".datePicker").datepicker({
+            changeMonth: true,
+            changeYear: true
+        });
+        var tags = ["blue","blargh","green"];
+        $(".stock").autocomplete({
+            source: tags
+        });
+    });
+    </script>
     <title>StockFu | New Chart</title>
 </head>
 
@@ -81,21 +87,16 @@ if (!isset($_SESSION['logged_user'])){
                         <td>
                             Stock name or symbol:<br>
                             <!--<input type="text" name="stock">-->
-                            <input id="stock" />
-                            <script>
-                            var optionsList = [{"name":"blue"},{"name":"blargh"},{"name":"green"}];
-                            var options = {data: optionsList, getValue: "name", list: { match: { enabled: true}}};
-                            $("#stock").easyAutocomplete(options);
-                            </script>
+                            <input class="stock" name="stock1" />
                             <input type="button" name="addstock" id="add" value="+">
                         </td>
                         <td>
                             Start Date:<br>
-                            <input type="button" name="startDate" value="Start Date">
+                            <input type="text" name="startDate" class="datePicker">
                         </td>
                         <td>
                             End Date:<br>
-                            <input type="button" name="endDate" value="End Date">
+                            <input type="text" name="endDate" class="datePicker">
                         </td>
                         <td>
                             Type of chart you want to show:<br>
@@ -116,7 +117,7 @@ if (!isset($_SESSION['logged_user'])){
                     <tr id="secondOne" style="display: none;">
                         <td>
                             Stock name or symbol:<br>
-                            <input type="text" name="stock">
+                            <input class="stock" name="stock2">
                         </td>
                     </tr>
                 </table>
