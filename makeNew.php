@@ -188,9 +188,6 @@ if (!isset($_SESSION['logged_user'])){
             var APICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock1 + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
             console.log(APICall);
 
-            // COVER ME YOU LIMP DICK FUCK-UPS
-            // TD: Need to cover case where API call fails or returns garbage
-            // TD: Clicking finish should redirect to test.php with a message, only on success
             $.getJSON(APICall).done(function(result){
                 var data = result["dataset"];
                 console.log("Happy times!");
