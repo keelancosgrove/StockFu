@@ -10,7 +10,7 @@ if (!isset($_SESSION['logged_user'])){
 
 <head>
     <meta charset="UTF-8" />	
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -21,27 +21,28 @@ if (!isset($_SESSION['logged_user'])){
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-    var convertDate = function(usDate) {
-          var dateParts = usDate.split(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-          return dateParts[3] + "-" + dateParts[1] + "-" + dateParts[2];
-    }
-
-    $(function() {
+    $(function () {
 
         // Adds datepicker calendar feature to the following input fields
         $("#startDatePicker").datepicker({
             changeMonth: true,
-            changeYear: true
-            /*onSelect: function(selected) {
-                $("#endDatePicker").datepicker("option","minDate",selected)
-            }*/
+            changeYear: true,
+            dateFormat: "yy-mm-dd",
+            onSelect: function (selected, inst) {
+                var dt = new Date(selected);
+                dt.setDate(dt.getDate() + 1);
+                $("#endDatePicker").datepicker("option","minDate",dt);
+            }
         });
         $("#endDatePicker").datepicker({
             changeMonth: true,
-            changeYear: true
-            /*onSelect: function(selected) {
-                $("#startDatePicker").datepicker("option","maxDate",selected)
-            }*/
+            changeYear: true,
+            dateFormat: "yy-mm-dd",
+            onSelect: function(selected, inst) {
+                var dt = new Date(selected);
+                dt.setDate(dt.getDate() - 1);
+                $("#startDatePicker").datepicker("option","maxDate",selected);
+            }
         });
 
         // Example array: real array should be list of all company stock option
