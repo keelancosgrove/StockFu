@@ -1,11 +1,17 @@
-<?php 
+<?php
 //Username is Cat
 //Password is Dog
 //Or you can create a new user/password
 
-session_start(); 
+session_start();
+
 if (isset($_SESSION['logged_user'])){
-    header('Location: test.php');
+  $require_once("config.php");
+  $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  $query  = "SELECT userID FROM Users WHERE username = $_SESSION['logged_user']";
+  $result = $mysqli->query($query);
+  $row = $result->fetch_assoc();
+  header("Location: test.php/?userID=$row['userID']");
 }
 ?>
 
@@ -14,7 +20,7 @@ if (isset($_SESSION['logged_user'])){
 
 <head>
     <meta charset="UTF-8" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -166,7 +172,7 @@ if (isset($_SESSION['logged_user'])){
         <div id="copyright">
             Copyright &copy; 2016 Kevin Guo. All rights reserved.
         </div>
-	</footer> 
-    
+	</footer>
+
 </body>
 </html>
