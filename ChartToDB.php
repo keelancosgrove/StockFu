@@ -19,7 +19,8 @@
         $company = $data -> company;
         $start_date = $data -> start_date;
         $end_date = $data -> end_date;
-        $choose = $mysqli -> query("INSERT INTO Charts (userID, name, startDate, endDate, xLabel, yLabel, thumbnail, svg_string) VALUES ('$userID', '$company', '$start_date', '$end_date', 'Date', 'Stock Price', 'N/A', '$svg')");
+        $chartName = $data -> chartName;
+        $choose = $mysqli -> query("INSERT INTO Charts (userID, name, chartName, startDate, endDate, xLabel, yLabel, thumbnail, svg_string) VALUES ('$userID', '$company', '$chartName','$start_date', '$end_date', 'Date', 'Stock Price', 'N/A', '$svg')");
         if ($choose == false) print("NOONONONONONONONO");
         print('{}');
     }

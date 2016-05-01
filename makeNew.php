@@ -14,7 +14,7 @@ if (!isset($_SESSION['logged_user'])){
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
     <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
@@ -46,7 +46,8 @@ if (!isset($_SESSION['logged_user'])){
         });
 
         // Example array: real array should be list of all company stock option
-        var tags = ["blue","blargh","green"];
+        // TD: Get list of all companies
+        var tags = ["AAPL","MSFT","FB","GOOG","AMZN","YELP"];
 
         // Adds autocomplete feature to the following input fields
         $("#stock1").autocomplete({
@@ -123,6 +124,10 @@ if (!isset($_SESSION['logged_user'])){
                 <table>
                     <tr>
                         <td>
+                            Name your chart
+                            <input id = "chartName" type="text">
+                        </td>
+                        <td>
                             Stock name or symbol:<br>
                             <!--<input type="text" name="stock">-->
                             <input id="stock1" name="stock1" />
@@ -167,15 +172,16 @@ if (!isset($_SESSION['logged_user'])){
         });
         $('#finish').click(function(){
             // Retrieves start date, end date, and stock options from user input fields
-            // TD: Datepicker automatically ensures that dates are valid. Must ensure end date is later than start date
-            var sDate = convertDate($("#startDatePicker").val());
-            var eDate = convertDate($("#endDatePicker").val());
+            var chartName = $("#chartName").val();
+            var sDate = $("#startDatePicker").val();
+            var eDate = $("#endDatePicker").val();
             var startDate = (sDate != '') ? ('start_date=' + sDate) : '';
             var endDate = (eDate != '') ? ('&end_date=' + eDate) : '';
             console.log(startDate);
             var stock1 = $("#stock1").val();
             //var stock2 = $("#stock2").val();
             var stockValue = document.querySelector('input[name="stockValue"]:checked').value;
+            var priceOption = (stockValue == "Low") ? 3 : (stockValue == "High") ? 2 : 1;
             console.log(stockValue);
 
             // Forms API call from user inputs
@@ -184,13 +190,24 @@ if (!isset($_SESSION['logged_user'])){
 
             // COVER ME YOU LIMP DICK FUCK-UPS
             // TD: Need to cover case where API call fails or returns garbage
-            $.getJSON(APICall, function(result){
+            // TD: Clicking finish should redirect to test.php with a message, only on success
+            $.getJSON(APICall).done(function(result){
                 var data = result["dataset"];
                 console.log("Happy times!");
                 var stockData = data["data"];
                 var demo = d3.select("#newChart");
                 var maxDate = new Date(stockData[0][0]);
                 var minDate = new Date(stockData[stockData.length-1][0]);
+
+                // Computes maximum value of y axis based on highest stock price
+                var priceYMax = stockData[0][priceOption];
+                for (i = 0; i<stockData.length; i++){
+                    if (stockData[i][priceOption] > priceYMax){
+                        priceYMax = stockData[i][priceOption];
+                    }
+                }
+                priceYMax += 20;
+
                 var height = 400;
                 var width = 900;
                 var margins = {
@@ -202,9 +219,7 @@ if (!isset($_SESSION['logged_user'])){
 
                 // Sets up x and y axis
                 var xScale = d3.time.scale().range([margins.left,width-margins.right]).domain([minDate,maxDate]);
-
-                // TD: The y axis scale must change depending on the value of the stock option
-                var yScale = d3.scale.linear().range([height-margins.top,margins.bottom]).domain([0,600]);
+                var yScale = d3.scale.linear().range([height-margins.top,margins.bottom]).domain([0,priceYMax]);
                 var xAxis = d3.svg.axis().scale(xScale);
                 var yAxis = d3.svg.axis().scale(yScale).orient("left");
                 
@@ -218,7 +233,7 @@ if (!isset($_SESSION['logged_user'])){
                     return xScale(new Date(d[0]));
                 })
                 .y(function(d) {
-                    return yScale(d[1]);
+                    return yScale(d[priceOption]);
                 });
 
                 // Appends line chart to svg with dank attributes
@@ -241,7 +256,8 @@ if (!isset($_SESSION['logged_user'])){
                     svg : svgChildren,
                     company : stock1,
                     start_date : sDate,
-                    end_date : eDate
+                    end_date : eDate,
+                    chartName: chartName
                 });
                 console.log(parameters);
 
@@ -255,18 +271,18 @@ if (!isset($_SESSION['logged_user'])){
                 .done( function(data){
                     console.log('done');
                     console.log(data);
+                    //window.location.replace("makeNew.php");
                 })
                 .fail( function(data){
                     console.log('failure');
                     console.log(data);
                 });
+            }).fail(function(jqxhr){
+            alert("The data you inputted was invalid - please choose a company from the autocomplete feature");
             });
          });
     </script>
-    <?php 
-        //$choose = $mysqli -> query("INSERT INTO Charts (userID, name, startDate, endDate, xLabel, yLabel, thumbnail, svg_string) VALUES (1, 'champ', '2013-03-13', '2015-05-15', 'woah', 'bla', 'cheese', 'adasdda')");
-        //if ($choose == false) print("NOONONONONONONONO");
-    ?>
+
     <footer>
         <!-- Tell people that this is my website do not steal -->
         <div id="copyright">

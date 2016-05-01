@@ -16,13 +16,13 @@ if (!isset($_SESSION['logged_user'])){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StockFu | View Your Chart</title>
     <?php
-    require_once 'config.php';
-    $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
-    if ($mysqli->errno){
-        print('There was an error in connecting to the database:');
-        print($mysqli->error);
-        exit();
-    }
+        require_once 'config.php';
+        $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
+        if ($mysqli->errno){
+            print('There was an error in connecting to the database:');
+            print($mysqli->error);
+            exit();
+        }
     ?>
 </head>
 
@@ -73,16 +73,33 @@ if (!isset($_SESSION['logged_user'])){
 </style>
 
 <body>
-    <?php include 'navbar.php'; ?>
+    <?php include 'navbar.php'; 
+    if (isset($_GET['chartID'])){
+        $chartID = $_GET['chartID'];
+        $selectedChart = $mysqli -> query("SELECT * FROM Charts WHERE chartID = '$chartID'");
+        if ($selectedChart == false) print("Failed to find chart with associated chart ID in database");
+        $row = $selectedChart -> fetch_assoc();
+    ?>
     <div class="container">
         <div class="row">
             <table>
                 <tr>
-                    <td><h1 class="page-title">GOOG<h1></td>
-                </tr>
+                    <td><h1 class="page-title">
+                    <?php
+                        $symbol = $row['name'];
+                        print($symbol);
+                    ?>
+                    <h1></td>
                 <tr>
-                    <td><h2 class="page-title">Alphabet Inc.<h2></td>
-                    <td><p>Aug. 19, 2004 - Aug. 19, 2014</p></td>
+                    <td><p>
+                    <?php
+                        $chartName = $row['chartName'];
+                        $start_date = $row['startDate'];
+                        $end_date = $row['endDate'];
+                        print("<h2 class=\"page-title\">$chartName</h2>");
+                        print("$start_date - $end_date");
+                    ?>
+                    </p></td>
                     <td><button id="edit">Edit Chart</button></td>
                     <td>
                         Make chart public?<br>
@@ -131,15 +148,9 @@ if (!isset($_SESSION['logged_user'])){
             </div>
         </div>
         <?php
-            if (isset($_GET['chartID'])){
-                $chartID = $_GET['chartID'];
-                $selectedChart = $mysqli -> query("SELECT * FROM Charts WHERE chartID = '$chartID'");
-                if ($selectedChart == false) print("Failed to find chart with associated chart ID in database");
-                while ($row = $selectedChart -> fetch_assoc()){
-                    $svg = $row['svg_string'];
-                    print($svg);
-                }
-            }
+            $svg = $row['svg_string'];
+            print($svg);
+        }
         ?>
     </div>
     <script type="text/javascript">

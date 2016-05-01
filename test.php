@@ -45,7 +45,7 @@ if (!isset($_SESSION['logged_user'])) {
         font-size: 50px;
     }
     footer{
-        position: absolute;
+        position: fixed;
         bottom: 0px;
         left: 0px;
         right: 0px;
@@ -116,10 +116,11 @@ if (!isset($_SESSION['logged_user'])) {
                             $company = $row['company'];
                             $startDate = $row['startDate'];
                             $endDate = $row['endDate'];
+                            $chartName = $row['chartName'];
                           echo "<div class=\"col-md-4\" id=\"stock\">
                               <a href=\"viewChartPrivate.php?chartID=$chartID\">
                                   <h1 class=\"symbol\">$symbol</h1>
-                                  <h4 class=\"company\">$symbol</h4>
+                                  <h4 class=\"company\">$chartName</h4>
                                   <p class=\"dates\">$startDate - $endDate</p>
                               </a>
                           </div>";
