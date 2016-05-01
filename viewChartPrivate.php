@@ -10,11 +10,20 @@ if (!isset($_SESSION['logged_user'])){
 
 <head>
     <meta charset="UTF-8" />	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StockFu | View Your Chart</title>
+    <?php
+    require_once 'config.php';
+    $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
+    if ($mysqli->errno){
+        print('There was an error in connecting to the database:');
+        print($mysqli->error);
+        exit();
+    }
+    ?>
 </head>
 
 <style type="text/css">
@@ -121,7 +130,17 @@ if (!isset($_SESSION['logged_user'])){
                 </table>
             </div>
         </div>
-        <img src="sample.png" id="stockChart">
+        <?php
+            if (isset($_GET['chartID'])){
+                $chartID = $_GET['chartID'];
+                $selectedChart = $mysqli -> query("SELECT * FROM Charts WHERE chartID = '$chartID'");
+                if ($selectedChart == false) print("Failed to find chart with associated chart ID in database");
+                while ($row = $selectedChart -> fetch_assoc()){
+                    $svg = $row['svg_string'];
+                    print($svg);
+                }
+            }
+        ?>
     </div>
     <script type="text/javascript">
         $('#edit').click(function(){

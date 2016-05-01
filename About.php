@@ -10,6 +10,35 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style type="text/css">
+    footer{
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        height: 50px;
+        color: white;
+        text-align: center;
+        background: #9C9A9A;
+    }
+    #toolbar{
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        position: absolute;
+        background: #9C9A9A;
+        width: 100%
+    }
+    #page-title{
+        font-size: 200px;
+    }
+    #navbar-element{
+        padding: 30px;
+    }
+</style>
+
+
     <title>About</title>
     <?php
     require_once 'config.php';
@@ -25,6 +54,14 @@
 
 
 <body>
+    <?php
+        if (isset($_SESSION['logged_user'])){
+            include 'navbar.php';
+        }
+        else {
+            include 'altNavBar.php';
+        }
+    ?>
    <h1>What is StockFu?</h1>
    <p>StockFu allows anyone to explore the stock market in an accessible, customizable, and interactive way. The idea is to let you make your own profile of stock charts, which could vary on company, date range, and more. You can create and customize these charts, and re-visit them later on. You can also compare and contrast companies on one stock chart, or with the same company across different date ranges. Whether you're a beginner or expert, student or professional, you can get started and explore the world of stocks!</p> <br>
    <p>StockFu was created by Andrew Cadwallader in 2016. He sought to integrate web technologies with the world of stocks in order to give his audience, primarily college students, a way to easily customize and explore stock charts. </p>

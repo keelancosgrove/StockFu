@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['logged_user'])) {
-    //    header('Location: StockFuLogin.php');
+    header('Location: StockFuLogin.php');
 }
 ?>
 
@@ -10,6 +10,7 @@ if (!isset($_SESSION['logged_user'])) {
 
 <head>
     <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -76,66 +77,87 @@ if (!isset($_SESSION['logged_user'])) {
     }
 </style>
 
-<body>
-    <?php
-include 'navbar.php';
-?>
+<body> 
+    <?php include 'navbar.php';
+    /* Display all user charts */
 
-    <?php
-
-/* Display all user charts */
-
-if (isset($GET['userID'])) {
-    require_once 'config.php';
-    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-
-    /*Check if userID = logged_user and display their charts*/
-    $query  = "SELECT userID FROM Users WHERE username = $_SESSION['logged_user']";
-    $result = $mysqli->query($query);
-
-    if ($result) {
-        /*current user = userID*/
-        $query  = "SELECT * FROM Charts WHERE userID = $GET[userID]";
+    if (isset($_GET['userID'])) {
+        require_once 'config.php';
+        $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        /*Check if userID = logged_user and display their charts*/
+        $userID = $_GET['userID'];
+        $username = $_SESSION['logged_user'];
+        $query  = "SELECT userID FROM Users WHERE username = '$username'";
         $result = $mysqli->query($query);
-        if ($result) {
-            /*user has charts, display them*/
-            echo "<div class=\"container\">
-                  <div class=\"row\">
-                      <h1 class=\"page-title\">Your Charts<h1>
-                  </div>";
+        if ($result == false) print("<h1>NOOO</h1>");
+        $row = $result -> fetch_assoc();
+        $logged_userID = $row['userID'];
+        if ($logged_userID == $userID) {
+            /*current user = userID*/
+            $userID = $_GET['userID'];
+            $query  = "SELECT * FROM Charts WHERE userID = $userID";
+            $result = $mysqli->query($query);
+            if ($result) {
+                if ($result -> num_rows != 0){
+                    /*user has charts, display them*/
+                    echo "<div class=\"container\">
+                          <div class=\"row\">
+                              <h1 class=\"page-title\">Your Charts<h1>
+                          </div>";
 
-            $row   = $result->fetch_assoc();
-            $count = 0;
+                    $count = 0;
 
-            while ($row) {
-              echo "<div class=\"row\">";
-                while ($row && $count != 3) {
-                  echo "<div class=\"col-md-4\" id=\"stock\">
-                      <a href=\"viewChartPrivate.php/?chartID=$row[chartID]\">
-                          <h1 class=\"symbol\">$row['symbol']</h1>
-                          <h4 class=\"company\">$row['company']</h4>
-                          <p class=\"dates\">$row['startDate'] - $row['endDate']</p>
-                      </a>
-                  </div>";
-                  $count++;
+                    while ($row = $result -> fetch_assoc()) {
+                      echo "<div class=\"row\">";
+                        // This was causing the charts to be repeated three times each
+                        //while ($row && $count != 3) {
+                            $chartID = $row['chartID'];
+                            $symbol = $row['name'];
+                            $company = $row['company'];
+                            $startDate = $row['startDate'];
+                            $endDate = $row['endDate'];
+                          echo "<div class=\"col-md-4\" id=\"stock\">
+                              <a href=\"viewChartPrivate.php?chartID=$chartID\">
+                                  <h1 class=\"symbol\">$symbol</h1>
+                                  <h4 class=\"company\">$symbol</h4>
+                                  <p class=\"dates\">$startDate - $endDate</p>
+                              </a>
+                          </div>";
+
+                          $count++;
+                        //}
+                      echo "</div>";
+                      $count = 0;
+                    }
+                  echo '<div class="col-md-4">
+                          <a href="makeNew.php">
+                          <h1 id="plus-sign">+</h1>
+                          </a>
+                        </div>';
+                  echo "</div>";
                 }
-              echo "</div>";
-              $count = 0;
+                else {
+                    print("<h2>Nothing here yet!</h2>");
+                    echo '<div class="col-md-4">
+                          <a href="makeNew.php">
+                          <h1 id="plus-sign">+</h1>
+                          </a>
+                        </div>';
+                }
             }
-          echo "<div class="col-md-4">
-                  <a href="makeNew.php">
-                  <h1 id="plus-sign">+</h1>
-                  </a>
-                </div>";
-          echo "</div>";
+            else {
+                print("Failed to obtain charts from database");
+            }
         }
+        else {
+            die('wrong user');
+        }
+        /*If userID != logged_user, do something else*/
+        //TODO: Display 404 page or access denied page
     }
-    /*If userID != logged_user, do something else*/
-    //TODO: Display 404 page or access denied page
-}
 
-?>
+    ?>
+    
 
     <footer>
         <!-- Tell people that this is my website do not steal -->

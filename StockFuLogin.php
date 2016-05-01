@@ -6,12 +6,15 @@
 session_start();
 
 if (isset($_SESSION['logged_user'])){
-  $require_once("config.php");
+  require_once("config.php");
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-  $query  = "SELECT userID FROM Users WHERE username = $_SESSION['logged_user']";
+  $username = $_SESSION['logged_user'];
+  $query  = "SELECT userID FROM Users WHERE username = '$username'";
   $result = $mysqli->query($query);
+  if ($result == false) print("Failed");
   $row = $result->fetch_assoc();
-  header("Location: test.php/?userID=$row['userID']");
+  $userID = $row['userID'];
+  header("Location: test.php?userID=$userID");
 }
 ?>
 
@@ -103,7 +106,7 @@ if (isset($_SESSION['logged_user'])){
                 //Passwords match - allow user to log in, and update SESSION variable
                 //print("You have logged in successfully, $username.");
                 $_SESSION['logged_user'] = $username;
-                echo '<META HTTP-EQUIV="refresh" content="0;URL=test.php">';
+                echo "<META HTTP-EQUIV=\"refresh\" content=\"0;URL=test.php?userID=$userID\">";
             }
             else {
                 print("You did not login successfully. Please make sure your username and password are correct.");
