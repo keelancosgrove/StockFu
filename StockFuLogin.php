@@ -1,11 +1,29 @@
-<?php session_start(); ?>
+<?php
+//Username is Cat
+//Password is Dog
+//Or you can create a new user/password
+
+session_start();
+
+if (isset($_SESSION['logged_user'])){
+  require_once("config.php");
+  $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  $username = $_SESSION['logged_user'];
+  $query  = "SELECT userID FROM Users WHERE username = '$username'";
+  $result = $mysqli->query($query);
+  if ($result == false) print("Failed");
+  $row = $result->fetch_assoc();
+  $userID = $row['userID'];
+  header("Location: test.php?userID=$userID");
+}
+?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,9 +39,39 @@
     ?>
 </head>
 
-
+<style type="text/css">
+    footer{
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        height: 50px;
+        color: white;
+        text-align: center;
+        background: #9C9A9A;
+    }
+    #toolbar{
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        position: absolute;
+        background: #9C9A9A;
+        width: 100%
+    }
+    #page-title{
+        font-size: 200px;
+    }
+    #navbar-element{
+        padding: 30px;
+    }
+</style>
 
 <body>
+    <?php include 'altNavBar.php'; ?>
+
+    <div class="row">
+            <h1 class="page-title">Login<h1>
+        </div>
     <?php
     //Retrieves filtered username and password from user input
     $username = filter_input(INPUT_POST, 'Username', FILTER_SANITIZE_STRING);
@@ -58,7 +106,7 @@
                 //Passwords match - allow user to log in, and update SESSION variable
                 //print("You have logged in successfully, $username.");
                 $_SESSION['logged_user'] = $username;
-                echo '<META HTTP-EQUIV="refresh" content="0;URL=UserGallery.php?userID='.$userID.'">';
+                echo "<META HTTP-EQUIV=\"refresh\" content=\"0;URL=test.php?userID=$userID\">";
             }
             else {
                 print("You did not login successfully. Please make sure your username and password are correct.");
@@ -127,7 +175,7 @@
         <div id="copyright">
             Copyright &copy; 2016 Kevin Guo. All rights reserved.
         </div>
-	</footer> 
-    
+	</footer>
+
 </body>
 </html>

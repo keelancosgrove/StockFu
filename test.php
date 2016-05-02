@@ -1,14 +1,20 @@
+<?php
+session_start();
+if (!isset($_SESSION['logged_user'])) {
+    header('Location: StockFuLogin.php');
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>StockFu</title>
+    <title>StockFu | Home</title>
 </head>
 
 <style type="text/css">
@@ -36,124 +42,130 @@
         font-size: 75px;
     }
     .multi-symbol{
-        font-size: 40px;
+        font-size: 50px;
+    }
+    footer{
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        height: 50px;
+        color: white;
+        text-align: center;
+        background: #9C9A9A;
+        font-style: 20px;
+    }
+    #toolbar{
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        position: absolute;
+        background: #9C9A9A;
+        width: 100%
+    }
+    #page-title{
+        font-size: 200px;
+    }
+    #navbar-element{
+        padding: 30px;
+    }
+    #plus-sign{
+        font-size: 50px;
+        font-style: bold;
+        background-color: grey;
+        text-align: center;
     }
 </style>
 
-<body>
-	<div class="container">
-        <div class="row">
-            <div class="col-md-4" id="stock">
-                <h1 class="symbol">AAPL</h1>
-                <p class="company">Apple Inc.</p>
-                <p class="dates">Jan. 4, 2000 - Present</p>
-            </div>
-            <div class="col-md-4" id="stock">
-                <h1 class="symbol">GOOG</h1>
-                <p class="company">Alphabet Inc.</p>
-                <p class="dates">Aug. 19, 2004 - Aug. 19, 2014</p>
-            </div> 
-            <div class="col-md-4" id="stock">
-                <h1 class="symbol">CMCSA</h1>
-                <p class="company">Comcast Corp.</p>
-                <p class="dates">Aug. 19, 2004 - Aug. 19, 2014</p>
-            </div>  
-        </div>
-        <div class="row">
-            <div class="col-md-4" id="stock">
-                <h1 class="symbol">NASDAQ</h1>
-                <p class="company">Nasdaq Inc.</p>
-                <p class="name">How well my portfolio is going</p>
-                <p class="dates">This Week</p>
-            </div>
-            <div class="col-md-4" id="stock">
-                <h1 class="multi-symbol">CMCSA</h1>
-                <h1 class="multi-symbol">GOOG</h1>
-                <p class="company">Comcast Corp. & Alphabet Inc.</p>
-                <p class="dates">Aug. 19, 2004 - Aug. 19, 2014</p>
-            </div> 
-            <div class="col-md-4" id="stock">
-                <h1 class="symbol">CMCSA</h1>
-                <p class="company">Comcast Corporation</p>
-                <p class="dates">Aug. 19, 2004 - Aug. 19, 2014</p>
-            </div>  
-        </div>
-        <div class="row">
-            <div class="col-md-4" id="stock">
-                <h1 class="symbol">NASDAQ</h1>
-                <p class="company">Nasdaq Inc.</p>
-                <p class="dates">This Week</p>
-            </div>
-            <div class="col-md-4" id="stock">
-                <h1 class="multi-symbol">F</h1>
-                <h1 class="multi-symbol">GM</h1>
-                <p class="company">Ford Motor Co. & General Motors Co.</p>
-                <p class="dates">Aug. 19, 2004 - Aug. 19, 2014</p>
-            </div> 
-            <div class="col-md-4" id="stock">
-                <h1 class="symbol">CMCSA</h1>
-                <p class="company">Comcast Corporation</p>
-                <p class="dates">Aug. 19, 2004 - Aug. 19, 2014</p>
-            </div>  
-        </div>    
-    </div>
+<body> 
+    <?php include 'navbar.php';
+    /* Display all user charts */
 
-    <?php
-        //Example of getting start date from FB stock data up to yesterday
-        $json = file_get_contents("https://www.quandl.com/api/v3/datasets/WIKI/AAPL.json?end_date=2015-05-28&api_key=KDzspapgf7Mv2zbUmTgd");
-        $ob = json_decode($json);
-        $dataset = $ob -> dataset;
-        $companySymbol = $dataset -> dataset_code;
-        $startDate = $dataset -> start_date;
-        $endDate = $dataset -> end_date;
-        $companyName = $dataset -> name;
-        print("<div class=\"row\">
-            <div class=\"col-md-4\" id=\"stock\">
-                <h1 class=\"symbol\">$companySymbol</h1>
-                <p class=\"company\">$companyName</p>
-                <p class=\"name\">Example Name</p>
-                <p class=\"dates\">$startDate - $endDate/p>
-            </div>
-            </div>");
+    if (isset($_GET['userID'])) {
+        require_once 'config.php';
+        $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        /*Check if userID = logged_user and display their charts*/
+        $userID = $_GET['userID'];
+        $username = $_SESSION['logged_user'];
+        $query  = "SELECT userID FROM Users WHERE username = '$username'";
+        $result = $mysqli->query($query);
+        if ($result == false) print("<h1>NOOO</h1>");
+        $row = $result -> fetch_assoc();
+        $logged_userID = $row['userID'];
+        if ($logged_userID == $userID) {
+            /*current user = userID*/
+            $userID = $_GET['userID'];
+            $query  = "SELECT * FROM Charts WHERE userID = $userID";
+            $result = $mysqli->query($query);
+            if ($result) {
+                if ($result -> num_rows != 0){
+                    /*user has charts, display them*/
+                    echo "<div class=\"container\">
+                          <div class=\"row\">
+                              <h1 class=\"page-title\">Your Charts<h1>
+                          </div>";
+
+                    $count = 0;
+
+                    while ($row = $result -> fetch_assoc()) {
+                      echo "<div class=\"row\">";
+                        // This was causing the charts to be repeated three times each
+                        //while ($row && $count != 3) {
+                            $chartID = $row['chartID'];
+                            $symbol = $row['name'];
+                            $company = $row['company'];
+                            $startDate = $row['startDate'];
+                            $endDate = $row['endDate'];
+                            $chartName = $row['chartName'];
+                          echo "<div class=\"col-md-4\" id=\"stock\">
+                              <a href=\"viewChartPrivate.php?chartID=$chartID\">
+                                  <h1 class=\"symbol\">$symbol</h1>
+                                  <h4 class=\"company\">$chartName</h4>
+                                  <p class=\"dates\">$startDate - $endDate</p>
+                              </a>
+                          </div>";
+
+                          $count++;
+                        //}
+                      echo "</div>";
+                      $count = 0;
+                    }
+                  echo '<div class="col-md-4">
+                          <a href="makeNew.php">
+                          <h1 id="plus-sign">+</h1>
+                          </a>
+                        </div>';
+                  echo "</div>";
+                }
+                else {
+                    print("<h2>Nothing here yet!</h2>");
+                    echo '<div class="col-md-4">
+                          <a href="makeNew.php">
+                          <h1 id="plus-sign">+</h1>
+                          </a>
+                        </div>';
+                }
+            }
+            else {
+                print("Failed to obtain charts from database");
+            }
+        }
+        else {
+            die('wrong user');
+        }
+        /*If userID != logged_user, do something else*/
+        //TODO: Display 404 page or access denied page
+    }
+
     ?>
+    
 
-    <script type="text/javascript">
-    //Same example using Ajax/JQuery
-    $.getJSON("https://www.quandl.com/api/v3/datasets/WIKI/AAPL.json?end_date=2015-05-28&api_key=KDzspapgf7Mv2zbUmTgd", function(result){
-        var data = result["dataset"];
-        var startDate = data["start_date"];
-        var endDate = data["end_date"];
-        var companySymbol = data["dataset_code"];
-        var companyName = data["name"];
-        var newStock =  '<div class="col-md-4" id="stock"><h1 class="symbol">' + companySymbol + '</h1><p class="company">' + companyName + '</p><p class="name">Example Name JQuery</p><p class="dates">' + startDate + " - " + endDate + '</p></div>';
-        $("body").append(newStock);
-    });
-    </script>
-
-    <svg id="bruh" width="500px" height="500px"></svg>
-    <script type="text/javascript">
-    //Bar graph from array data
-    var dataset = [3,4,5,4.5,3.2];
-    d3.select("body").data(dataset).enter().append("div").style("width",25).style("background-color","blue").style("display","inline-block").style("height",function(d){
-        var barHeight = 50*d;
-        return barHeight + "px";
-    })
-
-    xScale = d3.scale.linear().range([100,400]).domain([0,10]);
-    yScale = d3.scale.linear().range([100,400]).domain([0,100]);
-
-    xAxis = d3.svg.axis().scale(xScale);
-    yAxis = d3.svg.axis().scale(yScale).orient("left");
-    d3.select("#bruh").append("svg:g").call(xAxis);
-    d3.select("#bruh").append("svg:g").attr("transform","translate(200,0)").call(yAxis);
-    </script>
-    <svg><circle cx="250" cy="25" r="25"></circle></svg>
     <footer>
         <!-- Tell people that this is my website do not steal -->
         <div id="copyright">
-            Copyright &copy; 2016 Kevin Guo. All rights reserved.
+            Copyright &copy; 2016 The Web Development Group. All rights reserved.
         </div>
-	</footer> 
-    
+    </footer>
+
 </body>
 </html>

@@ -1,9 +1,16 @@
+<?php 
+session_start();
+if (!isset($_SESSION['logged_user'])){
+    header('Location: StockFuLogin.php');
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8" />	
-     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -57,13 +64,7 @@
 </style>
 
 <body>
-    <nav id="toolbar">
-        StockFu
-        <a href="test.html" id="navbar-element">Home</a>
-        <a href="public.html" id="navbar-element">Public Charts</a>
-        <a href="about.html" id="navbar-element">About StockFu</a>
-        <a href="" id="navbar-element">Logout</a>
-    </nav>
+    <?php include 'navbar.php'; ?>
     <div class="container">
         <div class="row">
             <table>
