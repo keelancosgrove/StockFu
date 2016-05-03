@@ -102,11 +102,12 @@ if (!isset($_SESSION['logged_user'])){
                     ?>
                     </p></td>
                     <td><button id="edit">Edit Chart</button></td>
+                    <td><button id="delete">Delete Chart</button></td>
                     <td>
                         Make chart public?<br>
                         <input type="checkbox" name="public">
                     </td>
-                    <td><a href="test.html"><button id="finish">Finish</button></a></td>
+                    <td><a href="test.php"><button id="finish">Finish</button></a></td>
                 </tr>
             </table>
         </div>
@@ -134,7 +135,7 @@ if (!isset($_SESSION['logged_user'])){
                         </td>
 
                         <td>
-                            <a href="test.html">
+                            <a href="test.php">
                                 <input type="button" name="finish" value="Finish">
                             </a>
                         </td>
@@ -160,6 +161,30 @@ if (!isset($_SESSION['logged_user'])){
         });
         $('#add').click(function(){
             $('#secondOne').toggle("fast");
+        });
+        $('#delete').click(function(){
+            if (confirm("Are you sure that you want to delete this chart?")){
+                var chartID = location.search.split('chartID=')[1];
+                console.log(chartID);
+                var params = JSON.stringify({
+                    chartID : chartID
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: 'removeChart.php',
+                    data: {'param' : params},
+                    datatype: 'json'
+                })
+                .done( function(data){
+                    console.log("Succeeded");
+                    console.log(data);
+                    window.location.replace("test.php");
+                })
+                .fail( function(data){
+                    console.log("Failed");
+                    console.log(data);
+                });
+            }
         });
     </script>
 

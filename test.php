@@ -6,6 +6,20 @@ if (!isset($_SESSION)){
 if (!isset($_SESSION['logged_user'])) {
     header('Location: index.php');
 }
+else if (!isset($_GET['userID'])){
+    require_once 'config.php';
+    $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
+    if ($mysqli->errno){
+        print('There was an error in connecting to the database:');
+        print($mysqli->error);
+        exit();
+    }
+    $username = $_SESSION['logged_user'];
+    $userQuery = $mysqli -> query("SELECT userID FROM Users WHERE username = '$username'");
+    $row = $userQuery -> fetch_assoc();
+    $userID = $row['userID'];
+    header("Location: test.php?userID=$userID");
+}
 ?>
 
 <!DOCTYPE html>
