@@ -1,7 +1,8 @@
 <?php 
+error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 if (!isset($_SESSION['logged_user'])){
-    header('Location: StockFuLogin.php');
+    header('Location: index.php');
 }
 ?>
 
@@ -159,12 +160,13 @@ if (!isset($_SESSION['logged_user'])){
         </div>  
     </div>
 
+    <!--
     <footer>
-        <!-- Tell people that this is my website do not steal -->
         <div id="copyright">
             Copyright &copy; 2016 The Web Development Group. All rights reserved.
         </div>
 	</footer> 
+    -->
     
 </body>
 </html>

@@ -1,7 +1,5 @@
 <?php //MySQL connection settings
 
-//Need to set up phpMyAdmin on Mac
-
 
 //database host
 define('DB_HOST','localhost');

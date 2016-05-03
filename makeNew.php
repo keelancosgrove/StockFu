@@ -1,7 +1,10 @@
 <?php 
-session_start();
+error_reporting(E_ALL & ~E_NOTICE);
+if (!isset($_SESSION)){
+    session_start();
+}
 if (!isset($_SESSION['logged_user'])){
-    header('Location: StockFuLogin.php');
+    header('Location: index.php');
 }
 ?>
 
@@ -17,10 +20,15 @@ if (!isset($_SESSION['logged_user'])){
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
+    <script src="jquery-csv-master/src/jquery.csv.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
+    var companyMap;
+    var reversedMap;
+    var companyNames = [];
+    var completed = false;
     $(function () {
 
         // Adds datepicker calendar feature to the following input fields
@@ -47,15 +55,55 @@ if (!isset($_SESSION['logged_user'])){
 
         // Example array: real array should be list of all company stock option
         // TD: Get list of all companies
-        var tags = ["AAPL","MSFT","FB","GOOG","AMZN","YELP"];
+        function returnCompanyMap(callback){
+            $.ajax({
+            type: "GET",
+            url: "WIKI-datasets-codes.csv",
+            dataType: "text",
+            success: function(data) {
 
+                // Generates map of company names to company codes
+                var companyMap = new Map();
+                var reversedMap = new Map();
+                var result = $.csv.toArrays(data);
+                for (i=0; i<result.length; i++){
+                    companyMap.set(result[i][0].split("/")[1],result[i][1].split(" (")[0]
+                    );
+                    reversedMap.set(result[i][1].split(" (")[0],result[i][0].split("/")[1]);
+
+                }
+                var companyNames = [];
+                console.log(reversedMap);
+                for (i = 0; i<result.length; i++){
+                    companyNames.push(result[i][1].split(" (")[0]);
+                }
+                callback(companyMap, reversedMap, companyNames);
+                $("#stock1").autocomplete({
+                    source: companyNames
+                });
+                $("#stock2").autocomplete({
+                    source: companyNames
+                });
+            }
+            });
+        }
+        // Undefined, must callback
+        returnCompanyMap(function(map, reversed, names){
+            companyMap = map;
+            reversedMap = reversed;
+            companyNames = names;
+            completed = true;
+        });
+        var tags = ["AAPL","FB","GOOG","AMZN","YELP","MSFT"];
+        example = tags;
         // Adds autocomplete feature to the following input fields
+        /*
         $("#stock1").autocomplete({
-            source: tags
+            source: companyNames
         });
         $("#stock2").autocomplete({
-            source: tags
-        });
+            source: companyNames
+        }); */
     });
     </script>
     <title>StockFu | New Chart</title>
@@ -116,7 +164,7 @@ if (!isset($_SESSION['logged_user'])){
     <?php include 'navbar.php'; ?>
     <div class="container">
         <div class="row">
-            <h1 class="page-title">Make a new chart<h1>
+            <h1 class="page-title">Make a new chart (please fill out all options)<h1>
         </div>
 
         <div class="row">
@@ -142,7 +190,7 @@ if (!isset($_SESSION['logged_user'])){
                             <input type="text" name="endDate" id="endDatePicker">
                         </td>
                         <td>
-                            Type of chart you want to show:<br>
+                            <p>Type of chart you want to show:</p><br>
                             <input type="radio" id="stockValue" name = "stockValue" value="Open"> Open<br>
                             <input type="radio" id="stockValue" name = "stockValue" value="High"> High<br>
                             <input type="radio" id="stockValue" name = "stockValue" value="Low"> Low
@@ -172,13 +220,15 @@ if (!isset($_SESSION['logged_user'])){
         });
         $('#finish').click(function(){
             // Retrieves start date, end date, and stock options from user input fields
+            while (!completed);
             var chartName = $("#chartName").val();
             var sDate = $("#startDatePicker").val();
             var eDate = $("#endDatePicker").val();
             var startDate = (sDate != '') ? ('start_date=' + sDate) : '';
             var endDate = (eDate != '') ? ('&end_date=' + eDate) : '';
-            console.log(startDate);
-            var stock1 = $("#stock1").val();
+            var stock1Name = $("#stock1").val();
+            console.log(reversedMap);
+            var stock1 = reversedMap.get(stock1Name);
             //var stock2 = $("#stock2").val();
             var stockValue = document.querySelector('input[name="stockValue"]:checked').value;
             var priceOption = (stockValue == "Low") ? 3 : (stockValue == "High") ? 2 : 1;
@@ -188,6 +238,7 @@ if (!isset($_SESSION['logged_user'])){
             var APICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock1 + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
             console.log(APICall);
 
+            // TD: What if company has no stock info for given date range?
             $.getJSON(APICall).done(function(result){
                 var data = result["dataset"];
                 console.log("Happy times!");
@@ -244,14 +295,14 @@ if (!isset($_SESSION['logged_user'])){
                 demo.append("text").attr("x",width/2).attr("y",height + 30).style("text-anchor","middle").style("font-size",16).text("Date");
 
                 // Adds y-axis label
-                demo.append("text").attr("transform","rotate(-90)").attr("y",10).attr("x",-height/2).style("text-anchor","middle").text("Open Stock Price");
+                demo.append("text").attr("transform","rotate(-90)").attr("y",10).attr("x",-height/2).style("text-anchor","middle").text("Open Stock Price (in USD)");
 
                 // Gets HTML representation of svg element
                 svgChildren = document.getElementById("newChart").outerHTML;
 
                 var parameters = JSON.stringify({
                     svg : svgChildren,
-                    company : stock1,
+                    company : stock1Name,
                     start_date : sDate,
                     end_date : eDate,
                     chartName: chartName

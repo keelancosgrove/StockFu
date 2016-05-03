@@ -1,7 +1,10 @@
 <?php
-session_start();
+error_reporting(E_ALL & ~E_NOTICE);
+if (!isset($_SESSION)){
+    session_start();
+}
 if (!isset($_SESSION['logged_user'])) {
-    header('Location: StockFuLogin.php');
+    header('Location: index.php');
 }
 ?>
 
@@ -98,7 +101,6 @@ if (!isset($_SESSION['logged_user'])) {
             $query  = "SELECT * FROM Charts WHERE userID = $userID";
             $result = $mysqli->query($query);
             if ($result) {
-                if ($result -> num_rows != 0){
                     /*user has charts, display them*/
                     echo "<div class=\"container\">
                           <div class=\"row\">
@@ -107,28 +109,26 @@ if (!isset($_SESSION['logged_user'])) {
 
                     $count = 0;
 
-                    while ($row = $result -> fetch_assoc()) {
-                      echo "<div class=\"row\">";
-                        // This was causing the charts to be repeated three times each
-                        //while ($row && $count != 3) {
-                            $chartID = $row['chartID'];
-                            $symbol = $row['name'];
-                            $company = $row['company'];
-                            $startDate = $row['startDate'];
-                            $endDate = $row['endDate'];
-                            $chartName = $row['chartName'];
-                          echo "<div class=\"col-md-4\" id=\"stock\">
-                              <a href=\"viewChartPrivate.php?chartID=$chartID\">
-                                  <h1 class=\"symbol\">$symbol</h1>
-                                  <h4 class=\"company\">$chartName</h4>
-                                  <p class=\"dates\">$startDate - $endDate</p>
-                              </a>
-                          </div>";
-
-                          $count++;
-                        //}
-                      echo "</div>";
-                      $count = 0;
+                    while ($count < 3){
+                        echo "<div class=\"row\">";
+                        while ($row = $result -> fetch_assoc()) {
+                                $chartID = $row['chartID'];
+                                $symbol = $row['name'];
+                                $startDate = $row['startDate'];
+                                $endDate = $row['endDate'];
+                                $chartName = $row['chartName'];
+                                echo "<div class=\"col-md-4\" id=\"stock\">
+                                  <a href=\"viewChartPrivate.php?chartID=$chartID\">
+                                      <h1 class=\"symbol\">$symbol</h1>
+                                      <h4 class=\"company\">$chartName</h4>
+                                      <p class=\"dates\">$startDate - $endDate</p>
+                                  </a>
+                              </div>";
+                              $count++;
+                        }
+                        echo "</div>";
+                        $count = 0;
+                        if (!$row) break;
                     }
                   echo '<div class="col-md-4">
                           <a href="makeNew.php">
@@ -145,27 +145,23 @@ if (!isset($_SESSION['logged_user'])) {
                           </a>
                         </div>';
                 }
-            }
-            else {
-                print("Failed to obtain charts from database");
-            }
         }
         else {
-            die('wrong user');
+            die('This user is not logged in. You must log in to see your charts.');
         }
-        /*If userID != logged_user, do something else*/
-        //TODO: Display 404 page or access denied page
     }
 
     ?>
     
 
+    <!--
     <footer>
-        <!-- Tell people that this is my website do not steal -->
         <div id="copyright">
             Copyright &copy; 2016 The Web Development Group. All rights reserved.
         </div>
-    </footer>
+    </footer> 
+    -->
+
 
 </body>
 </html>

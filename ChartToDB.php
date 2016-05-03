@@ -21,7 +21,8 @@
         $end_date = $data -> end_date;
         $chartName = $data -> chartName;
         $choose = $mysqli -> query("INSERT INTO Charts (userID, name, chartName, startDate, endDate, xLabel, yLabel, thumbnail, svg_string) VALUES ('$userID', '$company', '$chartName','$start_date', '$end_date', 'Date', 'Stock Price', 'N/A', '$svg')");
-        if ($choose == false) print("NOONONONONONONONO");
+        // For some bizarre reason this line was causing the Ajax call to fail
+        //if ($choose == false) print("NOONONONONONONONO");
         print('{}');
     }
     else print('{"Failure: user not logged in"}');
