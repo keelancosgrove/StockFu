@@ -70,7 +70,7 @@ session_start();
    <p>StockFu was created by Andrew Cadwallader in 2016. He sought to integrate web technologies with the world of stocks in order to give his audience, primarily college students, a way to easily customize and explore stock charts. </p>
    <p>Quandl.com is used to retrieve stock data.</p>
 
-   <h3>An example chart is shown below, for Yelp data</h3>
+   <h3>An example chart is shown below, for Yelp data from 2013 to 2016</h3>
    
     <?php
       require_once("config.php");

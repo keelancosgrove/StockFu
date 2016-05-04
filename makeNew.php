@@ -37,6 +37,7 @@ if (!isset($_SESSION['logged_user'])){
             changeYear: true,
             dateFormat: "yy-mm-dd",
             onSelect: function (selected, inst) {
+                // Ensures that end date is after start date
                 var dt = new Date(selected);
                 dt.setDate(dt.getDate() + 1);
                 $("#endDatePicker").datepicker("option","minDate",dt);
@@ -47,14 +48,14 @@ if (!isset($_SESSION['logged_user'])){
             changeYear: true,
             dateFormat: "yy-mm-dd",
             onSelect: function(selected, inst) {
+                // Ensures that start date is before end date
                 var dt = new Date(selected);
                 dt.setDate(dt.getDate() - 1);
                 $("#startDatePicker").datepicker("option","maxDate",selected);
             }
         });
 
-        // Example array: real array should be list of all company stock option
-        // TD: Get list of all companies
+        // Reads csv of company data and generates maps of company codes to company names
         function returnCompanyMap(callback){
             $.ajax({
             type: "GET",
@@ -62,7 +63,7 @@ if (!isset($_SESSION['logged_user'])){
             dataType: "text",
             success: function(data) {
 
-                // Generates map of company names to company codes
+                // Generates map of company names to company codes, and reversed map
                 var companyMap = new Map();
                 var reversedMap = new Map();
                 var result = $.csv.toArrays(data);
@@ -72,11 +73,14 @@ if (!isset($_SESSION['logged_user'])){
                     reversedMap.set(result[i][1].split(" (")[0],result[i][0].split("/")[1]);
 
                 }
+
+                // Generates array of company names to be used for autocompletion
                 var companyNames = [];
-                console.log(reversedMap);
                 for (i = 0; i<result.length; i++){
                     companyNames.push(result[i][1].split(" (")[0]);
                 }
+
+                // Callback allows global variables to be set to appropriate maps after completion of the Ajax call
                 callback(companyMap, reversedMap, companyNames);
                 $("#stock1").autocomplete({
                     source: companyNames
@@ -87,23 +91,14 @@ if (!isset($_SESSION['logged_user'])){
             }
             });
         }
-        // Undefined, must callback
+
+        // Sets global variables, as well as flag to indicate Ajax call has completed
         returnCompanyMap(function(map, reversed, names){
             companyMap = map;
             reversedMap = reversed;
             companyNames = names;
             completed = true;
         });
-        var tags = ["AAPL","FB","GOOG","AMZN","YELP","MSFT"];
-        example = tags;
-        // Adds autocomplete feature to the following input fields
-        /*
-        $("#stock1").autocomplete({
-            source: companyNames
-        });
-        $("#stock2").autocomplete({
-            source: companyNames
-        }); */
     });
     </script>
     <title>StockFu | New Chart</title>
@@ -157,6 +152,15 @@ if (!isset($_SESSION['logged_user'])){
     }
     #navbar-element{
         padding: 30px;
+    }
+    .axis path {
+        fill: none;
+        stroke: #777;
+        shape-rendering: crispEdges;
+    }
+    .axis text {
+        font-family: Lato;
+        font-size: 13px;
     }
 </style>
 
@@ -219,43 +223,37 @@ if (!isset($_SESSION['logged_user'])){
             $('#secondOne').toggle("fast");
         });
         $('#finish').click(function(){
-            // Retrieves start date, end date, and stock options from user input fields
+            
+            // Spin waits until Ajax call has completed - next segment needs updated companyMap
             while (!completed);
+            // Retrieves start date, end date, and stock options from user input fields
             var chartName = $("#chartName").val();
             var sDate = $("#startDatePicker").val();
             var eDate = $("#endDatePicker").val();
             var startDate = (sDate != '') ? ('start_date=' + sDate) : '';
             var endDate = (eDate != '') ? ('&end_date=' + eDate) : '';
             var stock1Name = $("#stock1").val();
-            console.log(reversedMap);
             var stock1 = reversedMap.get(stock1Name);
-            //var stock2 = $("#stock2").val();
+            var stock2 = $("#stock2").val();
+            var stock2Completed = (stock2 == "") ? true : false;
             var stockValue = document.querySelector('input[name="stockValue"]:checked').value;
             var priceOption = (stockValue == "Low") ? 3 : (stockValue == "High") ? 2 : 1;
-            console.log(stockValue);
 
             // Forms API call from user inputs
             var APICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock1 + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
             console.log(APICall);
 
-            // TD: What if company has no stock info for given date range?
+            // TD: What if company has no stock info for given date range? 
+            // Hint: use newest available date range from the API data before accessing stockData
             $.getJSON(APICall).done(function(result){
                 var data = result["dataset"];
-                console.log("Happy times!");
                 var stockData = data["data"];
                 var demo = d3.select("#newChart");
                 var maxDate = new Date(stockData[0][0]);
                 var minDate = new Date(stockData[stockData.length-1][0]);
+                var stockData2;
 
-                // Computes maximum value of y axis based on highest stock price
-                var priceYMax = stockData[0][priceOption];
-                for (i = 0; i<stockData.length; i++){
-                    if (stockData[i][priceOption] > priceYMax){
-                        priceYMax = stockData[i][priceOption];
-                    }
-                }
-                priceYMax += 20;
-
+                // Sets height, width, and margins for the new chart
                 var height = 400;
                 var width = 900;
                 var margins = {
@@ -265,10 +263,140 @@ if (!isset($_SESSION['logged_user'])){
                     left: 50
                 };
 
+                // Computes maximum value of y axis based on highest stock price
+                var priceYMax = stockData[0][priceOption];
+                for (i = 0; i<stockData.length; i++){
+                    if (stockData[i][priceOption] > priceYMax){
+                        priceYMax = stockData[i][priceOption];
+                    }
+                }
+
+
                 // Sets up x and y axis
                 var xScale = d3.time.scale().range([margins.left,width-margins.right]).domain([minDate,maxDate]);
-                var yScale = d3.scale.linear().range([height-margins.top,margins.bottom]).domain([0,priceYMax]);
-                var xAxis = d3.svg.axis().scale(xScale);
+                var yScale = d3.scale.linear().range([height-margins.top,margins.bottom]);
+
+                // Adds line chart for second company, if not empty
+                // TD: Even if second API call fails, this still executes first one. 
+                console.log("Test 1");
+
+                function getSecondStockData(callback){
+                    if (stock2 != ""){
+                        stock2 = reversedMap.get(stock2);
+                        console.log("test 1.5");
+                        var secondAPICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock2 + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
+                        $.getJSON(secondAPICall, function(result2){
+                            console.log("test 2");
+                            var data2 = result2["dataset"];
+                            stockData2 = data2["data"];
+                            for (i = 0; i<stockData2.length; i++){
+                                if (stockData2[i][priceOption] > priceYMax){
+                                    priceYMax = stockData2[i][priceOption];
+                                }
+                            }
+                            console.log("WELL HERE I AM");
+                            stock2Completed = true;
+                            callback(stockData2, stock2Completed);
+                        }).fail(function(jqxhr){
+                            alert("The data you inputted was invalid - please choose a company from the autocomplete feature");
+                            stock2Completed = true;
+                            callback(stockData2, stock2Completed);
+                            });
+                    }
+                    else callback([], true);
+                }
+
+                getSecondStockData(function(sData, sCompleted){
+                    console.log("callback completed");
+                    stockData2 = sData;
+                    stock2Completed = sCompleted;
+                    priceYMax += 20;
+                    yScale.domain([0,priceYMax]);
+
+                    var xAxis = d3.svg.axis().scale(xScale).ticks(8);
+                    var yAxis = d3.svg.axis().scale(yScale).orient("left");
+                    var formatTime = d3.time.format("%e %B");
+                    // Orients axes
+                    demo.append("svg:g").attr("class","axis").attr("transform","translate(0," + (height - margins.bottom) + ")").call(xAxis);
+                    demo.append("svg:g").attr("class","axis").attr("transform","translate(" + margins.left + ",0)").call(yAxis);
+
+                    var div = demo.append("div").attr("class","tooltip").style("opacity",0);
+
+                    // Generates lines using open stock price
+                    var lineGen = d3.svg.line()
+                    .x(function(d) {
+                        return xScale(new Date(d[0]));
+                    })
+                    .y(function(d) {
+                        return yScale(d[priceOption]);
+                    })
+                    .interpolate("basis");
+
+                    // Appends line chart to svg with dank attributes
+                    demo.append('svg:path')
+                    .attr('d',lineGen(stockData))
+                    .attr("id","lineChart")
+                    .attr('stroke','green')
+                    .attr('stroke-width',2)
+                    .attr('fill','none');
+                    /*.on("mousemove", mMove)
+                    .append("title");
+
+                    function mMove() {
+                        var m = d3.svg.mouse(this);
+                        d3.select("#lineChart").select("title").text(m[1]);
+                    }*/
+                    if (stock2 != ""){
+                        demo.append('svg:path')
+                        .attr('d',lineGen(stockData2))
+                        .attr('stroke','blue')
+                        .attr('stroke-width',2)
+                        .attr('fill','none');
+                    }
+
+                    // Adds x-axis label
+                    demo.append("text").attr("x",width/2).attr("y",height + 30).style("text-anchor","middle").style("font-size",16).style("font-family","Lato").text("Date");
+
+                    // Adds y-axis label
+                    demo.append("text").attr("transform","rotate(-90)").attr("y",10).attr("x",-height/2).style("text-anchor","middle").style("font-family","Lato").text("Open Stock Price (in USD)");
+
+                    // Gets HTML representation of svg element
+                    svgChildren = document.getElementById("newChart").outerHTML;
+
+                    var parameters = JSON.stringify({
+                        svg : svgChildren,
+                        company : stock1Name,
+                        start_date : sDate,
+                        end_date : eDate,
+                        chartName: chartName
+                    });
+
+                    // Send relevant input, including SVG, to PHP
+                    $.ajax({
+                        type: 'POST',
+                        url: 'ChartToDB.php',
+                        data: {'param': parameters},
+                        dataType: 'json'
+                    })
+                    .done( function(data){
+                        console.log('done');
+                        console.log(data);
+                        //window.location.replace("makeNew.php");
+                    })
+                    .fail( function(data){
+                        console.log('failure');
+                        console.log(data);
+                    });
+                }).fail(function(jqxhr){
+                alert("The data you inputted was invalid - please choose a company from the autocomplete feature");
+                });
+                });
+                //while (!stock2Completed);
+                /*
+                priceYMax += 20;
+                yScale.domain([0,priceYMax]);
+
+                var xAxis = d3.svg.axis().scale(xScale).ticks(8);
                 var yAxis = d3.svg.axis().scale(yScale).orient("left");
                 
                 // Orients axes
@@ -291,6 +419,14 @@ if (!isset($_SESSION['logged_user'])){
                 .attr('stroke-width',2)
                 .attr('fill','none');
 
+                if (stock2 != ""){
+                    demo.append('svg:path')
+                    .attr('d',lineGen(stockData2))
+                    .attr('stroke','blue')
+                    .attr('stroke-width',2)
+                    .attr('fill','none');
+                }
+
                 // Adds x-axis label
                 demo.append("text").attr("x",width/2).attr("y",height + 30).style("text-anchor","middle").style("font-size",16).text("Date");
 
@@ -307,7 +443,6 @@ if (!isset($_SESSION['logged_user'])){
                     end_date : eDate,
                     chartName: chartName
                 });
-                console.log(parameters);
 
                 // Send relevant input, including SVG, to PHP
                 $.ajax({
@@ -327,7 +462,7 @@ if (!isset($_SESSION['logged_user'])){
                 });
             }).fail(function(jqxhr){
             alert("The data you inputted was invalid - please choose a company from the autocomplete feature");
-            });
+            }); */
          });
     </script>
 
