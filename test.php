@@ -92,6 +92,9 @@ else if (!isset($_GET['userID'])){
         background-color: grey;
         text-align: center;
     }
+    .row{
+        min-height: 250px;
+    }
 </style>
 
 <body> 
@@ -135,10 +138,10 @@ else if (!isset($_GET['userID'])){
                                   <a href=\"viewChartPrivate.php?chartID=$chartID\">
                                       <h1 class=\"symbol\">$symbol</h1>
                                       <h4 class=\"company\">$chartName</h4>
-                                      <p class=\"dates\">$startDate - $endDate</p>
+                                      <p class=\"dates\">$startDate to $endDate</p>
                                   </a>
                               </div>";
-                              $count++;
+                              ++$count;
                         }
                         echo "</div>";
                         $count = 0;
