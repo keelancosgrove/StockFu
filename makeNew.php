@@ -280,6 +280,7 @@ if (!isset($_SESSION['logged_user'])){
                 // TD: Even if second API call fails, this still executes first one. 
                 console.log("Test 1");
 
+                /*
                 function getSecondStockData(callback){
                     if (stock2 != ""){
                         stock2 = reversedMap.get(stock2);
@@ -339,13 +340,7 @@ if (!isset($_SESSION['logged_user'])){
                     .attr('stroke','green')
                     .attr('stroke-width',2)
                     .attr('fill','none');
-                    /*.on("mousemove", mMove)
-                    .append("title");
-
-                    function mMove() {
-                        var m = d3.svg.mouse(this);
-                        d3.select("#lineChart").select("title").text(m[1]);
-                    }*/
+                  
                     if (stock2 != ""){
                         demo.append('svg:path')
                         .attr('d',lineGen(stockData2))
@@ -387,12 +382,14 @@ if (!isset($_SESSION['logged_user'])){
                         console.log('failure');
                         console.log(data);
                     });
-                }).fail(function(jqxhr){
-                alert("The data you inputted was invalid - please choose a company from the autocomplete feature");
-                });
-                });
+                }); // end function call
+                .fail(function(jqxhr){
+                    alert("The data you inputted was invalid - please choose a company from the autocomplete feature");
+                   });
+                */
+
                 //while (!stock2Completed);
-                /*
+                
                 priceYMax += 20;
                 yScale.domain([0,priceYMax]);
 
@@ -400,8 +397,8 @@ if (!isset($_SESSION['logged_user'])){
                 var yAxis = d3.svg.axis().scale(yScale).orient("left");
                 
                 // Orients axes
-                demo.append("svg:g").attr("transform","translate(0," + (height - margins.bottom) + ")").call(xAxis);
-                demo.append("svg:g").attr("transform","translate(" + margins.left + ",6)").call(yAxis);
+                demo.append("svg:g").attr("class","axis").attr("transform","translate(0," + (height - margins.bottom) + ")").call(xAxis);
+                demo.append("svg:g").attr("class","axis").attr("transform","translate(" + margins.left + ",0)").call(yAxis);
 
                 // Generates lines using open stock price
                 var lineGen = d3.svg.line()
@@ -428,10 +425,10 @@ if (!isset($_SESSION['logged_user'])){
                 }
 
                 // Adds x-axis label
-                demo.append("text").attr("x",width/2).attr("y",height + 30).style("text-anchor","middle").style("font-size",16).text("Date");
+                demo.append("text").attr("x",width/2).attr("y",height + 30).style("text-anchor","middle").style("font-size",16).style("font-family","Lato").text("Date");
 
                 // Adds y-axis label
-                demo.append("text").attr("transform","rotate(-90)").attr("y",10).attr("x",-height/2).style("text-anchor","middle").text("Open Stock Price (in USD)");
+                demo.append("text").attr("transform","rotate(-90)").attr("y",10).attr("x",-height/2).style("text-anchor","middle").style("font-family","Lato").text("Open Stock Price (in USD)");
 
                 // Gets HTML representation of svg element
                 svgChildren = document.getElementById("newChart").outerHTML;
@@ -462,7 +459,7 @@ if (!isset($_SESSION['logged_user'])){
                 });
             }).fail(function(jqxhr){
             alert("The data you inputted was invalid - please choose a company from the autocomplete feature");
-            }); */
+            }); 
          });
     </script>
 
