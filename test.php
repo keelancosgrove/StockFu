@@ -64,9 +64,7 @@ else if (!isset($_GET['userID'])){
                           <div class=\"row\">
                               <h1 class=\"page-title\">Your Charts<h1>
                           </div>";
-
-                    $count = 0;
-
+                /*
                     while ($count < 3){
                         echo "<div class=\"row\">";
                         while ($row = $result -> fetch_assoc()) {
@@ -85,9 +83,34 @@ else if (!isset($_GET['userID'])){
                               ++$count;
                         }
                         echo "</div>";
-                        $count = 0;
                         if (!$row) break;
                     }
+                */
+                echo "<div class=\"row\">";
+                $count = 0;
+                while ($row = $result -> fetch_assoc()){
+                    $chartID = $row['chartID'];
+                    $symbol = $row['name'];
+                    $startDate = $row['startDate'];
+                    $endDate = $row['endDate'];
+                    $chartName = $row['chartName'];
+                    echo "
+                        <div class=\"col-md-4\" id=\"stock\">
+                            <a href=\"viewChartPrivate.php?chartID=$chartID\">
+                            <h1 class=\"symbol\">$symbol</h1>
+                            <h4 class=\"company\">$chartName</h4>
+                            <p class=\"dates\">$startDate to $endDate</p>
+                            </a>
+                        </div>";
+                    if($count<3){
+                        $count++;
+                    }
+                    else{
+                        echo "</div><div class=\"row\">";
+                        $count=1;
+                    }
+                }
+                if($count<3)
                   echo '<div class="col-md-4">
                           <a href="makeNew.php">
                           <h1 id="plus-sign">+</h1>
@@ -95,14 +118,24 @@ else if (!isset($_GET['userID'])){
                         </div>';
                   echo "</div>";
                 }
-                else {
+                else{
+                    echo '
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="makeNew.php">
+                                <h1 id="plus-sign">+</h1>
+                            </a>
+                        </div>
+                    </div>';
+                }
+                /*else {
                     print("<h2>Nothing here yet!</h2>");
                     echo '<div class="col-md-4">
                           <a href="makeNew.php">
                           <h1 id="plus-sign">+</h1>
                           </a>
                         </div>';
-                }
+                }*/
         }
         else {
             die('This user is not logged in. You must log in to see your charts.');
