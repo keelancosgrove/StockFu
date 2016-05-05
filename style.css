@@ -1,0 +1,74 @@
+    @font-face{
+        font-family: Futura;
+        src:url(fonts/Futura.tcc);
+    }
+    /* Properties for Stock chart box */
+    #stock{
+        background: #6A6A6A;
+        border-radius: 10px;
+        padding: 10px;
+        max-height: 230px;
+    }
+    /*
+    #stock:after{
+        content: '';
+        height: 100%;
+        position: absolute;
+        width: 10%;
+        background: green;
+        top: 0;
+        bottom: 0;
+        right: 0;
+    }*/
+    /* Properties for all stock chart box text */
+    .symbol, .company, .dates, .multi-symbol, .name{
+        color: white;
+        font-family: Futura;
+    }
+    /* Properties for Symbols */
+    .symbol{
+        font-size: 75px;
+    }
+    .multi-symbol{
+        font-size: 50px;
+    }
+    .name{
+        font-size: 18px;
+        font-style: italic;
+    }
+    .dates{
+        font-size: 18px;
+    }
+    #page-title{
+        font-size: 75px;
+    }
+
+    footer{
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        height: 50px;
+        color: white;
+        text-align: center;
+        background: #9C9A9A;
+        font-style: 20px;
+    }
+    #toolbar{
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        height: 50px;
+        position: absolute;
+        background: #9C9A9A;
+        width: 100%
+    }
+    #navbar-element{
+        padding: 30px;
+    }
+    #plus-sign{
+        font-size: 50px;
+        font-style: bold;
+        background-color: grey;
+        text-align: center;
+    }

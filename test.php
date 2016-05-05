@@ -27,75 +27,16 @@ else if (!isset($_GET['userID'])){
 
 <head>
     <meta charset="UTF-8" />
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/ionicons.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StockFu | Home</title>
 </head>
-
-<style type="text/css">
-    #stock{
-        /* Rectangle 1: */
-        background-image: linear-gradient(-180deg, #151515 0%, #6F6F6F 100%);
-        border-style: solid;
-        border-width: 5px;
-        border-color: white;
-    }
-    #stock:after{
-        content: '';
-        height: 100%;
-        position: absolute;
-        width: 10%;
-        background: green;
-        top: 0;
-        bottom: 0;
-        right: 0;
-    }
-    .symbol, .company, .dates, .multi-symbol, .name{
-        color: white;
-    }
-    .symbol{
-        font-size: 75px;
-    }
-    .multi-symbol{
-        font-size: 50px;
-    }
-    footer{
-        position: fixed;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        height: 50px;
-        color: white;
-        text-align: center;
-        background: #9C9A9A;
-        font-style: 20px;
-    }
-    #toolbar{
-        left: 0px;
-        right: 0px;
-        top: 0px;
-        position: absolute;
-        background: #9C9A9A;
-        width: 100%
-    }
-    #page-title{
-        font-size: 200px;
-    }
-    #navbar-element{
-        padding: 30px;
-    }
-    #plus-sign{
-        font-size: 50px;
-        font-style: bold;
-        background-color: grey;
-        text-align: center;
-    }
-    .row{
-        min-height: 250px;
-    }
-</style>
 
 <body> 
     <?php include 'navbar.php';
