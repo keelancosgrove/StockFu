@@ -13,8 +13,13 @@ if (!isset($_SESSION['logged_user'])){
 
 <head>
     <meta charset="UTF-8" />	
-    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/ionicons.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    <!-- JavaScript -->
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -153,15 +158,7 @@ if (!isset($_SESSION['logged_user'])){
     #navbar-element{
         padding: 30px;
     }
-    .axis path {
-        fill: none;
-        stroke: #777;
-        shape-rendering: crispEdges;
-    }
-    .axis text {
-        font-family: Lato;
-        font-size: 13px;
-    }
+    
 </style>
 
 <body>
