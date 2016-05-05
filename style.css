@@ -1,13 +1,30 @@
+    /*
     @font-face{
-        font-family: Futura;
+        font-family: 'Futura-medium';
         src:url(fonts/Futura.tcc);
     }
+    */
+
+    @font-face{
+        font-family: 'Avenir';
+        src:url(fonts/Avenir.ttc);
+    }
+
     /* Properties for Stock chart box */
     #stock{
         background: #6A6A6A;
         border-radius: 10px;
-        padding: 10px;
+        /*padding: 10px;*/
         max-height: 230px;
+        max-width: 380px;
+        /*
+        border-width: 10px;
+        border-style: solid;
+        border-color: white;
+        */
+    }
+    @font-face{
+        font-family: 'Arimo', sans-serif;
     }
     /*
     #stock:after{
@@ -22,12 +39,14 @@
     }*/
     /* Properties for all stock chart box text */
     .symbol, .company, .dates, .multi-symbol, .name{
+        font-style: normal;
         color: white;
-        font-family: Futura;
+        font-family: 'Avenir';
+        /*font-family: 'Arimo';*/
     }
     /* Properties for Symbols */
     .symbol{
-        font-size: 75px;
+        font-size: 50px;
     }
     .multi-symbol{
         font-size: 50px;
@@ -60,11 +79,14 @@
         top: 0px;
         height: 50px;
         position: absolute;
-        background: #9C9A9A;
-        width: 100%
+        background: #0A69A5;
+        width: 100%;
+        font-family: 'Arimo';
     }
     #navbar-element{
+        color: white;
         padding: 30px;
+        
     }
     #plus-sign{
         font-size: 50px;
