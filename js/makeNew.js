@@ -7,7 +7,7 @@ var companyNames = [];
 var chart;
 var svgChildren;
 var stock1Name = "GOOGL";
-var stock2Name = "YHOO"
+var stock2Name = "YHOO";
 var curDate = new Date();
 var endDate = '&end_date=' + curDate.toISOString().substring(0, 10);
 var sDate = (new Date());
@@ -311,9 +311,6 @@ $(function() {
         input = $('#startDatePicker').val();
     }
 
-
-
-
     function updateStock() {
         var input = $('#stock1').val();
         if (companyMap.has(input)) {
@@ -331,35 +328,14 @@ $(function() {
     $('#add').click(function() {
         $('#secondOne').toggle("fast");
     });
+
     $('#finish').click(function() {
-
-        // Spin waits until Ajax call has completed - next segment needs updated companyMap
-        // Retrieves start date, end date, and stock options from user input fields
-        chartName = $("#chartName").val();
-        sDate = $("#startDatePicker").val();
-        eDate = $("#endDatePicker").val();
-        startDate = (sDate != '') ? ('start_date=' + sDate) : '';
-        endDate = (eDate != '') ? ('&end_date=' + eDate) : '';
-        stock1Name = $("#stock1").val();
-        stock1 = reversedMap.get(stock1Name);
-        stock2 = $("#stock2").val();
-        stock2Completed = (stock2 == "") ? true : false;
-        priceOption = document.querySelector('input[name="stockValue"]:checked').value;
-        //        priceOption = (stockValue == "Low") ? 3 : (stockValue == "High") ? 2 : 1;
-
-        // Forms API call from user inputs
-        APICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock1 + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
-        console.log(APICall);
-
-        // TD: What if company has no stock info for given date range?
-        // Hint: use newest available date range from the API data before accessing stockData
-
 
         var parameters = JSON.stringify({
             svg: svgChildren,
             company: stock1Name,
-            start_date: sDate,
-            end_date: eDate,
+            start_date: startDate,
+            end_date: endDate,
             chartName: chartName
         });
 
