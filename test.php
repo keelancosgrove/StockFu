@@ -129,11 +129,11 @@ else if (!isset($_GET['userID'])){
     }
 
     ?>
-    <div id="footer">
-        <footer>
-                Copyright &copy; 2016 The Web Development Group. All rights reserved.
-        </footer>
-    </div> 
-</div>
+        <div id="footer">
+            <footer>
+                    Copyright &copy; 2016 The Web Development Group. All rights reserved.
+            </footer>
+        </div> 
+    </div>
 </body>
 </html>

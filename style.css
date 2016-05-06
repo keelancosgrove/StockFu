@@ -51,6 +51,8 @@
     .page-title{
         margin-top: 75px; 
         font-size: 50px;
+        color: black;
+        font-family: 'Avenir';
     }
     /*
     .backgroundSvg{
@@ -82,20 +84,31 @@
         text-align: center;
         line-height: 100%;
     }
-    footer{
-        position: absolute;
-        bottom: 0px;
+    #footer{
         left: 0px;
+        right: 0px;
+        bottom: 0px;
+        position: fixed;
         width: 100%;
-        height: 50px;
-        color: white;
-        text-align: center;
+        height: 25px;
         background: #9C9A9A;
-        font-style: 20px;
+    }
+    #chart{
+        display: block;
+        margin: auto;
+    }
+    footer{
+        font-family: 'Avenir';
+        text-align: center;
+        color: white;
+        font-size: 12px;
     }
     nav{
         line-height: 50px;
         text-align: center;
         background: #0A69A5;
         width: 100%;
+    }
+    p{
+        font-family: 'Avenir';
     }
