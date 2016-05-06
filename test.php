@@ -39,7 +39,7 @@ else if (!isset($_GET['userID'])){
 </head>
 
 <body> 
-    <div id="container">
+    <div class="container">
     <?php include 'navbar.php';
     /* Display all user charts */
 
@@ -61,9 +61,11 @@ else if (!isset($_GET['userID'])){
             $result = $mysqli->query($query);
             if ($result) {
                     /*user has charts, display them*/
-                echo "<div class=\"body\">
+                echo "<div id=\"body\">
                     <div class=\"row\">
-                        <h1 class=\"page-title\">Your Charts<h1>
+                        <div class=\"col-md-4\">
+                            <h1 class=\"page-title\">Your Charts<h1>
+                        </div>
                      </div>";
                 echo "<div class=\"row\">";
                 $count = 0;
@@ -111,6 +113,7 @@ else if (!isset($_GET['userID'])){
                         </div>
                     </div>';
                 }
+                echo "</div>";
                 /*else {
                     print("<h2>Nothing here yet!</h2>");
                     echo '<div class="col-md-4">
@@ -132,11 +135,5 @@ else if (!isset($_GET['userID'])){
         </footer>
     </div> 
 </div>
-
-    <!--
-
-    -->
-
-
 </body>
 </html>

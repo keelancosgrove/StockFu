@@ -7,12 +7,14 @@
     #stock{
         background-color: #6A6A6A;
         border-radius: 10px;
-        margin: 10px;
+        margin: 5px;
         max-width: 380px;
         height: 230px;
+        /*
         border-width: 10px;
         border-style: solid;
         border-color: white;
+        */
     }
     /*
     #stock:after{
@@ -34,7 +36,7 @@
     }
     /* Properties for Symbols */
     .symbol{
-        font-size: 24px;
+        font-size: 36px;
     }
     .multi-symbol{
         font-size: 24px;
@@ -47,6 +49,7 @@
         font-size: 12px;
     }
     .page-title{
+        margin-top: 75px; 
         font-size: 50px;
     }
     /*
@@ -57,7 +60,7 @@
         height: 100%;
     }
     */
-    #toolbar{
+    #header{
         left: 0px;
         right: 0px;
         top: 0px;
@@ -65,6 +68,7 @@
         position: absolute;
         width: 100%;
         font-family: 'Avenir';
+        color: white;
     }
     #navbar-element{
         color: white;
