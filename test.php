@@ -39,6 +39,7 @@ else if (!isset($_GET['userID'])){
 </head>
 
 <body> 
+    <div class="container">
     <?php include 'navbar.php';
     /* Display all user charts */
 
@@ -60,49 +61,67 @@ else if (!isset($_GET['userID'])){
             $result = $mysqli->query($query);
             if ($result) {
                     /*user has charts, display them*/
-                    echo "<div class=\"container\">
-                          <div class=\"row\">
-                              <h1 class=\"page-title\">Your Charts<h1>
-                          </div>";
+                echo "<div id=\"body\">
+                    <div class=\"row\">
+                        <div class=\"col-md-4\">
+                            <h1 class=\"page-title\">Your Charts<h1>
+                        </div>
+                     </div>";
+                echo "<div class=\"row\">";
+                $count = 0;
+                while ($row = $result -> fetch_assoc()){
+                    $chartID = $row['chartID'];
+                    $symbol = $row['name'];
+                    $startDate = $row['startDate'];
+                    $endDate = $row['endDate'];
+                    $chartName = $row['chartName'];
+                    $svg = str_replace("width=\"1000px\"", "width=\"380px\"", $row['svg_string']);
+                    $svg = str_replace("height=\"500px\"", "height=\"230px\"", $svg);
+                    $svg = str_replace("id=\"newChart\"", "class=\"backgroundSvg\"", $svg);
 
-                    $count = 0;
-
-                    while ($count < 3){
-                        echo "<div class=\"row\">";
-                        while ($row = $result -> fetch_assoc()) {
-                                $chartID = $row['chartID'];
-                                $symbol = $row['name'];
-                                $startDate = $row['startDate'];
-                                $endDate = $row['endDate'];
-                                $chartName = $row['chartName'];
-                                echo "<div class=\"col-md-4\" id=\"stock\">
-                                  <a href=\"viewChartPrivate.php?chartID=$chartID\">
-                                      <h1 class=\"symbol\">$symbol</h1>
-                                      <h4 class=\"company\">$chartName</h4>
-                                      <p class=\"dates\">$startDate to $endDate</p>
-                                  </a>
-                              </div>";
-                              ++$count;
-                        }
-                        echo "</div>";
-                        $count = 0;
-                        if (!$row) break;
+                    echo "
+                        <div class=\"col-md-4\" id=\"stock\">
+                            <a href=\"viewChartPrivate.php?chartID=$chartID\">
+                            <h1 class=\"symbol\">$symbol</h1>
+                            <h4 class=\"company\">$chartName</h4>
+                            <p class=\"dates\">$startDate to $endDate</p>
+                            </a>
+                        </div>";
+                    if($count<3){
+                        $count++;
                     }
-                  echo '<div class="col-md-4">
+                    else{
+                        echo "</div><div class=\"row\">";
+                        $count=1;
+                    }
+                }
+                if($count<3)
+                  echo '<div class="col-md-4" id="stock">
                           <a href="makeNew.php">
-                          <h1 id="plus-sign">+</h1>
+                            <h1 class="icon ion-plus" id="plus-sign"></h1>
                           </a>
                         </div>';
                   echo "</div>";
                 }
-                else {
+                else{
+                    echo '
+                    <div class="row">
+                        <div class="col-md-4" id="stock">
+                            <a href="makeNew.php">
+                                <h1 class="icon ion-plus" id="plus-sign"></h1>
+                            </a>
+                        </div>
+                    </div>';
+                }
+                echo "</div>";
+                /*else {
                     print("<h2>Nothing here yet!</h2>");
                     echo '<div class="col-md-4">
                           <a href="makeNew.php">
                           <h1 id="plus-sign">+</h1>
                           </a>
                         </div>';
-                }
+                }*/
         }
         else {
             die('This user is not logged in. You must log in to see your charts.');
@@ -110,16 +129,11 @@ else if (!isset($_GET['userID'])){
     }
 
     ?>
-    
-
-    <!--
-    <footer>
-        <div id="copyright">
-            Copyright &copy; 2016 The Web Development Group. All rights reserved.
-        </div>
-    </footer> 
-    -->
-
-
+        <div id="footer">
+            <footer>
+                    Copyright &copy; 2016 The Web Development Group. All rights reserved.
+            </footer>
+        </div> 
+    </div>
 </body>
 </html>

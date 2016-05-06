@@ -13,8 +13,8 @@
     $row = $IDQuery -> fetch_assoc();
     $userID = strval($row['userID']);
 	print('
-        <div class="container">
-            <nav id="toolbar">
+        <div id="header">
+            <nav>
                 StockFu
                 <a href="test.php?userID='.$userID.'" id="navbar-element">Home</a>
                 <a href="public.php" id="navbar-element">Public Charts</a>

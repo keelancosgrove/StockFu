@@ -10,9 +10,13 @@ if (!isset($_SESSION['logged_user'])){
 <html>
 
 <head>
-    <meta charset="UTF-8" />	
+    <meta charset="UTF-8" />
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/ionicons.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!--JavaScript-->	
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StockFu | View Your Chart</title>
@@ -26,52 +30,6 @@ if (!isset($_SESSION['logged_user'])){
         }
     ?>
 </head>
-
-<style type="text/css">
-    footer{
-        position: fixed;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        height: 50px;
-        color: white;
-        text-align: center;
-        background: #9C9A9A;
-    }
-    td{
-        padding-left: 30px;
-        padding-right: 30px;
-        padding-bottom: 5px;
-        padding-top: 5px;
-        text-align: center;
-    }
-    h1{
-        font-size: 75px;
-    }
-    .stockChart{
-        border-style: solid;
-        border-color: black;
-        border-width: 5px;
-        width: 75%;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    #toolbar{
-        left: 0px;
-        right: 0px;
-        top: 0px;
-        position: absolute;
-        background: #9C9A9A;
-        width: 100%
-    }
-    #page-title{
-        font-size: 200px;
-    }
-    #navbar-element{
-        padding: 30px;
-    }
-</style>
 
 <body>
     <?php include 'navbar.php'; 
@@ -118,7 +76,7 @@ if (!isset($_SESSION['logged_user'])){
                     <tr>
                         <td>
                             Stock name or symbol:<br>
-                            <input type="text" name="stock" value="GOOG">
+                            <input type="text" name="stock">
                             <input type="button" name="addstock" id="add" value="+">
                         </td>
                         <td>
@@ -150,11 +108,14 @@ if (!isset($_SESSION['logged_user'])){
             </div>
         </div>
         <?php
+
             $svg = $row['svg_string'];
-            print($svg);
-        }
+            echo "<div class=\"col-md-12\" id=\"chart\">";
+                print($svg);
+            echo "</div>";
         ?>
     </div>
+
     <script type="text/javascript">
         $('#edit').click(function(){
             $('#editPane').toggle("fast");

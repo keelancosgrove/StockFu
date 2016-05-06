@@ -23,6 +23,11 @@ if (isset($_SESSION['logged_user'])){
 
 <head>
     <meta charset="UTF-8" />
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/ionicons.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!--JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -79,7 +84,7 @@ if (isset($_SESSION['logged_user'])){
     if (empty($username) || empty($password)){
     //Form only displayed if either username or password are blank
     ?>
-	<form method="post">
+	<form method="post" class="login-form">
         Login Here:
         <br>
         <br>
@@ -120,8 +125,8 @@ if (isset($_SESSION['logged_user'])){
     }
     ?>
 
-    <br><br><br><br><br><br><br>
-    <form method="post">
+    <br><br><br><br><br>
+    <form method="post" class="login-form">
         Are you new? Create a user:
         <br>
         <br>
