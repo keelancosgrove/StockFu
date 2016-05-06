@@ -63,7 +63,7 @@ else if (!isset($_GET['userID'])){
                     /*user has charts, display them*/
                 echo "<div id=\"body\">
                     <div class=\"row\">
-                        <div class=\"col-md-4\">
+                        <div class=\"col-md-6\">
                             <h1 class=\"page-title\">Your Charts<h1>
                         </div>
                      </div>";
@@ -127,13 +127,12 @@ else if (!isset($_GET['userID'])){
             die('This user is not logged in. You must log in to see your charts.');
         }
     }
-
     ?>
         <div id="footer">
             <footer>
                     Copyright &copy; 2016 The Web Development Group. All rights reserved.
             </footer>
-        </div> 
+        </div>
     </div>
 </body>
 </html>

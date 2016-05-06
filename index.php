@@ -29,10 +29,9 @@ if (isset($_SESSION['logged_user'])){
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <!--JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>StockFu Login</title>
+    <title>StockFu | Login</title>
     <?php
     require_once 'config.php';
     $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
@@ -43,40 +42,53 @@ if (isset($_SESSION['logged_user'])){
     }
     ?>
 </head>
-
-<style type="text/css">
-    footer{
-        position: fixed;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        height: 50px;
-        color: white;
-        text-align: center;
-        background: #9C9A9A;
-    }
-    #toolbar{
-        left: 0px;
-        right: 0px;
-        top: 0px;
-        position: absolute;
-        background: #9C9A9A;
-        width: 100%
-    }
-    #page-title{
-        font-size: 200px;
-    }
-    #navbar-element{
-        padding: 30px;
-    }
-</style>
-
 <body>
+    <div class="container">
     <?php include 'altNavBar.php'; ?>
 
     <div class="row">
+        <div class="col-md-6">
             <h1 class="page-title">Login<h1>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6" id="login-col">
+            <div id="login-form">
+                <form method="post">
+                    <table>
+                        <tr><td colspan="2" id="label"><b>Login Here:</b></td></tr>
+                        <tr>
+                            <td id="label">Username:</td>
+                            <td><input type="text" name="Username"></td>
+                        </tr>
+                        <tr>
+                            <td id="label">Password:</td>
+                            <td><input type="password" name="Password"></td>
+                        </tr>
+                        <tr><td></td><td><input type="submit" name="submit" value="Login"></td></tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6" id="login-col">
+            <div id="login-form">
+                <form method="post">
+                    <table>
+                        <tr><td colspan="2" id="label"><b>Are you new? Create a user:</b></td></tr>
+                        <tr>
+                            <td id="label">Username:</td>
+                            <td><input type="text" name="newUser"></td>
+                        </tr>
+                        <tr>
+                            <td id="label">Password:</td>
+                            <td><input type="password" name="newPass"></td>
+                        </tr>
+                        <tr><td></td><td><input type="submit" name="submitNew" value="Create User"></td></tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
     <?php
     //Retrieves filtered username and password from user input
     $username = filter_input(INPUT_POST, 'Username', FILTER_SANITIZE_STRING);
@@ -84,20 +96,7 @@ if (isset($_SESSION['logged_user'])){
     if (empty($username) || empty($password)){
     //Form only displayed if either username or password are blank
     ?>
-	<form method="post" class="login-form">
-        Login Here:
-        <br>
-        <br>
-        <label>Username</label>
-        <br>
-        <input type="text" name="Username">
-        <br>
-        <label>Password</label>
-        <br>
-        <input type="password" name="Password">
-        <br>
-        <input type="submit" name="submit" value="Login">
-    </form>
+
     <?php
     }
     else {
@@ -124,65 +123,42 @@ if (isset($_SESSION['logged_user'])){
         }
     }
     ?>
-
-    <br><br><br><br><br>
-    <form method="post" class="login-form">
-        Are you new? Create a user:
-        <br>
-        <br>
-        <label>Username</label>
-        <br>
-        <input type="text" name="newUser">
-        <br>
-        <label>Password</label>
-        <br>
-        <input type="password" name="newPass">
-        <br>
-        <label>Retype Password</label>
-        <br>
-        <input type="password" name="newPassTwo">
-        <br>
-        <input type="submit" name="submitNew" value="Create User">
-
-        <?php
-            $submitNew = isset($_POST["submitNew"])?$_POST["submitNew"]:"";
-            if ($submitNew){
-                $validated = true;
-                $message = "";
-                //Retrieves input username and passwords
-                $newUser = htmlentities(isset($_POST["newUser"])?$_POST["newUser"]:"");
-                $newPass = htmlentities(isset($_POST["newPass"])?$_POST["newPass"]:"");
-                $newPassTwo = htmlentities(isset($_POST["newPassTwo"])?$_POST["newPassTwo"]:"");
-                //Validates inputs - passwords must match, username/password cannot be too long or blank
-                if ($newPass !== $newPassTwo){
-                    $validated = false;
-                    $message = "Please make sure your passwords match";
+    <?php
+        $submitNew = isset($_POST["submitNew"])?$_POST["submitNew"]:"";
+        if ($submitNew){
+            $validated = true;
+            $message = "";
+            //Retrieves input username and passwords
+            $newUser = htmlentities(isset($_POST["newUser"])?$_POST["newUser"]:"");
+            $newPass = htmlentities(isset($_POST["newPass"])?$_POST["newPass"]:"");
+            $newPassTwo = htmlentities(isset($_POST["newPassTwo"])?$_POST["newPassTwo"]:"");
+            //Validates inputs - passwords must match, username/password cannot be too long or blank
+            if ($newPass !== $newPassTwo){
+                $validated = false;
+                $message = "Please make sure your passwords match";
+            }
+            if (strlen($newUser)>25 || strlen($newPass)>25 || $newUser == "" || $newPass == ""){
+                $validated = false;
+                $message = "Your username and password must not be empty or longer than 20 characters";
+            }
+            if ($validated){
+                //Inserts username and hashed version of the password into users
+                $hashedP = password_hash($newPass,PASSWORD_DEFAULT);
+                $addQuery = $mysqli -> query("INSERT INTO Users (username,hashedPassword) VALUES ('$newUser','$hashedP')");
+                if ($addQuery == false){
+                    $message = "Failed to add user";
                 }
-                if (strlen($newUser)>25 || strlen($newPass)>25 || $newUser == "" || $newPass == ""){
-                    $validated = false;
-                    $message = "Your username and password must not be empty or longer than 20 characters";
-                }
-                if ($validated){
-                    //Inserts username and hashed version of the password into users
-                    $hashedP = password_hash($newPass,PASSWORD_DEFAULT);
-                    $addQuery = $mysqli -> query("INSERT INTO Users (username,hashedPassword) VALUES ('$newUser','$hashedP')");
-                    if ($addQuery == false){
-                        $message = "Failed to add user";
-                    }
-                    else $message = "User successfully added!";
+                else{ $message = "User successfully added!";
                 }
                 print("<p>$message</p>");
             }
-        ?>
-    </form>
-
-    <!--
-    <footer>
-        <div id="copyright">
-            Copyright &copy; 2016 Kevin Guo. All rights reserved.
-        </div>
-	</footer>
-    -->
-
+        }
+    ?>
+    <div id="footer">
+        <footer>
+            Copyright &copy; 2016 The Web Development Group. All rights reserved.
+        </footer>
+    </div>
+    </div>
 </body>
 </html>
