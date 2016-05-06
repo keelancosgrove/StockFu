@@ -1,4 +1,4 @@
-<?php 
+<?php
 error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 if (!isset($_SESSION['logged_user'])){
@@ -15,9 +15,10 @@ if (!isset($_SESSION['logged_user'])){
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/ionicons.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <!--JavaScript-->	
+    <!--JavaScript-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="js/viewPrivate.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StockFu | View Your Chart</title>
     <?php
@@ -32,7 +33,7 @@ if (!isset($_SESSION['logged_user'])){
 </head>
 
 <body>
-    <?php include 'navbar.php'; 
+    <?php include 'navbar.php';
     if (isset($_GET['chartID'])){
         $chartID = $_GET['chartID'];
         $selectedChart = $mysqli -> query("SELECT * FROM Charts WHERE chartID = '$chartID'");
@@ -76,7 +77,7 @@ if (!isset($_SESSION['logged_user'])){
                     <tr>
                         <td>
                             Stock name or symbol:<br>
-                            <input type="text" name="stock">
+                            <input type="text" id="stock1Name" name="stock">
                             <input type="button" name="addstock" id="add" value="+">
                         </td>
                         <td>
@@ -116,46 +117,15 @@ if (!isset($_SESSION['logged_user'])){
         ?>
     </div>
 
-    <script type="text/javascript">
-        $('#edit').click(function(){
-            $('#editPane').toggle("fast");
-        });
-        $('#add').click(function(){
-            $('#secondOne').toggle("fast");
-        });
-        $('#delete').click(function(){
-            if (confirm("Are you sure that you want to delete this chart?")){
-                var chartID = location.search.split('chartID=')[1];
-                console.log(chartID);
-                var params = JSON.stringify({
-                    chartID : chartID
-                });
-                $.ajax({
-                    type: 'POST',
-                    url: 'removeChart.php',
-                    data: {'param' : params},
-                    datatype: 'json'
-                })
-                .done( function(data){
-                    console.log("Succeeded");
-                    console.log(data);
-                    window.location.replace("test.php");
-                })
-                .fail( function(data){
-                    console.log("Failed");
-                    console.log(data);
-                });
-            }
-        });
-    </script>
+
 
     <!--
     <footer>
         <div id="copyright">
             Copyright &copy; 2016 The Web Development Group. All rights reserved.
         </div>
-	</footer> 
+	</footer>
     -->
-    
+
 </body>
 </html>
