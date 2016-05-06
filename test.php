@@ -39,6 +39,7 @@ else if (!isset($_GET['userID'])){
 </head>
 
 <body> 
+    <div id="container">
     <?php include 'navbar.php';
     /* Display all user charts */
 
@@ -60,32 +61,10 @@ else if (!isset($_GET['userID'])){
             $result = $mysqli->query($query);
             if ($result) {
                     /*user has charts, display them*/
-                    echo "<div class=\"container\">
-                          <div class=\"row\">
-                              <h1 class=\"page-title\">Your Charts<h1>
-                          </div>";
-                /*
-                    while ($count < 3){
-                        echo "<div class=\"row\">";
-                        while ($row = $result -> fetch_assoc()) {
-                                $chartID = $row['chartID'];
-                                $symbol = $row['name'];
-                                $startDate = $row['startDate'];
-                                $endDate = $row['endDate'];
-                                $chartName = $row['chartName'];
-                                echo "<div class=\"col-md-4\" id=\"stock\">
-                                  <a href=\"viewChartPrivate.php?chartID=$chartID\">
-                                      <h1 class=\"symbol\">$symbol</h1>
-                                      <h4 class=\"company\">$chartName</h4>
-                                      <p class=\"dates\">$startDate to $endDate</p>
-                                  </a>
-                              </div>";
-                              ++$count;
-                        }
-                        echo "</div>";
-                        if (!$row) break;
-                    }
-                */
+                echo "<div class=\"body\">
+                    <div class=\"row\">
+                        <h1 class=\"page-title\">Your Charts<h1>
+                     </div>";
                 echo "<div class=\"row\">";
                 $count = 0;
                 while ($row = $result -> fetch_assoc()){
@@ -94,6 +73,10 @@ else if (!isset($_GET['userID'])){
                     $startDate = $row['startDate'];
                     $endDate = $row['endDate'];
                     $chartName = $row['chartName'];
+                    $svg = str_replace("width=\"1000px\"", "width=\"380px\"", $row['svg_string']);
+                    $svg = str_replace("height=\"500px\"", "height=\"230px\"", $svg);
+                    $svg = str_replace("id=\"newChart\"", "class=\"backgroundSvg\"", $svg);
+
                     echo "
                         <div class=\"col-md-4\" id=\"stock\">
                             <a href=\"viewChartPrivate.php?chartID=$chartID\">
@@ -111,9 +94,9 @@ else if (!isset($_GET['userID'])){
                     }
                 }
                 if($count<3)
-                  echo '<div class="col-md-4">
+                  echo '<div class="col-md-4" id="stock">
                           <a href="makeNew.php">
-                          <h1 id="plus-sign">+</h1>
+                            <h1 class="icon ion-plus" id="plus-sign"></h1>
                           </a>
                         </div>';
                   echo "</div>";
@@ -121,9 +104,9 @@ else if (!isset($_GET['userID'])){
                 else{
                     echo '
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-4" id="stock">
                             <a href="makeNew.php">
-                                <h1 id="plus-sign">+</h1>
+                                <h1 class="icon ion-plus" id="plus-sign"></h1>
                             </a>
                         </div>
                     </div>';
@@ -143,14 +126,15 @@ else if (!isset($_GET['userID'])){
     }
 
     ?>
-    
+    <div id="footer">
+        <footer>
+                Copyright &copy; 2016 The Web Development Group. All rights reserved.
+        </footer>
+    </div> 
+</div>
 
     <!--
-    <footer>
-        <div id="copyright">
-            Copyright &copy; 2016 The Web Development Group. All rights reserved.
-        </div>
-    </footer> 
+
     -->
 
 
