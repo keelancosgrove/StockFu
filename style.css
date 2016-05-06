@@ -128,8 +128,18 @@
         padding-bottom: 30px;
         padding-top: 10px;
     }
+    td{
+        padding: 10px;
+    }
     table{
         margin: 30px;
         padding: 30px;
         font-family: 'Avenir';
+        width: 100%
+    }
+    h3{
+        font-family: 'Avenir';
+    }
+    input{
+        max-width: 120px;
     }

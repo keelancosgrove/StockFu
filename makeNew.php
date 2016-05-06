@@ -17,9 +17,7 @@ if (!isset($_SESSION['logged_user'])){
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/ionicons.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
     <!-- JavaScript -->
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -45,108 +43,58 @@ if (!isset($_SESSION['logged_user'])){
     ?>
 </head>
 
-<style type="text/css">
-    footer{
-        position: fixed;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        height: 50px;
-        color: white;
-        text-align: center;
-        background: #9C9A9A;
-    }
-    td{
-        padding: 30px;
-        text-align: center;
-    }
-    .newChart{
-        border-style: solid;
-        border-color: black;
-        border-width: 5px;
-        width: 75%;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    #toolbar{
-        left: 0px;
-        right: 0px;
-        top: 0px;
-        position: absolute;
-        background: #9C9A9A;
-        width: 100%
-    }
-    #page-title{
-        font-size: 200px;
-    }
-    #navbar-element{
-        padding: 30px;
-    }
-
-</style>
-
 <body>
     <?php include 'navbar.php'; ?>
     <div class="container" id="main">
         <div class="row">
-            <h1 class="page-title">Make a new chart (please fill out all options)<h1>
+            <h1 class="page-title">Make a new chart<h1>
+            <h3>(please fill out all options)</h3>
         </div>
 
         <div class="row">
             <div class="col-md-12">
                 <table>
                     <tr>
-                        <td>
-                            Name your chart
-                            <input id = "chartName" type="text">
-                        </td>
-                        <td>
-                            Stock name or symbol:<br>
-                            <!--<input type="text" name="stock">-->
-                            <input id="stock1" name="stock1" />
-                            <input type="button" name="addstock" id="add" value="+">
-                        </td>
-                        <td>
-                            Start Date:<br>
-                            <input type="text" name="startDate" id="startDatePicker">
-                        </td>
-                        <td>
-                            End Date:<br>
-                            <input type="text" name="endDate" id="endDatePicker">
-                        </td>
-                        <td>
-                            <p>Type of chart you want to show:</p><br>
-                            <input type="radio" id="stockValue" name = "stockValue" value=1> Open<br>
-                            <input type="radio" id="stockValue" name = "stockValue" value=2> High<br>
-                            <input type="radio" id="stockValue" name = "stockValue" value=3> Low
-                        </td>
-                        <td>
-                            Make chart public?<br>
-                            <input type="checkbox" name="public">
-                        </td>
-                        <td>
-                            <input type="button" id = "finish" name="finish" value="Finish">
-                        </td>
+                        <td><b>Name your chart</b></td>
+                        <td><b>Stock name or symbol:</b></td>
+                        <td><b>Pick a Start Date:</b></td>
+                        <td><b>Pick an End Date:</b></td></td>
+                    </tr>
+                    <tr>
+                        <td><input id="chartName" type="text"></td>
+                        <td><input id="stock1" name="stock1" /><input type="button" name="addstock" id="add" value="+"></td>
+                        <td><input type="text" name="startDate" id="startDatePicker"></td>
+                        <td><input type="text" name="endDate" id="endDatePicker"></td>
+                        <td><input type="button" id = "finish" name="finish" value="Finish"></td>
                     </tr>
                     <tr id="secondOne" style="display: none;">
+                        <td></td>
                         <td>
                             Stock name or symbol:<br>
                             <input id="stock2" name="stock2">
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="3"><b>Type of chart you want to show:</b></td>
+                        <td><b>Make chart public?</b></td>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" id="stockValue" name = "stockValue" value=1> Open</td>
+                        <td><input type="radio" id="stockValue" name = "stockValue" value=2> High</td>
+                        <td><input type="radio" id="stockValue" name = "stockValue" value=3> Low</td>
+                        <td><input type="checkbox" name="public"></td>
+                    </tr>
                 </table>
             </div>
         </div>
-        <svg id="newChart" width="1000px" height="500px"></svg>
-    </div>
-
-    <footer>
-        <!-- Tell people that this is my website do not steal -->
-        <div id="copyright">
-            Copyright &copy; 2016 The Web Development Group. All rights reserved.
+        <div class="row">
+            <svg id="newChart" width="1000px" height="500px"></svg>
         </div>
-	</footer>
-
+        <div id="footer">
+            <footer>
+                    Copyright &copy; 2016 The Web Development Group. All rights reserved.
+            </footer>
+        </div>
+    </div>
 </body>
 </html>
