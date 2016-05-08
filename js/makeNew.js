@@ -155,7 +155,7 @@ function chartCreation(APICall) {
             demo.append("svg:g").attr("class", "axis").attr("transform", "translate(0," + (height - margins.bottom) + ")").call(xAxis);
             demo.append("svg:g").attr("class", "axis").attr("transform", "translate(" + margins.left + ",0)").call(yAxis);
 
-            var div = demo.append("div").attr("class", "tooltip").style("opacity", 0);
+            // var div = demo.append("div").attr("class", "tooltip").style("opacity", 0);
 
             // Generates lines using open stock price
             var lineGen = d3.svg.line()
@@ -353,7 +353,7 @@ $(function() {
 
         // TD: What if company has no stock info for given date range?
         // Hint: use newest available date range from the API data before accessing stockData
-
+        console.log(svgChildren);
 
         var parameters = JSON.stringify({
             svg: svgChildren,
@@ -375,7 +375,7 @@ $(function() {
             .done(function(data) {
                 console.log('done');
                 console.log(data);
-                //window.location.replace("makeNew.php");
+                //window.location.replace("test.php");
             })
             .fail(function(data) {
                 console.log('failure');
