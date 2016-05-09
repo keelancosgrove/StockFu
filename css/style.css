@@ -31,7 +31,7 @@
     .symbol, .company, .dates, .multi-symbol, .name{
         font-style: normal;
         color: white;
-        font-family: 'Avenir';
+        font-family: 'Avenir', Verdana, sans-serif;
         /*font-family: 'Arimo';*/
     }
     /* Properties for Symbols */
@@ -52,13 +52,16 @@
         margin-top: 75px; 
         font-size: 50px;
         color: black;
-        font-family: 'Avenir';
+        font-family: 'Avenir', Verdana, sans-serif;
     }
     .backgroundSvg{
         fill: white;
         opacity: 25%;
         width: 100%;
         height: 100%;
+    }
+    .row #bucket{
+        margin-bottom: 75px;
     }
     #header{
         left: 0px;
@@ -67,7 +70,7 @@
         height: 50px;
         position: absolute;
         width: 100%;
-        font-family: 'Avenir';
+        font-family: 'Avenir', Verdana, sans-serif;
         color: white;
     }
     #navbar-element{
@@ -109,7 +112,7 @@
         width: 380px;
     }
     footer{
-        font-family: 'Avenir';
+        font-family: 'Avenir', Verdana, sans-serif;
         text-align: center;
         color: white;
         font-size: 12px;
@@ -121,8 +124,7 @@
         width: 100%;
     }
     p{
-        font-family: 'Avenir';
-    }
+        font-family: 'Avenir', Verdana, sans-serif;    }
     tr{
         padding-left: 30px;
         padding-bottom: 30px;
@@ -138,7 +140,8 @@
         width: 100%
     }
     h3{
-        font-family: 'Avenir';
+        font-family: 'Avenir', Verdana, sans-serif;
+        width: 100%
     }
     input{
         max-width: 120px;

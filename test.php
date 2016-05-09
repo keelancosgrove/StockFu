@@ -60,15 +60,13 @@ else if (!isset($_GET['userID'])){
             $query  = "SELECT * FROM Charts WHERE userID = $userID";
             $result = $mysqli->query($query);
             if ($result) {
-                    /*user has charts, display them*/
                 echo "<div id=\"body\">
                     <div class=\"row\">
                         <div class=\"col-md-6\">
                             <h1 class=\"page-title\">Your Charts<h1>
                         </div>
                      </div>";
-                echo "<div class=\"row\">";
-                $count = 1;
+                echo "<div class=\"row\" id=\"bucket\">";
                 while ($row = $result -> fetch_assoc()){
                     $chartID = $row['chartID'];
                     $symbol = $row['name'];
@@ -87,41 +85,14 @@ else if (!isset($_GET['userID'])){
                             <p class=\"dates\">$startDate to $endDate</p>
                             </a>
                         </div>";
-                    if($count<3){
-                        $count++;
-                    }
-                    else{
-                        echo "</div><div class=\"row\">";
-                        $count=1;
-                    }
                 }
-                if($count<3)
-                  echo '<div class="col-md-4" id="stock">
-                          <a href="makeNew.php">
-                            <h1 class="icon ion-plus" id="plus-sign"></h1>
-                          </a>
-                        </div>';
-                  echo "</div>";
-                }
-                else{
-                    echo '
-                    <div class="row">
-                        <div class="col-md-4" id="stock">
-                            <a href="makeNew.php">
-                                <h1 class="icon ion-plus" id="plus-sign"></h1>
-                            </a>
-                        </div>
-                    </div>';
-                }
-                echo "</div>";
-                /*else {
-                    print("<h2>Nothing here yet!</h2>");
-                    echo '<div class="col-md-4">
-                          <a href="makeNew.php">
-                          <h1 id="plus-sign">+</h1>
-                          </a>
-                        </div>';
-                }*/
+            }
+            echo '
+            <div class="col-md-4" id="stock">
+                    <a href="makeNew.php">
+                        <h1 class="icon ion-plus" id="plus-sign"></h1>
+                    </a>
+            </div></div>';
         }
         else {
             die('This user is not logged in. You must log in to see your charts.');

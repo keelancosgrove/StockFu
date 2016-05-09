@@ -15,7 +15,7 @@
 	print('
         <div id="header">
             <nav>
-                StockFu
+                <b>StockFu</b>
                 <a href="test.php?userID='.$userID.'" id="navbar-element">Home</a>
                 <a href="public.php" id="navbar-element">Public Charts</a>
                 <a href="About.php" id="navbar-element">About StockFu</a>
