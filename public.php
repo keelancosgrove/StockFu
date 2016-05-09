@@ -25,8 +25,8 @@ if (!isset($_SESSION['logged_user'])){
 </head>
 
 <style type="text/css">
-    #stock{
-        /* Rectangle 1: */
+    /*#stock{
+        // Rectangle 1: 
         background-image: linear-gradient(-180deg, #151515 0%, #6F6F6F 100%);
         border-style: solid;
         border-width: 5px;
@@ -74,7 +74,7 @@ if (!isset($_SESSION['logged_user'])){
     }
     #navbar-element{
         padding: 30px;
-    }
+    } */
 </style>
 
 <body>

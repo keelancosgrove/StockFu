@@ -68,7 +68,7 @@ else if (!isset($_GET['userID'])){
                         </div>
                      </div>";
                 echo "<div class=\"row\">";
-                $count = 0;
+                $count = 1;
                 while ($row = $result -> fetch_assoc()){
                     $chartID = $row['chartID'];
                     $symbol = $row['name'];
