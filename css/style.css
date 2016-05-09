@@ -1,10 +1,3 @@
-    /*
-    @font-face{
-        font-family: 'Futura-medium';
-        src:url(fonts/Futura.tcc);
-    }
-    */
-
     @font-face{
         font-family: 'Avenir';
         src:url(fonts/Avenir.ttc);
@@ -12,19 +5,16 @@
 
     /* Properties for Stock chart box */
     #stock{
-        background: #6A6A6A;
+        background-color: #6A6A6A;
         border-radius: 10px;
-        /*padding: 10px;*/
-        max-height: 230px;
+        margin: 5px;
         max-width: 380px;
+        height: 230px;
         /*
         border-width: 10px;
         border-style: solid;
         border-color: white;
         */
-    }
-    @font-face{
-        font-family: 'Arimo', sans-serif;
     }
     /*
     #stock:after{
@@ -46,83 +36,110 @@
     }
     /* Properties for Symbols */
     .symbol{
-        font-size: 50px;
+        font-size: 36px;
     }
     .multi-symbol{
-        font-size: 50px;
+        font-size: 24px;
     }
     .name{
-        font-size: 18px;
+        font-size: 12px;
         font-style: italic;
     }
     .dates{
-        font-size: 18px;
-    }
-    #page-title{
-        font-size: 75px;
-    }
-
-    footer{
-        position: fixed;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        height: 50px;
-        color: white;
-        text-align: center;
-        background: #9C9A9A;
-        font-style: 20px;
-    }
-    /*
-    #toolbar{
-        left: 0px;
-        right: 0px;
-        top: 0px;
-        height: 50px;
-        position: absolute;
-        background: #0A69A5;
-        width: 100%;
-        font-family: 'Arimo';
-    }
-    #navbar-element{
-        color: white;
-        padding: 30px;
-        
-    }*/
-
-    #toolbar{
-        left: 0px;
-        right: 0px;
-        top: 0px;
-        position: absolute;
-        background: #9C9A9A;
-        width: 100%
+        font-size: 12px;
     }
     .page-title{
-        font-size: 36px;
-        text-align: center;
+        margin-top: 75px; 
+        font-size: 50px;
+        color: black;
+        font-family: 'Avenir';
+    }
+    .backgroundSvg{
+        fill: white;
+        opacity: 25%;
+        width: 100%;
+        height: 100%;
+    }
+    #header{
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        height: 50px;
+        position: absolute;
+        width: 100%;
+        font-family: 'Avenir';
+        color: white;
     }
     #navbar-element{
+        color: white;
         padding: 30px;
+        text-align: center;
     }
-
     #plus-sign{
         font-size: 50px;
         font-style: bold;
-        background-color: grey;
+        color: white;
         text-align: center;
+        line-height: 100%;
     }
-
-    .login-form{
+    #footer{
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        position: fixed;
+        width: 100%;
+        height: 25px;
+        background: #9C9A9A;
+    }
+    #chart{
+        display: block;
+        margin: auto;
+    }
+    #label{
+        margin: 5px;
+        text-align: left;
+        color: white;
+        font-size: 18px;
+    }
+    #login-form{
+        padding: 30px;
+        background-color: #6A6A6A;
+        border-radius: 10px;
+        margin: 0 auto;
+        width: 380px;
+    }
+    footer{
+        font-family: 'Avenir';
         text-align: center;
+        color: white;
+        font-size: 12px;
     }
-
-    .axis path {
-        fill: none;
-        stroke: #777;
-        shape-rendering: crispEdges;
+    nav{
+        line-height: 50px;
+        text-align: center;
+        background: #0A69A5;
+        width: 100%;
     }
-    .axis text {
-        font-family: Lato;
-        font-size: 13px;
+    p{
+        font-family: 'Avenir';
+    }
+    tr{
+        padding-left: 30px;
+        padding-bottom: 30px;
+        padding-top: 10px;
+    }
+    td{
+        padding: 10px;
+    }
+    table{
+        margin: 30px;
+        padding: 30px;
+        font-family: 'Avenir';
+        width: 100%
+    }
+    h3{
+        font-family: 'Avenir';
+    }
+    input{
+        max-width: 120px;
     }
