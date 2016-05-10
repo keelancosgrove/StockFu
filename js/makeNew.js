@@ -169,20 +169,30 @@ function chartCreation(APICall) {
 
             // Appends line chart to svg with dank attributes
             demo.append('svg:path')
-                .attr('d', lineGen(stockData))
+                .datum(stockData)
+                .attr('d', lineGen)
                 .attr("id", "lineChart")
                 .attr('stroke', 'green')
                 .attr('stroke-width', 2)
-                .attr('fill', 'none');
+                .attr('fill', 'none')
+                .on("mouseover", displayTooltip)
+                .on("mouseout", function(){
+                    demo.select(".thisText").text("");
+                })
+                .append("title");
 
-
-            /*.on("mousemove", mMove)
-            .append("title");
-
-            function mMove() {
+            function displayTooltip() {
                 var m = d3.svg.mouse(this);
-                d3.select("#lineChart").select("title").text(m[1]);
-            }*/
+                var date = xScale.invert(d3.event.pageX).toString().split(" ");
+                //demo.select("#charTitle").attr("x",width/2).attr("y",height/2).attr("fill", "black").style("text-anchor", "middle");
+                demo.select("#charTitle")
+                .attr("class", "thisText")
+                .attr("x", m[0])
+                .attr("y",m[1] + 50)
+                .attr("fill", "black").style("text-anchor", "middle")
+                //.text(xScale(new Date(m[0])) + ": " + Math.round(yScale(m[1])*100)/100);
+                .text(date[1] + " " + date[2] + " " + date[3] + ": " + Math.round(yScale(m[1])*100)/100);
+            }
             // if (stock2 != "") {
             //     demo.append('svg:path')
             //         .attr('d', lineGen(stockData2))
@@ -192,20 +202,32 @@ function chartCreation(APICall) {
             // }
 
             // Adds x-axis label
-            demo.append("text").attr("x", width / 2).attr("y", height + 30).style("text-anchor", "middle").style("font-size", 16).style("font-family", "Lato").text("Date");
+            demo.append("text")
+            .attr("x", width / 2)
+            .attr("y", height + 30)
+            .style("text-anchor", "middle")
+            .style("font-size", 16)
+            .style("font-family", "Lato")
+            .text("Date");
 
             // Adds y-axis label
-            demo.append("text").attr("transform", "rotate(-90)").attr("y", 10).attr("x", -height / 2).style("text-anchor", "middle").style("font-family", "Lato").text("Open Stock Price (in USD)");
-
             demo.append("text")
-                .attr("x", (width / 2))
-                .attr("y", 0 - (margins.top / 2))
-                .attr("text-anchor", "middle")
-                .attr("id", "charTitle")
-                .style("font-size", "16px")
-                .style('fill', "black")
-                .style("text-decoration", "underline")
-                .text(chartName);
+            .attr("transform", "rotate(-90)")
+            .attr("y", 10).attr("x", -height / 2)
+            .style("text-anchor", "middle")
+            .style("font-family", "Lato")
+            .text("Open Stock Price (in USD)");
+
+            // Adds chart title
+            demo.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margins.top / 2))
+            .attr("text-anchor", "middle")
+            .attr("id", "charTitle")
+            .style("font-size", "16px")
+            .style('fill', "black")
+            .style("text-decoration", "underline")
+            .text(chartName);
 
             // Gets HTML representation of svg element
             svgChildren = document.getElementById("newChart").outerHTML;

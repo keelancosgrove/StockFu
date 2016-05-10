@@ -16,10 +16,12 @@
         <div id="header">
             <nav>
                 <b>StockFu</b>
-                <a href="test.php?userID='.$userID.'" id="navbar-element">Home</a>
-                <a href="public.php" id="navbar-element">Public Charts</a>
-                <a href="About.php" id="navbar-element">About StockFu</a>
-                <a href="logout.php" id="navbar-element">Logout</a>
+                <ul style="display: inline-block;">
+                   <li> <a href="test.php?userID='.$userID.'" id="navbar-element">Home</a></li>
+                    <li><a href="public.php" id="navbar-element">Public Charts</a></li>
+                    <li><a href="About.php" id="navbar-element">About StockFu</a></li>
+                    <li><a href="logout.php" id="navbar-element">Logout</a></li>
+                </ul>
             </nav>
         </div>
         ');
