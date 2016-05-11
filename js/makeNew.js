@@ -89,7 +89,6 @@ function getSecondStockData(callback) {
                     priceYMax = stockData2[i][priceOption];
                 }
             }
-            console.log("WELL HERE I AM");
             stock2Completed = true;
             callback(stockData2, stock2Completed);
         }).fail(function(jqxhr) {
@@ -136,15 +135,7 @@ function chartCreation(APICall) {
         var xScale = d3.time.scale().range([margins.left, width - margins.right]).domain([minDate, maxDate]);
         var yScale = d3.scale.linear().range([height - margins.top, margins.bottom]);
 
-        // Adds line chart for second company, if not empty
-        // TD: Even if second API call fails, this still executes first one.
-        console.log("Test 1");
-
-        //getSecondStockData()
-
-
         function displaychart() {
-            console.log("callback completed");
             priceYMax += 20;
             yScale.domain([0, priceYMax]);
 
@@ -154,8 +145,6 @@ function chartCreation(APICall) {
             // Orients axes
             demo.append("svg:g").attr("class", "axis").attr("transform", "translate(0," + (height - margins.bottom) + ")").call(xAxis);
             demo.append("svg:g").attr("class", "axis").attr("transform", "translate(" + margins.left + ",0)").call(yAxis);
-
-            // var div = demo.append("div").attr("class", "tooltip").style("opacity", 0);
 
             // Generates lines using open stock price
             var lineGen = d3.svg.line()
@@ -175,31 +164,23 @@ function chartCreation(APICall) {
                 .attr('stroke', 'green')
                 .attr('stroke-width', 2)
                 .attr('fill', 'none')
-                .on("mouseover", displayTooltip)
-                .on("mouseout", function(){
-                    demo.select(".thisText").text("");
-                })
-                .append("title");
+                .on("mouseover", function(){
 
-            function displayTooltip() {
-                var m = d3.svg.mouse(this);
-                var date = xScale.invert(d3.event.pageX).toString().split(" ");
-                //demo.select("#charTitle").attr("x",width/2).attr("y",height/2).attr("fill", "black").style("text-anchor", "middle");
-                demo.select("#charTitle")
-                .attr("class", "thisText")
-                .attr("x", m[0])
-                .attr("y",m[1] + 50)
-                .attr("fill", "black").style("text-anchor", "middle")
-                //.text(xScale(new Date(m[0])) + ": " + Math.round(yScale(m[1])*100)/100);
-                .text(date[1] + " " + date[2] + " " + date[3] + ": " + Math.round(yScale(m[1])*100)/100);
-            }
-            // if (stock2 != "") {
-            //     demo.append('svg:path')
-            //         .attr('d', lineGen(stockData2))
-            //         .attr('stroke', 'blue')
-            //         .attr('stroke-width', 2)
-            //         .attr('fill', 'none');
-            // }
+                    // Appends tooltip to chart with date and stock price information
+                    var m = d3.svg.mouse(this);
+                    var date = xScale.invert(d3.event.pageX).toString().split(" ");
+                    demo.select("#charTooltip")
+                    .attr("class", "thisText")
+                    .attr("x", m[0])
+                    .attr("y",m[1] + 50)
+                    .attr("fill", "black").style("text-anchor", "middle")
+                    // Tooltip text format: "Month day year: Stock price"
+                    .text(date[1] + " " + date[2] + " " + date[3] + ": " + Math.round(yScale.invert(m[1])*100)/100);
+                })
+                .on("mouseout", function(){
+                    // Causes tooltip text to dissapear upon removing mouse from line chart
+                    demo.select(".thisText").text("");
+                });
 
             // Adds x-axis label
             demo.append("text")
@@ -223,14 +204,14 @@ function chartCreation(APICall) {
             .attr("x", (width / 2))
             .attr("y", 0 - (margins.top / 2))
             .attr("text-anchor", "middle")
-            .attr("id", "charTitle")
+            .attr("id", "charTooltip")
             .style("font-size", "16px")
             .style('fill', "black")
             .style("text-decoration", "underline")
             .text(chartName);
 
             // Gets HTML representation of svg element
-            svgChildren = document.getElementById("newChart").outerHTML;
+            svgChildren = document.getElementById("charTooltip").outerHTML + document.getElementById("newChart").outerHTML;
 
         }
         displaychart();
@@ -279,8 +260,6 @@ $(function() {
             end_date: endDate.substring(10),
             chartName: chartName
         });
-
-        console.log(parameters);
 
         // Send relevant input, including SVG, to PHP
         $.ajax({

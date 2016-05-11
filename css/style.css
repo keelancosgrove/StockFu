@@ -73,7 +73,7 @@
         font-family: 'Avenir', Verdana, sans-serif;
         color: white;
     }
-    #navbar-element{
+    .navbar-element{
         color: white;
         padding: 30px;
         text-align: center;
@@ -155,4 +155,8 @@
     .axis text {
         font-family: Lato;
         font-size: 13px;
+    }
+
+    #navlist {
+        display: inline-flex;
     }

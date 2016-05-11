@@ -12,15 +12,16 @@
     if ($IDQuery == false) print("Failed to query userID");
     $row = $IDQuery -> fetch_assoc();
     $userID = strval($row['userID']);
+    $home = 'test.php?userID='.$userID;
 	print('
         <div id="header">
             <nav>
                 <b>StockFu</b>
-                <ul style="display: inline-block;">
-                   <li> <a href="test.php?userID='.$userID.'" id="navbar-element">Home</a></li>
-                    <li><a href="public.php" id="navbar-element">Public Charts</a></li>
-                    <li><a href="About.php" id="navbar-element">About StockFu</a></li>
-                    <li><a href="logout.php" id="navbar-element">Logout</a></li>
+                <ul id="navlist">
+                   <li> <a href='.$home.' class="navbar-element" name='.$home.'>Home</a></li>
+                    <li><a href="public.php" class="navbar-element" name="public.php">Public Charts</a></li>
+                    <li><a href="About.php" class="navbar-element" name="About.php">About StockFu</a></li>
+                    <li><a href="logout.php" class="navbar-element" name="logout.php">Logout</a></li>
                 </ul>
             </nav>
         </div>
