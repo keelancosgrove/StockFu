@@ -62,7 +62,7 @@ else if (!isset($_GET['userID'])){
             if ($result) {
                 echo "<div id=\"body\">
                     <div class=\"row\">
-                        <div class=\"col-md-6\">
+                        <div>
                             <h1 class=\"page-title\">Your Charts<h1>
                         </div>
                      </div>";

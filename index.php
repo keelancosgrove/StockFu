@@ -47,7 +47,7 @@ if (isset($_SESSION['logged_user'])){
     <?php include 'altNavBar.php'; ?>
 
     <div class="row">
-        <div class="col-md-6">
+        <div>
             <h1 class="page-title">Login<h1>
         </div>
     </div>
