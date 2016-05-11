@@ -1,12 +1,12 @@
 <?php
 print('
     <div id="header">
-		<nav>
+		<div id="yay">
 	        <b>StockFu</b>
 	    <ul id = "navlist">
-	        <a href="index.php" id="navbar-element">Login</a>
-	        <a href="About.php" id="navbar-element">About StockFu</a>
+	        <li><a href="index.php" class="navbar-element">Login</a></li>
+	        <li><a href="About.php" class="navbar-element">About StockFu</a></li>
 	    </ul>
-	    </nav>
+	    </div>
 	</div>');
 ?>

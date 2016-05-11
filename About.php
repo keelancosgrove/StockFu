@@ -9,9 +9,9 @@ session_start();
 <head>
     <meta charset="UTF-8" />    
     <!-- CSS Stylesheets -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/ionicons.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css"><link rel="stylesheet" type="text/css" href="css/style.css">
     
     <!--JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
