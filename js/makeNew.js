@@ -22,6 +22,7 @@ var demo;
 var maxDate;
 var minDate;
 var stockData2;
+var priceYMax;
 
 
 //setup before functions
@@ -123,7 +124,7 @@ function chartCreation(APICall) {
         };
 
         // Computes maximum value of y axis based on highest stock price
-        var priceYMax = stockData[0][priceOption];
+        priceYMax = stockData[0][priceOption];
         for (i = 0; i < stockData.length; i++) {
             if (stockData[i][priceOption] > priceYMax) {
                 priceYMax = stockData[i][priceOption];
@@ -211,7 +212,7 @@ function chartCreation(APICall) {
             .text(chartName);
 
             // Gets HTML representation of svg element
-            svgChildren = document.getElementById("charTooltip").outerHTML + document.getElementById("newChart").outerHTML;
+            svgChildren = /*document.getElementById("charTooltip").outerHTML + */document.getElementById("newChart").outerHTML;
 
         }
         displaychart();
@@ -252,13 +253,17 @@ $(function() {
         // Hint: use newest available date range from the API data before accessing stockData
         console.log(svgChildren);
 
-
+        // Save minDate, maxDate, and priceYMax to reconstruct scales
+        // 
         var parameters = JSON.stringify({
             svg: svgChildren,
             company: stock1Name,
             start_date: startDate.substring(11),
             end_date: endDate.substring(10),
-            chartName: chartName
+            chartName: chartName,
+            minDate: minDate.toString(),
+            maxDate: maxDate.toString(),
+            priceYMax: priceYMax
         });
 
         // Send relevant input, including SVG, to PHP

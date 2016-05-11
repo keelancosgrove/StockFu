@@ -15,7 +15,7 @@
     $home = 'test.php?userID='.$userID;
 	print('
         <div id="header">
-            <nav>
+            <div id="yay">
                 <b>StockFu</b>
                 <ul id="navlist">
                    <li> <a href='.$home.' class="navbar-element" name='.$home.'>Home</a></li>
@@ -23,7 +23,7 @@
                     <li><a href="About.php" class="navbar-element" name="About.php">About StockFu</a></li>
                     <li><a href="logout.php" class="navbar-element" name="logout.php">Logout</a></li>
                 </ul>
-            </nav>
+            </div>
         </div>
         ');
 ?>
