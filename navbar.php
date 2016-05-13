@@ -15,7 +15,7 @@
     $home = 'test.php?userID='.$userID;
 	print('
         <div id="header">
-            <div id="yay">
+            <div id="navigation-bar">
                 <b>StockFu</b>
                 <ul id="navlist">
                    <li> <a href='.$home.' class="navbar-element" name='.$home.'>Home</a></li>

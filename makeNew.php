@@ -21,7 +21,7 @@ if (!isset($_SESSION['logged_user'])){
     <!-- JavaScript -->
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="js/chart.js"></script>
     <script src="js/makeNew.js"></script>
@@ -45,8 +45,8 @@ if (!isset($_SESSION['logged_user'])){
 </head>
 
 <body>
-    <?php include 'navbar.php'; ?>
     <div class="container" id="main">
+    <?php include 'navbar.php'; ?>
         <div class="row">
             <h1 class="page-title">Make a new chart<h1>
             <h3>(please fill out all options)</h3>
@@ -76,19 +76,20 @@ if (!isset($_SESSION['logged_user'])){
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3"><b>Type of chart you want to show:</b></td>
                         <td><b>Make chart public?</b></td>
+                        <td><input type="checkbox" name="public"></td>
                     </tr>
-                    <tr>
+                    <tr id="stock-options" style="position: absolute">
+                        <td colspan="3"><b>Type of chart you want to show:</b></td>
                         <td><input type="radio" id="stockValue" name = "stockValue" value=1> Open</td>
                         <td><input type="radio" id="stockValue" name = "stockValue" value=2> High</td>
                         <td><input type="radio" id="stockValue" name = "stockValue" value=3> Low</td>
-                        <td><input type="checkbox" name="public"></td>
+                        
                     </tr>
                 </table>
             </div>
         </div>
-        <div id = "champ" class="row">
+        <div class="row">
             <p id="charTooltip"></p>
             <svg id="newChart" width="1000px" height="500px"></svg>
         </div>

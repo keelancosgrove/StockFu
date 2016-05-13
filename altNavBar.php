@@ -1,7 +1,7 @@
 <?php
 print('
     <div id="header">
-		<div id="yay">
+		<div id="navigation-bar">
 	        <b>StockFu</b>
 	    <ul id = "navlist">
 	        <li><a href="index.php" class="navbar-element">Login</a></li>
