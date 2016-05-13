@@ -278,7 +278,7 @@ $(function() {
             .done(function(data) {
                 console.log('done');
                 console.log(data);
-                //window.location.replace("test.php");
+                window.location.replace("test.php");
             })
             .fail(function(data) {
                 console.log('failure');

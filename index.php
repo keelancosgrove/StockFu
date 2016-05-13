@@ -114,12 +114,12 @@ if (isset($_SESSION['logged_user'])){
             }
             else {
                 print("You did not login successfully. Please make sure your username and password are correct.");
-                print("<p><a href=\"StockFuLogin.php\">Click here to login</a></p>");
+                //print("<p><a href=\"StockFuLogin.php\">Click here to login</a></p>");
             }
         }
         else {
             print("You did not login successfully. Please make sure your username and password are correct.");
-            print("<p><a href=\"StockFuLogin.php\">Click here to login</a></p>");
+            //print("<p><a href=\"StockFuLogin.php\">Click here to login</a></p>");
         }
     }
     ?>
@@ -131,12 +131,7 @@ if (isset($_SESSION['logged_user'])){
             //Retrieves input username and passwords
             $newUser = htmlentities(isset($_POST["newUser"])?$_POST["newUser"]:"");
             $newPass = htmlentities(isset($_POST["newPass"])?$_POST["newPass"]:"");
-            $newPassTwo = htmlentities(isset($_POST["newPassTwo"])?$_POST["newPassTwo"]:"");
-            //Validates inputs - passwords must match, username/password cannot be too long or blank
-            if ($newPass !== $newPassTwo){
-                $validated = false;
-                $message = "Please make sure your passwords match";
-            }
+            //Validates inputs -  username/password cannot be too long or blank
             if (strlen($newUser)>25 || strlen($newPass)>25 || $newUser == "" || $newPass == ""){
                 $validated = false;
                 $message = "Your username and password must not be empty or longer than 20 characters";
@@ -150,10 +145,11 @@ if (isset($_SESSION['logged_user'])){
                 }
                 else{ $message = "User successfully added!";
                 }
-                print("<p>$message</p>");
             }
+            print("$message");
         }
     ?>
+
     <div id="footer">
         <footer>
             Copyright &copy; 2016 The Web Development Group. All rights reserved.
