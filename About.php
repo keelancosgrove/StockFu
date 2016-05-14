@@ -44,7 +44,7 @@ session_start();
 
     <div class="row">
         <div>
-            <h1 class="page-title">What is StockFu?<h1>
+            <h1 class="page-title">What is StockFu?</h1>
         </div>
     </div>
     <div class="row">

@@ -44,117 +44,117 @@ if (isset($_SESSION['logged_user'])){
 </head>
 <body>
     <div class="container">
-    <?php include 'altNavBar.php'; ?>
+        <?php include 'altNavBar.php'; ?>
 
-    <div class="row">
-        <div>
-            <h1 class="page-title">Login<h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6" id="login-col">
-            <div id="login-form">
-                <form method="post">
-                    <table>
-                        <tr><td colspan="2" id="label"><b>Login Here:</b></td></tr>
-                        <tr>
-                            <td id="label">Username:</td>
-                            <td><input type="text" name="Username"></td>
-                        </tr>
-                        <tr>
-                            <td id="label">Password:</td>
-                            <td><input type="password" name="Password"></td>
-                        </tr>
-                        <tr><td></td><td><input type="submit" name="submit" value="Login"></td></tr>
-                    </table>
-                </form>
+        <div class="row">
+            <div>
+                <h1 class="page-title">Login</h1>
             </div>
         </div>
-        <div class="col-md-6" id="login-col">
-            <div id="login-form">
-                <form method="post">
-                    <table>
-                        <tr><td colspan="2" id="label"><b>Are you new? Create a user:</b></td></tr>
-                        <tr>
-                            <td id="label">Username:</td>
-                            <td><input type="text" name="newUser"></td>
-                        </tr>
-                        <tr>
-                            <td id="label">Password:</td>
-                            <td><input type="password" name="newPass"></td>
-                        </tr>
-                        <tr><td></td><td><input type="submit" name="submitNew" value="Create User"></td></tr>
-                    </table>
-                </form>
+        <div class="row">
+            <div class="col-md-6" class="login-col">
+                <div id="login-form">
+                    <form method="post">
+                        <table>
+                            <tr><td colspan="2" id="label"><b>Login Here:</b></td></tr>
+                            <tr>
+                                <td class="label">Username:</td>
+                                <td><input type="text" name="Username"></td>
+                            </tr>
+                            <tr>
+                                <td class="label">Password:</td>
+                                <td><input type="password" name="Password"></td>
+                            </tr>
+                            <tr><td></td><td><input type="submit" name="submit" value="Login"></td></tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6" class="login-col">
+                <div id="login-form">
+                    <form method="post">
+                        <table>
+                            <tr><td colspan="2" id="label"><b>Are you new? Create a user:</b></td></tr>
+                            <tr>
+                                <td class="label">Username:</td>
+                                <td><input type="text" name="newUser"></td>
+                            </tr>
+                            <tr>
+                                <td class="label">Password:</td>
+                                <td><input type="password" name="newPass"></td>
+                            </tr>
+                            <tr><td></td><td><input type="submit" name="submitNew" value="Create User"></td></tr>
+                        </table>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <?php
-    //Retrieves filtered username and password from user input
-    $username = filter_input(INPUT_POST, 'Username', FILTER_SANITIZE_STRING);
-    $password = filter_input(INPUT_POST, 'Password', FILTER_SANITIZE_STRING);
-    if (empty($username) || empty($password)){
-    //Form only displayed if either username or password are blank
-    ?>
+        <?php
+        //Retrieves filtered username and password from user input
+        $username = filter_input(INPUT_POST, 'Username', FILTER_SANITIZE_STRING);
+        $password = filter_input(INPUT_POST, 'Password', FILTER_SANITIZE_STRING);
+        if (empty($username) || empty($password)){
+        //Form only displayed if either username or password are blank
+        ?>
 
-    <?php
-    }
-    else {
-        //Retrieves all records in users table with matching username
-        $possibleUsers = $mysqli -> query("SELECT * FROM Users WHERE username='$username' LIMIT 1");
-        if ($possibleUsers){
-            $row = $possibleUsers -> fetch_assoc();
-            $hashP = $row['hashedPassword'];
-            $userID = $row['userID'];
-            if (password_verify($password,$hashP)){
-                //Passwords match - allow user to log in, and update SESSION variable
-                //print("You have logged in successfully, $username.");
-                $_SESSION['logged_user'] = $username;
-                echo "<META HTTP-EQUIV=\"refresh\" content=\"0;URL=test.php?userID=$userID\">";
+        <?php
+        }
+        else {
+            //Retrieves all records in users table with matching username
+            $possibleUsers = $mysqli -> query("SELECT * FROM Users WHERE username='$username' LIMIT 1");
+            if ($possibleUsers){
+                $row = $possibleUsers -> fetch_assoc();
+                $hashP = $row['hashedPassword'];
+                $userID = $row['userID'];
+                if (password_verify($password,$hashP)){
+                    //Passwords match - allow user to log in, and update SESSION variable
+                    //print("You have logged in successfully, $username.");
+                    $_SESSION['logged_user'] = $username;
+                    echo "<META HTTP-EQUIV=\"refresh\" content=\"0;URL=test.php?userID=$userID\">";
+                }
+                else {
+                    print("You did not login successfully. Please make sure your username and password are correct.");
+                    //print("<p><a href=\"StockFuLogin.php\">Click here to login</a></p>");
+                }
             }
             else {
                 print("You did not login successfully. Please make sure your username and password are correct.");
                 //print("<p><a href=\"StockFuLogin.php\">Click here to login</a></p>");
             }
         }
-        else {
-            print("You did not login successfully. Please make sure your username and password are correct.");
-            //print("<p><a href=\"StockFuLogin.php\">Click here to login</a></p>");
-        }
-    }
-    ?>
-    <?php
-        $submitNew = isset($_POST["submitNew"])?$_POST["submitNew"]:"";
-        if ($submitNew){
-            $validated = true;
-            $message = "";
-            //Retrieves input username and passwords
-            $newUser = htmlentities(isset($_POST["newUser"])?$_POST["newUser"]:"");
-            $newPass = htmlentities(isset($_POST["newPass"])?$_POST["newPass"]:"");
-            //Validates inputs -  username/password cannot be too long or blank
-            if (strlen($newUser)>25 || strlen($newPass)>25 || $newUser == "" || $newPass == ""){
-                $validated = false;
-                $message = "Your username and password must not be empty or longer than 20 characters";
-            }
-            if ($validated){
-                //Inserts username and hashed version of the password into users
-                $hashedP = password_hash($newPass,PASSWORD_DEFAULT);
-                $addQuery = $mysqli -> query("INSERT INTO Users (username,hashedPassword) VALUES ('$newUser','$hashedP')");
-                if ($addQuery == false){
-                    $message = "Failed to add user";
+        ?>
+        <?php
+            $submitNew = isset($_POST["submitNew"])?$_POST["submitNew"]:"";
+            if ($submitNew){
+                $validated = true;
+                $message = "";
+                //Retrieves input username and passwords
+                $newUser = htmlentities(isset($_POST["newUser"])?$_POST["newUser"]:"");
+                $newPass = htmlentities(isset($_POST["newPass"])?$_POST["newPass"]:"");
+                //Validates inputs -  username/password cannot be too long or blank
+                if (strlen($newUser)>25 || strlen($newPass)>25 || $newUser == "" || $newPass == ""){
+                    $validated = false;
+                    $message = "Your username and password must not be empty or longer than 20 characters";
                 }
-                else{ $message = "User successfully added!";
+                if ($validated){
+                    //Inserts username and hashed version of the password into users
+                    $hashedP = password_hash($newPass,PASSWORD_DEFAULT);
+                    $addQuery = $mysqli -> query("INSERT INTO Users (username,hashedPassword) VALUES ('$newUser','$hashedP')");
+                    if ($addQuery == false){
+                        $message = "Failed to add user";
+                    }
+                    else{ $message = "User successfully added!";
+                    }
                 }
+                print("$message");
             }
-            print("$message");
-        }
-    ?>
+        ?>
 
-    <div id="footer">
-        <footer>
-            Copyright &copy; 2016 The Web Development Group. All rights reserved.
-        </footer>
-    </div>
+        <div id="footer">
+            <footer>
+                Copyright &copy; 2016 The Web Development Group. All rights reserved.
+            </footer>
+        </div>
     </div>
 </body>
 </html>

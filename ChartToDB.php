@@ -23,7 +23,8 @@
         $minDate = $data -> minDate;
         $maxDate = $data -> maxDate;
         $priceYMax = $data -> priceYMax;
-        $choose = $mysqli -> query("INSERT INTO Charts (userID, name, chartName, startDate, endDate, xLabel, yLabel, thumbnail, svg_string, minDate, maxDate, priceYMax) VALUES ('$userID', '$company', '$chartName','$start_date', '$end_date', 'Date', 'Stock Price', 'N/A', '$svg', '$minDate', '$maxDate', '$priceYMax')");
+        $public = $data -> publicChart;
+        $choose = $mysqli -> query("INSERT INTO Charts (userID, name, chartName, startDate, endDate, xLabel, yLabel, svg_string, minDate, maxDate, priceYMax, public) VALUES ('$userID', '$company', '$chartName','$start_date', '$end_date', 'Date', 'Stock Price', '$svg', '$minDate', '$maxDate', '$priceYMax', '$public')");
         print('{}');
     }
     else print('{"Failure: user not logged in"}');

@@ -98,7 +98,7 @@
         display: block;
         margin: auto;
     }
-    #label{
+    .label{
         margin: 5px;
         text-align: left;
         color: white;

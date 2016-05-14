@@ -152,7 +152,6 @@ if (!isset($_SESSION['logged_user'])){
             </div>
         </div>
         <?php
-
             $svg = $row['svg_string'];
             echo "<div class=\"col-md-12\" id=\"chart\">";
                 print($svg);
@@ -196,30 +195,30 @@ if (!isset($_SESSION['logged_user'])){
         }
 
         getChartData(function(xScale, yScale) {
-            // Enables tooltip in chart
             d3.select("#lineChart")
             .on("mouseover", function(){
-                // Appends tooltip to chart with date and stock price information
+                // Allows tooltip to display in chart
+                d3.select("#charTooltip").attr("display",null);
+            })
+            .on("mouseout", function(){
+                // Causes tooltip text to dissapear upon removing mouse from line chart
+                d3.select("#charTooltip").attr("display","none");
+            })
+            .on("mousemove", function(){
+                // Updates position and text in tooltip with correct information based on where mouse is on chart
                 var m = d3.svg.mouse(this);
                 var date = xScale.invert(d3.event.pageX).toString().split(" ");
-                console.log(yScale.invert(m[1]));
                 d3.select("#charTooltip")
                 .attr("class", "thisText")
-                .attr("x", m[0])
+                .attr("x", m[0] + 50)
                 .attr("y", m[1] + 50)
                 .attr("fill", "black").style("text-anchor", "middle")
                 // Tooltip text format: "Month day year: Stock price"
                 .text(date[1] + " " + date[2] + " " + date[3] + ": " + Math.round(yScale.invert(m[1])*100)/100);
-            })
-            .on("mouseout", function(){
-                // Causes tooltip text to dissapear upon removing mouse from line chart
-                d3.select(".thisText").text("");
             });
         });
-
-        
-        
     </script>
+
     <div id="footer">
         <footer>
             Copyright &copy; 2016 The Web Development Group. All rights reserved.

@@ -48,7 +48,7 @@ if (!isset($_SESSION['logged_user'])){
     <div class="container" id="main">
     <?php include 'navbar.php'; ?>
         <div class="row">
-            <h1 class="page-title">Make a new chart<h1>
+            <h1 class="page-title">Make a new chart</h1>
             <h3>(please fill out all options)</h3>
         </div>
 
@@ -77,13 +77,13 @@ if (!isset($_SESSION['logged_user'])){
                     </tr>
                     <tr>
                         <td><b>Make chart public?</b></td>
-                        <td><input type="checkbox" name="public"></td>
+                        <td><input type="checkbox" id = "public" name="public"></td>
                     </tr>
                     <tr id="stock-options" style="position: absolute">
                         <td colspan="3"><b>Type of chart you want to show:</b></td>
-                        <td><input type="radio" id="stockValue" name = "stockValue" value=1> Open</td>
-                        <td><input type="radio" id="stockValue" name = "stockValue" value=2> High</td>
-                        <td><input type="radio" id="stockValue" name = "stockValue" value=3> Low</td>
+                        <td><input type="radio" class="stockValue" name = "stockValue" value=1> Open</td>
+                        <td><input type="radio" class="stockValue" name = "stockValue" value=2> High</td>
+                        <td><input type="radio" class="stockValue" name = "stockValue" value=3> Low</td>
                         
                     </tr>
                 </table>
@@ -91,7 +91,7 @@ if (!isset($_SESSION['logged_user'])){
         </div>
         <div class="row">
             <p id="charTooltip"></p>
-            <svg id="newChart" width="1000px" height="500px"></svg>
+            <svg id="newChart" width="1500px" height="500px"></svg>
         </div>
         <div id="footer">
             <footer>

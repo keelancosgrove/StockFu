@@ -15,6 +15,7 @@ sDate.setUTCFullYear((curDate.getUTCFullYear() - 1));
 startDate = 'start_date=' + sDate.toISOString().substring(0, 10);
 var chartName = "Chart Name";
 var priceOption = 1;
+var public = 0;
 
 var stockData;
 var data;
@@ -79,10 +80,8 @@ function returnCompanyMap(callback) {
 function getSecondStockData(callback) {
     if (stock2 != "") {
         stock2 = reversedMap.get(stock2);
-        console.log("test 1.5");
         var secondAPICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock2 + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
         $.getJSON(secondAPICall, function(result2) {
-            console.log("test 2");
             var data2 = result2["dataset"];
             stockData2 = data2["data"];
             for (i = 0; i < stockData2.length; i++) {
@@ -166,22 +165,27 @@ function chartCreation(APICall) {
                 .attr('stroke-width', 2)
                 .attr('fill', 'none')
                 .on("mouseover", function(){
-
-                    // Appends tooltip to chart with date and stock price information
+                    // Allows the tooltip to display
+                    demo.select("#charTooltip").style("display",null);
+                })
+                .on("mouseout", function(){
+                    // Causes tooltip text to dissapear upon removing mouse from line chart
+                    demo.select("#charTooltip").style("display","none");
+                })
+                .on("mousemove", function(){
+                    // Updates position and text in tooltip with correct information based on where mouse is on chart
                     var m = d3.svg.mouse(this);
                     var date = xScale.invert(d3.event.pageX).toString().split(" ");
                     demo.select("#charTooltip")
                     .attr("class", "thisText")
-                    .attr("x", m[0])
+                    .attr("x", m[0] + 50)
                     .attr("y",m[1] + 50)
                     .attr("fill", "black").style("text-anchor", "middle")
                     // Tooltip text format: "Month day year: Stock price"
                     .text(date[1] + " " + date[2] + " " + date[3] + ": " + Math.round(yScale.invert(m[1])*100)/100);
-                })
-                .on("mouseout", function(){
-                    // Causes tooltip text to dissapear upon removing mouse from line chart
-                    demo.select(".thisText").text("");
                 });
+
+            
 
             // Adds x-axis label
             demo.append("text")
@@ -243,6 +247,8 @@ $(function() {
         stock2 = $("#stock2").val();
         stock2Completed = (stock2 == "") ? true : false;
         priceOption = document.querySelector('input[name="stockValue"]:checked').value;
+        public = (document.getElementById("public").checked) ? 1 : 0;
+        console.log("public? " + public);
         //        priceOption = (stockValue == "Low") ? 3 : (stockValue == "High") ? 2 : 1;
 
         // Forms API call from user inputs
@@ -263,7 +269,8 @@ $(function() {
             chartName: chartName,
             minDate: minDate.toString(),
             maxDate: maxDate.toString(),
-            priceYMax: priceYMax
+            priceYMax: priceYMax,
+            publicChart: public
         });
 
         // Send relevant input, including SVG, to PHP
