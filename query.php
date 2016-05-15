@@ -13,6 +13,8 @@
     $data = array();
     $data[] = $row['minDate'];
     $data[] = $row['maxDate'];
-    $data[]= $row['priceYMax'];
+    $data[] = $row['priceYMax'];
+    $data[] = $row['dates'];
+    $data[] = $row['dateMap'];
     echo json_encode($data);
 ?>

@@ -27,6 +27,8 @@ if (!isset($_SESSION['logged_user'])){
         var maxDate;
         var xScale;
         var yScale;
+        var dates = [];
+        var dateMap;
         var height = 400;
         var width = 900;
         var margins = {
@@ -79,8 +81,8 @@ if (!isset($_SESSION['logged_user'])){
                     <td><p>
                     <?php
                         $chartName = $row['chartName'];
-                        $start_date = $row['startDate'];
-                        $end_date = $row['endDate'];
+                        $start_date = date('F d, Y', strtotime($row['startDate']));
+                        $end_date = date('F d, Y', strtotime($row['endDate']));
                         print("<h4>$chartName</h4>");
                         print("$start_date - $end_date");
                     ?>
@@ -188,6 +190,8 @@ if (!isset($_SESSION['logged_user'])){
                 minDate = new Date(data[0]);
                 maxDate = new Date(data[1]);
                 var priceYMax = data[2];
+                dates = JSON.parse(data[3]);
+                dateMap = new Map(JSON.parse(data[4]));
                 xScale = d3.time.scale().range([margins.left, width - margins.right]).domain([minDate, maxDate]);
                 yScale = d3.scale.linear().range([height - margins.top, margins.bottom]).domain([0, priceYMax]);
                 callback(xScale, yScale);
@@ -195,7 +199,7 @@ if (!isset($_SESSION['logged_user'])){
         }
 
         getChartData(function(xScale, yScale) {
-            d3.select("#lineChart")
+            d3.select("#newChart")
             .on("mouseover", function(){
                 // Allows tooltip to display in chart
                 d3.select("#charTooltip").attr("display",null);
@@ -206,16 +210,29 @@ if (!isset($_SESSION['logged_user'])){
             })
             .on("mousemove", function(){
                 // Updates position and text in tooltip with correct information based on where mouse is on chart
-                var m = d3.svg.mouse(this);
-                var date = xScale.invert(d3.event.pageX).toString().split(" ");
+                var date = xScale.invert(d3.event.pageX-margins.left).toString().split(" ");
+                var date_formatted = new Date(xScale.invert(d3.event.pageX).toString());
+                var beforedates = dates.filter(function(d) {
+                    return d-date_formatted < 0;
+                });
+                console.log(date_formatted);
+                var dateData= dateMap.get(beforedates[0]);
+                console.log(dateData);
                 d3.select("#charTooltip")
                 .attr("class", "thisText")
-                .attr("x", m[0] + 50)
-                .attr("y", m[1] + 50)
+                .attr("x", 330)
+                .attr("y", 15)
                 .attr("fill", "black").style("text-anchor", "middle")
-                // Tooltip text format: "Month day year: Stock price"
-                .text(date[1] + " " + date[2] + " " + date[3] + ": " + Math.round(yScale.invert(m[1])*100)/100);
+                // Sets text to tooltip with stock information from given date
+                .text(date[1] + " " + date[2] + " " + date[3] + 
+                    " Open: " + dateData[1] + 
+                    " High: " + dateData[2] + " Low: " + dateData[3] + 
+                    " Close: " + dateData[4] + 
+                    " Volume: " + dateData[5])
+                .style("font-weight","bold");
             });
+
+
         });
     </script>
 

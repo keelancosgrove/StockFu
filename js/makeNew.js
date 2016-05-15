@@ -15,7 +15,7 @@ sDate.setUTCFullYear((curDate.getUTCFullYear() - 1));
 startDate = 'start_date=' + sDate.toISOString().substring(0, 10);
 var chartName = "Chart Name";
 var priceOption = 1;
-var public = 0;
+var publicChart = 0;
 
 var stockData;
 var data;
@@ -24,6 +24,9 @@ var maxDate;
 var minDate;
 var stockData2;
 var priceYMax;
+var dates = [];
+
+var dateMap = new Map();
 
 
 //setup before functions
@@ -108,6 +111,12 @@ function chartCreation(APICall) {
         data = result["dataset"];
         stockData = data["data"];
         demo = d3.select("#newChart");
+        dateMap.clear();
+        dates = [];
+        for (i = 0; i < stockData.length; i++){
+            dateMap.set((new Date(stockData[i][0])).getTime(),stockData[i]);
+            dates.push((new Date(stockData[i][0])).getTime());
+        }
         maxDate = new Date(stockData[0][0]);
         minDate = new Date(stockData[stockData.length - 1][0]);
         stockData2;
@@ -163,8 +172,9 @@ function chartCreation(APICall) {
                 .attr("id", "lineChart")
                 .attr('stroke', 'green')
                 .attr('stroke-width', 2)
-                .attr('fill', 'none')
-                .on("mouseover", function(){
+                .attr('fill', 'none');
+               
+            demo.on("mouseover", function(){
                     // Allows the tooltip to display
                     demo.select("#charTooltip").style("display",null);
                 })
@@ -174,18 +184,25 @@ function chartCreation(APICall) {
                 })
                 .on("mousemove", function(){
                     // Updates position and text in tooltip with correct information based on where mouse is on chart
-                    var m = d3.svg.mouse(this);
                     var date = xScale.invert(d3.event.pageX).toString().split(" ");
+                    var date_formatted = new Date(xScale.invert(d3.event.pageX).toString());
+                    var beforedates = dates.filter(function(d) {
+                        return d-date_formatted < 0;
+                    });
+                    var dateData= dateMap.get(beforedates[0]);
                     demo.select("#charTooltip")
                     .attr("class", "thisText")
-                    .attr("x", m[0] + 50)
-                    .attr("y",m[1] + 50)
+                    .attr("x", 320)
+                    .attr("y", 15)
                     .attr("fill", "black").style("text-anchor", "middle")
-                    // Tooltip text format: "Month day year: Stock price"
-                    .text(date[1] + " " + date[2] + " " + date[3] + ": " + Math.round(yScale.invert(m[1])*100)/100);
+                    // Sets text to tooltip with stock information from given date
+                    .text(date[1] + " " + date[2] + " " + date[3] + 
+                        " Open: " + dateData[1] + 
+                        " High: " + dateData[2] + " Low: " + dateData[3] + 
+                        " Close: " + dateData[4] + 
+                        " Volume: " + dateData[5])
+                    .style("font-weight","bold");
                 });
-
-            
 
             // Adds x-axis label
             demo.append("text")
@@ -216,7 +233,7 @@ function chartCreation(APICall) {
             .text(chartName);
 
             // Gets HTML representation of svg element
-            svgChildren = /*document.getElementById("charTooltip").outerHTML + */document.getElementById("newChart").outerHTML;
+            svgChildren = document.getElementById("newChart").outerHTML;
 
         }
         displaychart();
@@ -235,7 +252,6 @@ $(function() {
 
     $('#finish').click(function() {
 
-        // Spin waits until Ajax call has completed - next segment needs updated companyMap
         // Retrieves start date, end date, and stock options from user input fields
         chartName = $("#chartName").val();
         sDate = $("#startDatePicker").val();
@@ -247,7 +263,7 @@ $(function() {
         stock2 = $("#stock2").val();
         stock2Completed = (stock2 == "") ? true : false;
         priceOption = document.querySelector('input[name="stockValue"]:checked').value;
-        public = (document.getElementById("public").checked) ? 1 : 0;
+        publicChart = (document.getElementById("public").checked) ? 1 : 0;
         console.log("public? " + public);
         //        priceOption = (stockValue == "Low") ? 3 : (stockValue == "High") ? 2 : 1;
 
@@ -261,6 +277,7 @@ $(function() {
 
         // Save minDate, maxDate, and priceYMax to reconstruct scales
         // 
+        console.log(Array.from(dateMap.entries()));
         var parameters = JSON.stringify({
             svg: svgChildren,
             company: stock1Name,
@@ -270,7 +287,9 @@ $(function() {
             minDate: minDate.toString(),
             maxDate: maxDate.toString(),
             priceYMax: priceYMax,
-            publicChart: public
+            publicChart: publicChart,
+            dates: JSON.stringify(dates),
+            dateMap: JSON.stringify(Array.from(dateMap.entries()))
         });
 
         // Send relevant input, including SVG, to PHP
@@ -285,7 +304,7 @@ $(function() {
             .done(function(data) {
                 console.log('done');
                 console.log(data);
-                window.location.replace("test.php");
+              //  window.location.replace("test.php");
             })
             .fail(function(data) {
                 console.log('failure');

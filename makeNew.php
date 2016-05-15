@@ -89,7 +89,7 @@ if (!isset($_SESSION['logged_user'])){
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="chartDiv">
             <p id="charTooltip"></p>
             <svg id="newChart" width="1500px" height="500px"></svg>
         </div>

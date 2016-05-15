@@ -70,8 +70,9 @@ else if (!isset($_GET['userID'])){
                         while ($row = $result -> fetch_assoc()){
                             $chartID = $row['chartID'];
                             $symbol = $row['name'];
-                            $startDate = $row['startDate'];
-                            $endDate = $row['endDate'];
+                            // Converts yyyy-mm-dd dates to Unix timestamp, then to Month day, year format
+                            $startDate = date('F d, Y', strtotime($row['startDate']));
+                            $endDate = date('F d, Y', strtotime($row['endDate']));
                             $chartName = $row['chartName'];
                             $svg = str_replace("width=\"1000px\"", "width=\"380px\"", $row['svg_string']);
                             $svg = str_replace("height=\"500px\"", "height=\"230px\"", $svg);
