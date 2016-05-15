@@ -76,7 +76,7 @@
                         Make chart public?<br>
                         <input type="checkbox" name="public">
                     </td>
-                    <td><a href="test.php"><button id="finish">Finish</button></a></td>
+                    <td><a href="home.php"><button id="finish">Finish</button></a></td>
                 </tr>
             </table>
         </div>

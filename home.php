@@ -18,7 +18,7 @@ else if (!isset($_GET['userID'])){
     $userQuery = $mysqli -> query("SELECT userID FROM Users WHERE username = '$username'");
     $row = $userQuery -> fetch_assoc();
     $userID = $row['userID'];
-    header("Location: test.php?userID=$userID");
+    header("Location: home.php?userID=$userID");
 }
 ?>
 

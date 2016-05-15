@@ -14,7 +14,7 @@ if (isset($_SESSION['logged_user'])){
   if ($result == false) print("Failed");
   $row = $result->fetch_assoc();
   $userID = $row['userID'];
-  header("Location: test.php?userID=$userID");
+  header("Location: home.php?userID=$userID");
 }
 ?>
 

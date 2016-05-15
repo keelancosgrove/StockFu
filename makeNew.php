@@ -63,7 +63,7 @@ if (!isset($_SESSION['logged_user'])){
                     </tr>
                     <tr>
                         <td><input id="chartName" type="text"></td>
-                        <td><input id="stock1" name="stock1" /><input type="button" name="addstock" id="add" value="+"></td>
+                        <td><input id="stock1" name="stock1" /><input type="button" name="addstock" id="add" value='+'></td>
                         <td><input type="text" name="startDate" id="startDatePicker"></td>
                         <td><input type="text" name="endDate" id="endDatePicker"></td>
                         <td><input type="button" id = "finish" name="finish" value="Finish"></td>
