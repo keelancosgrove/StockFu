@@ -198,7 +198,8 @@ function chartCreation(APICall) {
                     // Sets text to tooltip with stock information from given date
                     .text(date[1] + " " + date[2] + " " + date[3] + 
                         " Open: " + dateData[1] + 
-                        " High: " + dateData[2] + " Low: " + dateData[3] + 
+                        " High: " + dateData[2] +
+                        " Low: " + dateData[3] + 
                         " Close: " + dateData[4] + 
                         " Volume: " + dateData[5])
                     .style("font-weight","bold");
@@ -304,7 +305,7 @@ $(function() {
             .done(function(data) {
                 console.log('done');
                 console.log(data);
-              //  window.location.replace("test.php");
+                window.location.replace("test.php");
             })
             .fail(function(data) {
                 console.log('failure');

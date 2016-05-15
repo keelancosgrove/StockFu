@@ -1,9 +1,9 @@
 <?php
-error_reporting(E_ALL & ~E_NOTICE);
-session_start();
-if (!isset($_SESSION['logged_user'])){
-    header('Location: index.php');
-}
+    error_reporting(E_ALL & ~E_NOTICE);
+    session_start();
+    if (!isset($_SESSION['logged_user'])){
+        header('Location: index.php');
+    }
 ?>
 
 <!DOCTYPE html>
@@ -20,24 +20,10 @@ if (!isset($_SESSION['logged_user'])){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
-    <script src="js/viewPrivate.js"></script>
-
     <script>
-        var minDate;
-        var maxDate;
-        var xScale;
-        var yScale;
-        var dates = [];
-        var dateMap;
-        var height = 400;
-        var width = 900;
-        var margins = {
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 50
-        };
-        var demo = d3.select("#newChart");
+        $(document).ready(function() {
+            $.getScript("js/viewPrivate.js");
+        });
     </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -54,9 +40,6 @@ if (!isset($_SESSION['logged_user'])){
 </head>
 
 <body>
-
-
-
     <div class="container">
     <?php include 'navbar.php';
 
@@ -153,89 +136,12 @@ if (!isset($_SESSION['logged_user'])){
                 </table>
             </div>
         </div>
-        <?php
-            $svg = $row['svg_string'];
-            echo "<div class=\"col-md-12\" id=\"chart\">";
-                print($svg);
-            echo "</div>";
-        ?>
-    <script>
-         demo.append("text")
-        .attr("x", (width / 2))
-        .attr("y", 0 - (margins.top / 2))
-        .attr("text-anchor", "middle")
-        .attr("id", "charTooltip")
-        .style("font-size", "16px")
-        .style('fill', "black")
-        .style("text-decoration", "underline")
-        .text("chartName"); 
-
-        // Obtains chart data from database to reconstruct scales
-        function getChartData(callback){
-            var chartID = location.search.split('chartID=')[1];
-            var parameters = JSON.stringify({
-                chartID: chartID
-            });
-            $.ajax({
-                type: 'POST',
-                url: 'query.php',
-                data: {
-                    'param': parameters
-                },
-                datatype: 'json',
-            })
-            .done(function(data) {
-                // Creates scales identical to those used in makeNew.js
-                data = JSON.parse(data);
-                minDate = new Date(data[0]);
-                maxDate = new Date(data[1]);
-                var priceYMax = data[2];
-                dates = JSON.parse(data[3]);
-                dateMap = new Map(JSON.parse(data[4]));
-                xScale = d3.time.scale().range([margins.left, width - margins.right]).domain([minDate, maxDate]);
-                yScale = d3.scale.linear().range([height - margins.top, margins.bottom]).domain([0, priceYMax]);
-                callback(xScale, yScale);
-            });
-        }
-
-        getChartData(function(xScale, yScale) {
-            d3.select("#newChart")
-            .on("mouseover", function(){
-                // Allows tooltip to display in chart
-                d3.select("#charTooltip").attr("display",null);
-            })
-            .on("mouseout", function(){
-                // Causes tooltip text to dissapear upon removing mouse from line chart
-                d3.select("#charTooltip").attr("display","none");
-            })
-            .on("mousemove", function(){
-                // Updates position and text in tooltip with correct information based on where mouse is on chart
-                var date = xScale.invert(d3.event.pageX-margins.left).toString().split(" ");
-                var date_formatted = new Date(xScale.invert(d3.event.pageX).toString());
-                var beforedates = dates.filter(function(d) {
-                    return d-date_formatted < 0;
-                });
-                console.log(date_formatted);
-                var dateData= dateMap.get(beforedates[0]);
-                console.log(dateData);
-                d3.select("#charTooltip")
-                .attr("class", "thisText")
-                .attr("x", 330)
-                .attr("y", 15)
-                .attr("fill", "black").style("text-anchor", "middle")
-                // Sets text to tooltip with stock information from given date
-                .text(date[1] + " " + date[2] + " " + date[3] + 
-                    " Open: " + dateData[1] + 
-                    " High: " + dateData[2] + " Low: " + dateData[3] + 
-                    " Close: " + dateData[4] + 
-                    " Volume: " + dateData[5])
-                .style("font-weight","bold");
-            });
-
-
-        });
-    </script>
-
+    <?php
+        $svg = $row['svg_string'];
+        echo "<div class=\"col-md-12\" id=\"chart\">";
+            print($svg);
+        echo "</div>";
+    ?>
     <div id="footer">
         <footer>
             Copyright &copy; 2016 The Web Development Group. All rights reserved.
