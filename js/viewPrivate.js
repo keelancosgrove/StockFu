@@ -22,7 +22,7 @@ demo.append("text")
 .style("font-size", "16px")
 .style('fill', "black")
 .style("text-decoration", "underline")
-.text("chartName"); 
+.text("chartName");
 
 // Obtains chart data from database to reconstruct scales
 function getChartData(callback){
@@ -76,7 +76,7 @@ getChartData(function(xScale, yScale) {
             return d-date_formatted < 0;
         });
 
-        // Retrieves all relevant stock information for the closest date 
+        // Retrieves all relevant stock information for the closest date
         // Date arrays are sorted in descending order,
         // so beforedates[0] is the closest date that it still before date_formatted
         var dateData= dateMap.get(beforedates[0]);
@@ -86,10 +86,10 @@ getChartData(function(xScale, yScale) {
         .attr("y", 15)
         .attr("fill", "black").style("text-anchor", "middle")
         // Sets text to tooltip with stock information from given date
-        .text(date[1] + " " + date[2] + " " + date[3] + 
-            " Open: " + dateData[1] + 
-            " High: " + dateData[2] + " Low: " + dateData[3] + 
-            " Close: " + dateData[4] + 
+        .text(date[1] + " " + date[2] + " " + date[3] +
+            " Open: " + dateData[1] +
+            " High: " + dateData[2] + " Low: " + dateData[3] +
+            " Close: " + dateData[4] +
             " Volume: " + dateData[5])
         .style("font-weight","bold");
     });

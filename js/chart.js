@@ -33,9 +33,7 @@ var doneTypingInterval = 1000; //time in ms, 5 second for example
 var APICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock1Name + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
 
 
-function refreshChart(APICall) {
-    d3.select("svg").remove();
-    d3.select("#main").append("svg").attr("width", 1000).attr("height", 500).attr("id", "newChart");
+function refreshChart(APICall) {  
     chartCreation(APICall);
     //svgChildren = document.getElementById("newChart").outerHTML;
 }

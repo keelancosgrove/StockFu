@@ -136,6 +136,7 @@
                 </table>
             </div>
         </div>
+
     <?php
         $svg = $row['svg_string'];
         echo "<div class=\"col-md-12\" id=\"chart\">";
@@ -147,6 +148,6 @@
             Copyright &copy; 2016 The Web Development Group. All rights reserved.
         </footer>
     </div>
-</div>    
+</div>
 </body>
 </html>
