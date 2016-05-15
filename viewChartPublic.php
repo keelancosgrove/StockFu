@@ -1,97 +1,84 @@
-<?php 
-error_reporting(E_ALL & ~E_NOTICE);
-session_start();
-if (!isset($_SESSION['logged_user'])){
-    header('Location: index.php');
-}
+<?php
+    error_reporting(E_ALL & ~E_NOTICE);
+    session_start();
+    if (!isset($_SESSION['logged_user'])){
+        header('Location: index.php');
+    }
 ?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="UTF-8" />	
+
+    <meta charset="UTF-8" />
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/ionicons.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!--JavaScript-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.getScript("js/viewPrivate.js");
+        });
+    </script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>StockFu | View Public Chart</title>
+    <title>StockFu | View Public Charts</title>
+    <?php
+        require_once 'config.php';
+        $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
+        if ($mysqli->errno){
+            print('There was an error in connecting to the database:');
+            print($mysqli->error);
+            exit();
+        }
+    ?>
 </head>
 
-<style type="text/css">
-    footer{
-        position: fixed;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        height: 50px;
-        color: white;
-        text-align: center;
-        background: #9C9A9A;
-    }
-    td{
-        padding-left: 30px;
-        padding-right: 30px;
-        padding-bottom: 5px;
-        padding-top: 5px;
-        text-align: center;
-    }
-    h1{
-        font-size: 75px;
-    }
-    .stockChart{
-        border-style: solid;
-        border-color: black;
-        border-width: 5px;
-        width: 75%;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    #toolbar{
-        left: 0px;
-        right: 0px;
-        top: 0px;
-        position: absolute;
-        background: #9C9A9A;
-        width: 100%
-    }
-    #page-title{
-        font-size: 200px;
-    }
-    #navbar-element{
-        padding: 30px;
-    }
-</style>
-
 <body>
-    <?php include 'navbar.php'; ?>
     <div class="container">
+    <?php include 'navbar.php';
+
+    if (isset($_GET['chartID'])){
+        $chartID = $_GET['chartID'];
+        $selectedChart = $mysqli -> query("SELECT * FROM Charts WHERE chartID = '$chartID'");
+        if ($selectedChart == false) print("Failed to find chart with associated chart ID in database");
+        $row = $selectedChart -> fetch_assoc();
+    }
+    ?>
         <div class="row">
             <table>
                 <tr>
-                    <td><h1 class="page-title">AAPL<h1></td>
-                </tr>
-                <tr>
-                    <td><h2 class="page-title">Apple Inc.<h2></td>
-                    <td><p>Jan. 4, 2000 - Present</p></td>
-                    <td><a href="public.php"><button id="finish">Exit</button></a></td>
-                </tr>
-                <tr>
-                    <td>Made by <i>Keelan C.</i></td>
+                    <td><h1 class="page-title">
+                    <?php
+                        $symbol = $row['name'];
+                        $chartName = $row['chartName'];
+                        $start_date = date('F d, Y', strtotime($row['startDate']));
+                        $end_date = date('F d, Y', strtotime($row['endDate']));
+                        print($symbol);
+                        print("<h4>$chartName</h4>");
+                        print("$start_date - $end_date");
+                    ?>
+                    </h1></td>
                 </tr>
             </table>
         </div>
-        <img src="sample.png" id="stockChart">
-    </div>
 
-    <!--
-    <footer>
-        <div id="copyright">
+    <?php
+        $svg = $row['svg_string'];
+        print("<div class=\"col-md-12\" id=\"chart\">");
+        print($svg);
+        print("</div>");
+    ?>
+    <div id="footer">
+        <footer>
             Copyright &copy; 2016 The Web Development Group. All rights reserved.
-        </div>
-	</footer> 
-    -->
-    
+        </footer>
+    </div>
+</div>    
 </body>
 </html>

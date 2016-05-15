@@ -82,7 +82,7 @@ getChartData(function(xScale, yScale) {
         var dateData= dateMap.get(beforedates[0]);
         d3.select("#charTooltip")
         .attr("class", "thisText")
-        .attr("x", 330)
+        .attr("x", 350)
         .attr("y", 15)
         .attr("fill", "black").style("text-anchor", "middle")
         // Sets text to tooltip with stock information from given date

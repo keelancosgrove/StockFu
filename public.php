@@ -48,7 +48,7 @@ if (!isset($_SESSION['logged_user'])){
 
                 echo "
                     <div class=\"col-md-4\" id=\"stock\">
-                        <a href=\"viewChartPrivate.php?chartID=$chartID\">
+                        <a href=\"viewChartPublic.php?chartID=$chartID\">
                         <h1 class=\"symbol\">$symbol</h1>
                         <h4 class=\"company\">$chartName</h4>
                         <p class=\"dates\">$startDate to $endDate</p>
