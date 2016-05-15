@@ -38,69 +38,6 @@ var doneTypingInterval = 1000; //time in ms, 5 second for example
 
 var APICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock1Name + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
 
-function returnCompanyMap(callback) {
-    $.ajax({
-        type: "GET",
-        url: "WIKI-datasets-codes.csv",
-        dataType: "text",
-        success: function(data) {
-
-            // Generates map of company names to company codes, and reversed map
-            var companyMap = new Map();
-            var reversedMap = new Map();
-            var result = $.csv.toArrays(data);
-            for (i = 0; i < result.length; i++) {
-                companyMap.set(result[i][0].split("/")[1], result[i][1].split(" (")[0]);
-                reversedMap.set(result[i][1].split(" (")[0], result[i][0].split("/")[1]);
-
-            }
-
-            // Generates array of company names to be used for autocompletion
-            var companyNames = [];
-            for (i = 0; i < result.length; i++) {
-                companyNames.push(result[i][1].split(" (")[0]);
-            }
-
-            // Callback allows global variables to be set to appropriate maps after completion of the Ajax call
-            callback(companyMap, reversedMap, companyNames);
-            $("#stock1").autocomplete({
-                source: companyNames
-            });
-            $("#stock2").autocomplete({
-                source: companyNames
-            });
-        }
-    });
-}
-
-
-function getSecondStockData(callback) {
-    if (stock2 != "") {
-        stock2 = reversedMap.get(stock2);
-        var secondAPICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock2 + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
-        $.getJSON(secondAPICall, function(result2) {
-            var data2 = result2["dataset"];
-            stockData2 = data2["data"];
-            for (i = 0; i < stockData2.length; i++) {
-                if (stockData2[i][priceOption] > priceYMax) {
-                    priceYMax = stockData2[i][priceOption];
-                }
-            }
-            stock2Completed = true;
-            callback(stockData2, stock2Completed);
-        }).fail(function(jqxhr) {
-            alert("The data you inputted was invalid - please choose a company from the autocomplete feature");
-            stock2Completed = true;
-            callback(stockData2, stock2Completed);
-        });
-    } else {
-        callback([], true);
-    }
-}
-
-
-
-
 
 $(function() {
 
