@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/ionicons.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <!--JavaScript-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -86,36 +87,23 @@
                 <table>
                     <tr>
                         <td>
-                            Stock name or symbol:<br>
+                            <b>Stock name or symbol:</b><br>
                             <input type="text" id="stock1Name" name="stock">
                             <input type="button" name="addstock" id="add" value="+">
                         </td>
                         <td>
-                            Start Date:<br>
-                            <input type="button" name="startDate" value="Start Date">
+                            <b>Start Date:</b><br>
+                            <input type="button" name="startDate" value="Start Date" id="startDatePicker">
                         </td>
                         <td>
-                            End Date:<br>
-                            <input type="button" name="endDate" value="End Date">
+                            <b>End Date:</b><br>
+                            <input type="button" name="endDate" value="End Date" id="endDatePicker">
                         </td>
                         <td>
-                            Type of chart you want to show:<br>
-                            <input type="button" name="type" value="Choose One">
-                        </td>
-
-                        <td>
-                            <a href="test.php">
+                            <a href="viewChartPrivate.php">
                                 <input type="button" name="finish" value="Finish">
                             </a>
                         </td>
-                        <td><b>Stock name or symbol:</b></td>
-                        <td><b>Pick another Start Date:</b></td>
-                        <td><b>Pick another End Date:</b></td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" name="stock"><input type="button" name="addstock" id="add" value="+"></td>
-                        <td><input type="button" name="startDate" value="Start Date"></td>
-                        <td><input type="button" name="endDate" value="End Date"></td>
                     </tr>
                     <tr id="secondOne" style="display: none;">
                         <td>
@@ -125,13 +113,11 @@
                     </tr>
                     <tr>
                         <td colspan="3"><b>Type of chart you want to show:</b></td>
-                        <td><b>Make chart public?</b></td>
                     </tr>
                     <tr>
                         <td><input type="radio" id="stockValue" name = "stockValue" value=1> Open</td>
                         <td><input type="radio" id="stockValue" name = "stockValue" value=2> High</td>
                         <td><input type="radio" id="stockValue" name = "stockValue" value=3> Low</td>
-                        <td><input type="checkbox" name="public"></td>
                     </tr>
                 </table>
             </div>

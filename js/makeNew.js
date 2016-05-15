@@ -323,7 +323,7 @@ $(function() {
 
                 //  window.location.replace("test.php");
 
-                window.location.replace("test.php");
+                window.location.replace("home.php");
 
             })
             .fail(function(data) {

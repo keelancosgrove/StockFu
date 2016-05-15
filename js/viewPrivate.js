@@ -122,7 +122,7 @@ $(function() {
             .done(function(data) {
                 console.log("Succeeded");
                 console.log(data);
-                window.location.replace("test.php");
+                window.location.replace("home.php");
             })
             .fail(function(data) {
                 console.log("Failed");
