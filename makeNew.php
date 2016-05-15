@@ -84,12 +84,13 @@ if (!isset($_SESSION['logged_user'])){
                         <td><input type="radio" class="stockValue" name = "stockValue" value=1> Open</td>
                         <td><input type="radio" class="stockValue" name = "stockValue" value=2> High</td>
                         <td><input type="radio" class="stockValue" name = "stockValue" value=3> Low</td>
-                        
+
                     </tr>
                 </table>
             </div>
         </div>
         <div class="row" id="chartDiv">
+          <p id="noDataMessage" style="color: red; display: none;"> Warning: Graph did not update due to lack of data. </p>
             <p id="charTooltip"></p>
             <svg id="newChart" width="1500px" height="500px"></svg>
         </div>

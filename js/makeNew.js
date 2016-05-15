@@ -17,6 +17,7 @@ var chartName = "Chart Name";
 var priceOption = 1;
 var publicChart = 0;
 
+var errorData = 0;
 var stockData;
 var data;
 var demo;
@@ -36,13 +37,6 @@ var doneTypingInterval = 1000; //time in ms, 5 second for example
 
 
 var APICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock1Name + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
-
-
-function refreshChart(APICall) {
-    d3.select("svg").remove();
-    d3.select("#main").append("svg").attr("width", 1000).attr("height", 500).attr("id", "newChart");
-    chartCreation(APICall);
-}
 
 function returnCompanyMap(callback) {
     $.ajax({
@@ -110,11 +104,30 @@ function chartCreation(APICall) {
     $.getJSON(APICall).done(function(result) {
         data = result["dataset"];
         stockData = data["data"];
+
+        //Error handling for no data
+        if (stockData == 0 && errorData == 0) {
+            errorData = 1;
+            $("#noDataMessage").toggle("fast");
+            return;
+        } else if(stockData != 0 && errorData == 1){
+          errorData = 0;
+          $("#noDataMessage").toggle("fast");
+          d3.select("svg").remove();
+          d3.select("#main").append("svg").attr("width", 1000).attr("height", 500).attr("id", "newChart");
+        } else if( stockData != 0) {
+          d3.select("svg").remove();
+          d3.select("#main").append("svg").attr("width", 1000).attr("height", 500).attr("id", "newChart");
+        } else {
+          return;
+        }
+
+
         demo = d3.select("#newChart");
         dateMap.clear();
         dates = [];
-        for (i = 0; i < stockData.length; i++){
-            dateMap.set((new Date(stockData[i][0])).getTime(),stockData[i]);
+        for (i = 0; i < stockData.length; i++) {
+            dateMap.set((new Date(stockData[i][0])).getTime(), stockData[i]);
             dates.push((new Date(stockData[i][0])).getTime());
         }
         maxDate = new Date(stockData[0][0]);
@@ -173,64 +186,64 @@ function chartCreation(APICall) {
                 .attr('stroke', 'green')
                 .attr('stroke-width', 2)
                 .attr('fill', 'none');
-               
-            demo.on("mouseover", function(){
+
+            demo.on("mouseover", function() {
                     // Allows the tooltip to display
-                    demo.select("#charTooltip").style("display",null);
+                    demo.select("#charTooltip").style("display", null);
                 })
-                .on("mouseout", function(){
+                .on("mouseout", function() {
                     // Causes tooltip text to dissapear upon removing mouse from line chart
-                    demo.select("#charTooltip").style("display","none");
+                    demo.select("#charTooltip").style("display", "none");
                 })
-                .on("mousemove", function(){
+                .on("mousemove", function() {
                     // Updates position and text in tooltip with correct information based on where mouse is on chart
                     var date = xScale.invert(d3.event.pageX).toString().split(" ");
                     var date_formatted = new Date(xScale.invert(d3.event.pageX).toString());
                     var beforedates = dates.filter(function(d) {
-                        return d-date_formatted < 0;
+                        return d - date_formatted < 0;
                     });
-                    var dateData= dateMap.get(beforedates[0]);
+                    var dateData = dateMap.get(beforedates[0]);
                     demo.select("#charTooltip")
-                    .attr("class", "thisText")
-                    .attr("x", 320)
-                    .attr("y", 15)
-                    .attr("fill", "black").style("text-anchor", "middle")
-                    // Sets text to tooltip with stock information from given date
-                    .text(date[1] + " " + date[2] + " " + date[3] + 
-                        " Open: " + dateData[1] + 
-                        " High: " + dateData[2] + " Low: " + dateData[3] + 
-                        " Close: " + dateData[4] + 
-                        " Volume: " + dateData[5])
-                    .style("font-weight","bold");
+                        .attr("class", "thisText")
+                        .attr("x", 320)
+                        .attr("y", 15)
+                        .attr("fill", "black").style("text-anchor", "middle")
+                        // Sets text to tooltip with stock information from given date
+                        .text(date[1] + " " + date[2] + " " + date[3] +
+                            " Open: " + dateData[1] +
+                            " High: " + dateData[2] + " Low: " + dateData[3] +
+                            " Close: " + dateData[4] +
+                            " Volume: " + dateData[5])
+                        .style("font-weight", "bold");
                 });
 
             // Adds x-axis label
             demo.append("text")
-            .attr("x", width / 2)
-            .attr("y", height + 30)
-            .style("text-anchor", "middle")
-            .style("font-size", 16)
-            .style("font-family", "Lato")
-            .text("Date");
+                .attr("x", width / 2)
+                .attr("y", height + 30)
+                .style("text-anchor", "middle")
+                .style("font-size", 16)
+                .style("font-family", "Lato")
+                .text("Date");
 
             // Adds y-axis label
             demo.append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 10).attr("x", -height / 2)
-            .style("text-anchor", "middle")
-            .style("font-family", "Lato")
-            .text("Open Stock Price (in USD)");
+                .attr("transform", "rotate(-90)")
+                .attr("y", 10).attr("x", -height / 2)
+                .style("text-anchor", "middle")
+                .style("font-family", "Lato")
+                .text("Open Stock Price (in USD)");
 
             // Adds chart title
             demo.append("text")
-            .attr("x", (width / 2))
-            .attr("y", 0 - (margins.top / 2))
-            .attr("text-anchor", "middle")
-            .attr("id", "charTooltip")
-            .style("font-size", "16px")
-            .style('fill', "black")
-            .style("text-decoration", "underline")
-            .text(chartName);
+                .attr("x", (width / 2))
+                .attr("y", 0 - (margins.top / 2))
+                .attr("text-anchor", "middle")
+                .attr("id", "charTooltip")
+                .style("font-size", "16px")
+                .style('fill', "black")
+                .style("text-decoration", "underline")
+                .text(chartName);
 
             // Gets HTML representation of svg element
             svgChildren = document.getElementById("newChart").outerHTML;
@@ -276,7 +289,7 @@ $(function() {
         console.log(svgChildren);
 
         // Save minDate, maxDate, and priceYMax to reconstruct scales
-        // 
+        //
         console.log(Array.from(dateMap.entries()));
         var parameters = JSON.stringify({
             svg: svgChildren,
@@ -304,7 +317,7 @@ $(function() {
             .done(function(data) {
                 console.log('done');
                 console.log(data);
-              //  window.location.replace("test.php");
+                //  window.location.replace("test.php");
             })
             .fail(function(data) {
                 console.log('failure');

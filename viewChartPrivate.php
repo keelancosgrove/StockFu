@@ -168,7 +168,7 @@ if (!isset($_SESSION['logged_user'])){
         .style("font-size", "16px")
         .style('fill', "black")
         .style("text-decoration", "underline")
-        .text("chartName"); 
+        .text("chartName");
 
         // Obtains chart data from database to reconstruct scales
         function getChartData(callback){
@@ -224,10 +224,10 @@ if (!isset($_SESSION['logged_user'])){
                 .attr("y", 15)
                 .attr("fill", "black").style("text-anchor", "middle")
                 // Sets text to tooltip with stock information from given date
-                .text(date[1] + " " + date[2] + " " + date[3] + 
-                    " Open: " + dateData[1] + 
-                    " High: " + dateData[2] + " Low: " + dateData[3] + 
-                    " Close: " + dateData[4] + 
+                .text(date[1] + " " + date[2] + " " + date[3] +
+                    " Open: " + dateData[1] +
+                    " High: " + dateData[2] + " Low: " + dateData[3] +
+                    " Close: " + dateData[4] +
                     " Volume: " + dateData[5])
                 .style("font-weight","bold");
             });
@@ -241,6 +241,6 @@ if (!isset($_SESSION['logged_user'])){
             Copyright &copy; 2016 The Web Development Group. All rights reserved.
         </footer>
     </div>
-</div>    
+</div>
 </body>
 </html>
