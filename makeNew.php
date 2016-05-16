@@ -61,10 +61,17 @@ if (!isset($_SESSION['logged_user'])){
                         <td><b>Pick an End Date:</b></td></td>
                     </tr>
                     <tr>
-                        <td><input id="chartName" type="text"></td>
-                        <td><input id="stock1" name="stock1" /><input type="button" name="addstock" id="add" value='+'></td>
-                        <td><input type="text" name="startDate" id="startDatePicker"></td>
-                        <td><input type="text" name="endDate" id="endDatePicker"></td>
+                        <td><input id="chartName" type="text" value="Enter a name"></td>
+                        <td><input id="stock1" name="stock1" value="GOOGL"/></td>
+                        <?php
+                          $endDate = date("Y-m-d");
+                          $startTime = strtotime("-1 year", time());
+                          $startDate = date("Y-m-d",$startTime);
+                          echo "<td><input type=\"text\" name=\"startDate\" id=\"startDatePicker\" value=\"$startDate\"></td>";
+                          echo "<td><input type=\"text\" name=\"endDate\" id=\"endDatePicker\" value=\"$endDate\"></td>";
+                         ?>
+
+
                         <td><input type="button" id = "finish" name="finish" value="Finish"></td>
                     </tr>
                     <tr id="secondOne" style="display: none;">
@@ -80,7 +87,7 @@ if (!isset($_SESSION['logged_user'])){
                     </tr>
                     <tr id="stock-options" style="position: absolute">
                         <td colspan="3"><b>Type of chart you want to show:</b></td>
-                        <td><input type="radio" class="stockValue" name = "stockValue" value=1> Open</td>
+                        <td><input type="radio" class="stockValue" name = "stockValue" checked="checked" value=1> Open</td>
                         <td><input type="radio" class="stockValue" name = "stockValue" value=2> High</td>
                         <td><input type="radio" class="stockValue" name = "stockValue" value=3> Low</td>
 
@@ -114,7 +121,7 @@ if (!isset($_SESSION['logged_user'])){
                 </table>
             </div>
         </div>
-        
+
           <p id="noDataMessage" style="color: red; display: none;"> Warning: Graph did not update due to lack of data. </p>
             <p id="charTooltip"></p>
             <svg id="newChart" width="1500px" height="500px"></svg>
