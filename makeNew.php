@@ -25,9 +25,8 @@ if (!isset($_SESSION['logged_user'])){
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="js/chart.js"></script>
     <script src="js/makeNew.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
     <script src="jquery-csv-master/src/jquery.csv.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>StockFu | New Chart</title>
@@ -89,7 +88,7 @@ if (!isset($_SESSION['logged_user'])){
                 </table>
             </div>
         </div>
-        <div class="row" id="chartDiv">
+        <div class="row" id="chart">
           <p id="noDataMessage" style="color: red; display: none;"> Warning: Graph did not update due to lack of data. </p>
             <p id="charTooltip"></p>
             <svg id="newChart" width="1500px" height="500px"></svg>

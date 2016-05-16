@@ -79,6 +79,6 @@
             Copyright &copy; 2016 The Web Development Group. All rights reserved.
         </footer>
     </div>
-</div>    
+</div>
 </body>
 </html>

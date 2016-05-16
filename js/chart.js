@@ -6,22 +6,27 @@ var companyNames = [];
 
 var chart;
 var svgChildren;
-var stock1Name = "GOOGL";
-var stock2Name = "YHOO";
-var curDate = new Date();
-var endDate = '&end_date=' + curDate.toISOString().substring(0, 10);
-var sDate = (new Date());
-sDate.setUTCFullYear((curDate.getUTCFullYear() - 1));
-startDate = 'start_date=' + sDate.toISOString().substring(0, 10);
+var stock1Name;
+var stock2Name;
+var curDate;
+var endDate;
+var startDate;
 var chartName = "Chart Name";
 var priceOption = 1;
+var publicChart = 0;
 
+var makeNew;
+var errorData = 0;
 var stockData;
 var data;
 var demo;
 var maxDate;
 var minDate;
 var stockData2;
+var priceYMax;
+var dates = [];
+
+var dateMap = new Map();
 
 
 //setup before functions
@@ -31,7 +36,6 @@ var doneTypingInterval = 1000; //time in ms, 5 second for example
 
 
 var APICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock1Name + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
-
 
 function refreshChart(APICall) {
     chartCreation(APICall);
@@ -103,27 +107,29 @@ function getSecondStockData(callback) {
 
 
 function chartCreation(APICall) {
-
+    console.trace();
+    console.log(APICall);
     $.getJSON(APICall).done(function(result) {
         data = result["dataset"];
         stockData = data["data"];
 
         //Error handling for no data
-        if (stockData == 0 && errorData == 0) {
-            errorData = 1;
-            $("#noDataMessage").toggle("fast");
-            return;
-        } else if(stockData != 0 && errorData == 1){
-          errorData = 0;
-          $("#noDataMessage").toggle("fast");
-          d3.select("svg").remove();
-          d3.select("#main").append("svg").attr("width", 1000).attr("height", 500).attr("id", "newChart");
-        } else if( stockData != 0) {
-          d3.select("svg").remove();
-          d3.select("#main").append("svg").attr("width", 1000).attr("height", 500).attr("id", "newChart");
-        } else {
-          return;
-        }
+
+            if (stockData == 0 && errorData == 0) {
+                errorData = 1;
+                $("#noDataMessage").toggle("fast");
+                return;
+            } else if (stockData != 0 && errorData == 1) {
+                errorData = 0;
+                $("#noDataMessage").toggle("fast");
+                d3.select("svg").remove();
+                d3.select("#chart").append("svg").attr("width", 1000).attr("height", 500).attr("id", "newChart");
+            } else if (stockData != 0) {
+                d3.select("svg").remove();
+                d3.select("#chart").append("svg").attr("width", 1000).attr("height", 500).attr("id", "newChart");
+            } else {
+                return;
+            }
 
 
         demo = d3.select("#newChart");
@@ -209,17 +215,17 @@ function chartCreation(APICall) {
                     demo.select("#charTooltip")
 
                     .attr("class", "thisText")
-                    .attr("x", 320)
-                    .attr("y", 15)
-                    .attr("fill", "black").style("text-anchor", "middle")
-                    // Sets text to tooltip with stock information from given date
-                    .text(date[1] + " " + date[2] + " " + date[3] +
-                        " Open: " + dateData[1] +
-                        " High: " + dateData[2] +
-                        " Low: " + dateData[3] +
-                        " Close: " + dateData[4] +
-                        " Volume: " + dateData[5])
-                    .style("font-weight","bold");
+                        .attr("x", 320)
+                        .attr("y", 15)
+                        .attr("fill", "black").style("text-anchor", "middle")
+                        // Sets text to tooltip with stock information from given date
+                        .text(date[1] + " " + date[2] + " " + date[3] +
+                            " Open: " + dateData[1] +
+                            " High: " + dateData[2] +
+                            " Low: " + dateData[3] +
+                            " Close: " + dateData[4] +
+                            " Volume: " + dateData[5])
+                        .style("font-weight", "bold");
 
                 });
 
@@ -260,6 +266,7 @@ function chartCreation(APICall) {
 };
 
 $(function() {
+
     // Adds datepicker calendar feature to the following input fields
     $("#startDatePicker").datepicker({
         changeMonth: true,
@@ -292,15 +299,6 @@ $(function() {
     });
 
     // Reads csv of company data and generates maps of company codes to company names
-
-    // Sets global variables, as well as flag to indicate Ajax call has completed
-    returnCompanyMap(function(map, reversed, names) {
-        companyMap = map;
-        reversedMap = reversed;
-        companyNames = names;
-    });
-
-
 
     //on keyup, start the countdown
     $('#chartName').keyup(function() {

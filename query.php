@@ -16,5 +16,8 @@
     $data[] = $row['priceYMax'];
     $data[] = $row['dates'];
     $data[] = $row['dateMap'];
+		$data[] = $row['name'];
+		$data[] = $row['startDate'];
+		$data[] = $row['endDate'];
     echo json_encode($data);
 ?>

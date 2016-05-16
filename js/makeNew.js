@@ -1,47 +1,31 @@
-var companyMap;
-var reversedMap;
-var companyNames = [];
-
-
-
-var chart;
-var svgChildren;
-var stock1Name = "GOOGL";
-var stock2Name = "YHOO"
-var curDate = new Date();
-var endDate = '&end_date=' + curDate.toISOString().substring(0, 10);
-var sDate = (new Date());
+stock1Name = "GOOGL";
+stock2Name = "YHOO"
+curDate = new Date();
+endDate = '&end_date=' + curDate.toISOString().substring(0, 10);
+sDate = (new Date());
 sDate.setUTCFullYear((curDate.getUTCFullYear() - 1));
 startDate = 'start_date=' + sDate.toISOString().substring(0, 10);
-var chartName = "Chart Name";
-var priceOption = 1;
-var publicChart = 0;
+chartName = "Chart Name";
+priceOption = 1;
+publicChart = 0;
+makeNew = 1;
 
-var errorData = 0;
-var stockData;
-var data;
-var demo;
-var maxDate;
-var minDate;
-var stockData2;
-var priceYMax;
-var dates = [];
+errorData = 0;
 
-var dateMap = new Map();
-
-
-//setup before functions
-var typingTimer; //timer identifier
-var doneTypingInterval = 1000; //time in ms, 5 second for example
-
+dateMap = new Map();
 
 
 var APICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock1Name + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
 
-
 $(function() {
 
-
+  // Sets global variables, as well as flag to indicate Ajax call has completed
+  returnCompanyMap(function(map, reversed, names) {
+      companyMap = map;
+      reversedMap = reversed;
+      companyNames = names;
+  });
+  
     chartCreation(APICall);
     svgChildren = document.getElementById("newChart").outerHTML;
     $('#add').click(function() {
