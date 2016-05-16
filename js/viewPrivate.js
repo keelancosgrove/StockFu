@@ -5,12 +5,8 @@ makeNew = 0;
 
 errorData = 0;
 
-var minDate;
-var maxDate;
 var xScale;
 var yScale;
-var dates = [];
-var dateMap;
 var height = 400;
 var width = 900;
 var margins = {
@@ -53,12 +49,13 @@ function getChartData(callback) {
             startDate = "start_date=" + data[6];
             endDate = "&end_date=" + data[7];
             name = data[5];
+            chartName = data[8];
             console.log(name);
             stock1Name = reversedMap.get(name);
 
             APICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock1Name + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
 
-            var priceYMax = data[2];
+            priceYMax = data[2];
 
             // Obtains dates array and date map from JSON in database
             dates = JSON.parse(data[3]);
@@ -89,10 +86,6 @@ d3.select("#charTooltip")
     " Volume: " + dateData[5])
 .style("font-weight","bold");
 */
-
-$(document).ready(function() {
-
-});
 
 
 
@@ -186,6 +179,42 @@ $(function() {
                     console.log(data);
                 });
         }
+    });
+
+    $('#save').click(function() {
+        if (!errorData) {
+            var chartID = location.search.split('chartID=')[1];
+            var params = JSON.stringify({
+                chartID: chartID,
+                startDate: startDate.substring(11),
+                endDate: endDate.substring(10),
+                svg: svgChildren,
+                minDate: minDate.toString(),
+                maxDate: maxDate.toString(),
+                dates: JSON.stringify(dates),
+                dateMap: JSON.stringify(Array.from(dateMap.entries())),
+                public: publicChart,
+                priceYMax: priceYMax,
+                chartName: chartName
+            })
+            $.ajax({
+                    type: 'POST',
+                    url: 'save.php',
+                    data: {
+                        'param': params
+                    }
+                })
+                .done(function(data) {
+                  console.log("Succeeded");
+                  console.log(data);
+                })
+                .fail(function(data) {
+                  console.log("Failed");
+                  console.log(data);
+                });
+        }
+
+
     });
 
 

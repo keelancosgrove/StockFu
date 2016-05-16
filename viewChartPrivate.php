@@ -82,7 +82,7 @@
                         Make chart public?<br>
                         <input type="checkbox" name="public">
                     </td>
-                    <td><a href="home.php"><button id="finish">Finish</button></a></td>
+                    <td><button id="save">Save</button></a></td>
                 </tr>
             </table>
         </div>
@@ -97,7 +97,6 @@
                             <input type="button" name="addstock" id="add" value="+">
                         </td>
                         <td>
-
                             Start Date:<br>
                             <input type="text" id="startDatePicker" name="startDate">
                         </td>

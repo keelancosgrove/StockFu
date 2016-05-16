@@ -19,5 +19,6 @@
 		$data[] = $row['name'];
 		$data[] = $row['startDate'];
 		$data[] = $row['endDate'];
+		$data[] = $row['chartName'];
     echo json_encode($data);
 ?>

@@ -2,8 +2,6 @@ var companyMap;
 var reversedMap;
 var companyNames = [];
 
-
-
 var chart;
 var svgChildren;
 var stock1Name;
@@ -50,8 +48,8 @@ function returnCompanyMap(callback) {
         success: function(data) {
 
             // Generates map of company names to company codes, and reversed map
-            var companyMap = new Map();
-            var reversedMap = new Map();
+            companyMap = new Map();
+            reversedMap = new Map();
             var result = $.csv.toArrays(data);
             for (i = 0; i < result.length; i++) {
                 companyMap.set(result[i][0].split("/")[1], result[i][1].split(" (")[0]);
@@ -60,7 +58,7 @@ function returnCompanyMap(callback) {
             }
 
             // Generates array of company names to be used for autocompletion
-            var companyNames = [];
+            companyNames = [];
             for (i = 0; i < result.length; i++) {
                 companyNames.push(result[i][1].split(" (")[0]);
             }
