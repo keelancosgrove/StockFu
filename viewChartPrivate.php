@@ -21,6 +21,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
             $.getScript("js/viewPrivate.js");
@@ -51,16 +52,15 @@
         $row = $selectedChart -> fetch_assoc();
     }
     ?>
-        <div class="row">
-            <table>
-                <tr>
-                    <td><h1 class="page-title">
+    <div id="body">
+        <td><h1 class="page-title">
                     <?php
                         $symbol = $row['name'];
                         print($symbol);
                     ?>
                     </h1></td>
-                </tr>
+        <div class="row">
+            <table>
                 <tr>
                     <td><p>
                     <?php
@@ -122,17 +122,18 @@
                 </table>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-6">
-                <table>
-                    <th>
+                <table id="tooltip">
+                    <tr>
                         <td><b>Date:</b></td>
                         <td><b>Open:</b></td>
                         <td><b>High:</b></td>
                         <td><b>Low:</b></td>
                         <td><b>Close:</b></td>
                         <td><b>Volume:</b></td>
-                    </th>
+                    </tr>
                     <tr>
                         <td id="date"></td>
                         <td id="open"></td>
@@ -144,7 +145,7 @@
                 </table>
             </div>
         </div>
-
+    </div>
     <?php
         $svg = $row['svg_string'];
         echo "<div class=\"col-md-12\" id=\"chart\">";

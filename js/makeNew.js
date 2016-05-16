@@ -217,7 +217,6 @@ function chartCreation(APICall) {
                         " Close: " + dateData[4] +
                         " Volume: " + dateData[5])
                     .style("font-weight","bold");
-
                 });
 
             // Adds x-axis label

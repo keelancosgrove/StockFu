@@ -69,15 +69,15 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <table>
-                    <th>
+                <table id="tooltip">
+                    <tr>
                         <td><b>Date:</b></td>
                         <td><b>Open:</b></td>
                         <td><b>High:</b></td>
                         <td><b>Low:</b></td>
                         <td><b>Close:</b></td>
                         <td><b>Volume:</b></td>
-                    </th>
+                    </tr>
                     <tr>
                         <td id="date"></td>
                         <td id="open"></td>

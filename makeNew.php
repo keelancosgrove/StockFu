@@ -89,6 +89,30 @@ if (!isset($_SESSION['logged_user'])){
                 </table>
             </div>
         </div>
+<!--
+        <div class="row">
+            <div class="col-md-6">
+                <table id="tooltip">
+                    <tr>
+                        <td><b>Date:</b></td>
+                        <td><b>Open:</b></td>
+                        <td><b>High:</b></td>
+                        <td><b>Low:</b></td>
+                        <td><b>Close:</b></td>
+                        <td><b>Volume:</b></td>
+                    </tr>
+                    <tr>
+                        <td id="date"></td>
+                        <td id="open"></td>
+                        <td id="high"></td>
+                        <td id="low"></td>
+                        <td id="close"></td>
+                        <td id="volume"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+-->
         <div class="row" id="chartDiv">
           <p id="noDataMessage" style="color: red; display: none;"> Warning: Graph did not update due to lack of data. </p>
             <p id="charTooltip"></p>

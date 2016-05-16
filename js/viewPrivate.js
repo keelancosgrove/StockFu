@@ -80,6 +80,7 @@ getChartData(function(xScale, yScale) {
         // Date arrays are sorted in descending order,
         // so beforedates[0] is the closest date that it still before date_formatted
         var dateData= dateMap.get(beforedates[0]);
+        /*
         d3.select("#charTooltip")
         .attr("class", "thisText")
         .attr("x", 350)
@@ -92,6 +93,15 @@ getChartData(function(xScale, yScale) {
             " Close: " + dateData[4] +
             " Volume: " + dateData[5])
         .style("font-weight","bold");
+        */
+        $(document).ready(function(){
+            $("#date").html(date[1] + " " + date[2] + " " + date[3]);
+            $("#open").html(dateData[1].toFixed(2));
+            $("#high").html(dateData[2].toFixed(2));
+            $("#low").html(dateData[3].toFixed(2));
+            $("#close").html(dateData[4].toFixed(2));
+            $("#volume").html(dateData[5]);
+        });
     });
 });
 
