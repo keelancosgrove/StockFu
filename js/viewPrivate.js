@@ -183,6 +183,9 @@ $(function() {
         publicChart = (document.getElementById("publicChoice").checked) ? 1 : 0;
         if (!errorData) {
             var chartID = location.search.split('chartID=')[1];
+            
+            var svgChildren = document.getElementById("newChart").outerHTML;
+            console.log(svgChildren);
             var params = JSON.stringify({
                 chartID: chartID,
                 startDate: startDate.substring(11),
@@ -206,10 +209,12 @@ $(function() {
                 .done(function(data) {
                   console.log("Succeeded");
                   console.log(data);
+                  $("#save-confirmation").text("Changes successfully saved!");
                 })
                 .fail(function(data) {
                   console.log("Failed");
                   console.log(data);
+                  $("#save-confirmation").text("Changes were not successfully saved.");
                 });
         }
 

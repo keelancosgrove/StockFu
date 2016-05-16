@@ -105,6 +105,7 @@
                         </td>
                         <td>
                             <button id="save">Save</button>
+                            <p id="save-confirmation">Your changes will be reflected on the home page</p>
                         </td>
                     </tr>
                     <tr id="secondOne" style="display: none;">
