@@ -92,11 +92,6 @@
                 <table>
                     <tr>
                         <td>
-                            <b>Stock name or symbol:</b><br>
-                            <input type="text" id="stock1Name" name="stock">
-                            <input type="button" name="addstock" id="add" value="+">
-                        </td>
-                        <td>
                             Start Date:<br>
                             <input type="text" id="startDatePicker" name="startDate">
                         </td>

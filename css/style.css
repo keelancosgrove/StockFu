@@ -108,7 +108,7 @@
         color: white;
         font-size: 18px;
     }
-    #login-form{
+    .login-form{
         padding: 30px;
         background-color: #6A6A6A;
         border-radius: 10px;
