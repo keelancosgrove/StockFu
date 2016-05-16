@@ -48,7 +48,7 @@ if (isset($_SESSION['logged_user'])){
 
         <div class="row">
             <div>
-                <h1 class="page-title">Login</h1>
+                <h1 class="login-title">Login</h1>
             </div>
         </div>
         <div class="row">
@@ -56,7 +56,7 @@ if (isset($_SESSION['logged_user'])){
                 <div id="login-form">
                     <form method="post">
                         <table>
-                            <tr><td colspan="2" id="label"><b>Login Here:</b></td></tr>
+                            <tr><td colspan="2" class="label"><b>Login Here:</b></td></tr>
                             <tr>
                                 <td class="label">Username:</td>
                                 <td><input type="text" name="Username"></td>
@@ -74,7 +74,7 @@ if (isset($_SESSION['logged_user'])){
                 <div id="login-form">
                     <form method="post">
                         <table>
-                            <tr><td colspan="2" id="label"><b>Are you new? Create a user:</b></td></tr>
+                            <tr><td colspan="2" class="label"><b>Are you new? Create a user:</b></td></tr>
                             <tr>
                                 <td class="label">Username:</td>
                                 <td><input type="text" name="newUser"></td>
@@ -110,7 +110,7 @@ if (isset($_SESSION['logged_user'])){
                     //Passwords match - allow user to log in, and update SESSION variable
                     //print("You have logged in successfully, $username.");
                     $_SESSION['logged_user'] = $username;
-                    echo "<META HTTP-EQUIV=\"refresh\" content=\"0;URL=test.php?userID=$userID\">";
+                    echo "<META HTTP-EQUIV=\"refresh\" content=\"0;URL=home.php?userID=$userID\">";
                 }
                 else {
                     print("You did not login successfully. Please make sure your username and password are correct.");

@@ -122,6 +122,28 @@
                 </table>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <table>
+                    <th>
+                        <td><b>Date:</b></td>
+                        <td><b>Open:</b></td>
+                        <td><b>High:</b></td>
+                        <td><b>Low:</b></td>
+                        <td><b>Close:</b></td>
+                        <td><b>Volume:</b></td>
+                    </th>
+                    <tr>
+                        <td id="date"></td>
+                        <td id="open"></td>
+                        <td id="high"></td>
+                        <td id="low"></td>
+                        <td id="close"></td>
+                        <td id="volume"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
 
     <?php
         $svg = $row['svg_string'];

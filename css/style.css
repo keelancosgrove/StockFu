@@ -63,6 +63,8 @@
     }
     #bucket{
         margin-bottom: 50px;
+        background-color: #EDEDED;
+        border-radius: 10px;
     }
     #header{
         left: 0px;
@@ -161,7 +163,13 @@
         font-family: Lato;
         font-size: 13px;
     }
-
+    .login-title{
+        margin-top: 75px; 
+        font-size: 50px;
+        text-align: center;
+        color: black;
+        font-family: 'Avenir', Verdana, sans-serif;
+    }
     #navlist {
         display: inline-flex;
     }

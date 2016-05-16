@@ -51,7 +51,9 @@ else if (!isset($_GET['userID'])){
                 $username = $_SESSION['logged_user'];
                 $query  = "SELECT userID FROM Users WHERE username = '$username'";
                 $result = $mysqli->query($query);
-                if ($result == false) print("<h1>...Who are you?</h1>");
+                if ($result == false) {
+                    print("<h1>...Who are you?</h1>");
+                }
                 $row = $result -> fetch_assoc();
                 $logged_userID = $row['userID'];
                 if ($logged_userID == $userID) {
