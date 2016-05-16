@@ -52,7 +52,7 @@ if (isset($_SESSION['logged_user'])){
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6" class="login-col">
+            <div class="col-md-6 login-col">
                 <div id="login-form">
                     <form method="post">
                         <table>
@@ -70,7 +70,7 @@ if (isset($_SESSION['logged_user'])){
                     </form>
                 </div>
             </div>
-            <div class="col-md-6" class="login-col">
+            <div class="col-md-6 login-col">
                 <div id="login-form">
                     <form method="post">
                         <table>
