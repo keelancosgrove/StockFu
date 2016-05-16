@@ -28,44 +28,41 @@ if (!isset($_SESSION['logged_user'])){
 <body>
     <div class="container">
         <?php include 'navbar.php'; ?>
-        <div class="row">
-            <h1 class="page-title">Public Charts</h1>
+        <div id="body">
+            <div class="row">
+                <h1 class="page-title">Public Charts</h1>
+            </div>
+            <div class="row" id="bucket">
+            <?php
+                require_once 'config.php';
+                $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+                $publicCharts = $mysqli -> query("SELECT * FROM Charts WHERE Public = 1");
+                while ($row = $publicCharts -> fetch_assoc()){
+                    $chartID = $row['chartID'];
+                    $symbol = $row['name'];
+                    $startDate = date('F d, Y', strtotime($row['startDate']));
+                    $endDate = date('F d, Y', strtotime($row['endDate']));
+                    $chartName = $row['chartName'];
+                    $svg = str_replace("width=\"1000px\"", "width=\"380px\"", $row['svg_string']);
+                    $svg = str_replace("height=\"500px\"", "height=\"230px\"", $svg);
+                    $svg = str_replace("id=\"newChart\"", "class=\"backgroundSvg\"", $svg);
+                    echo "
+                        <div class=\"col-md-4\" id=\"stock\">
+                            <a href=\"viewChartPublic.php?chartID=$chartID\">
+                            <h1 class=\"symbol\">$symbol</h1>
+                            <h4 class=\"company\">$chartName</h4>
+                            <p class=\"dates\">$startDate to $endDate</p>
+                            </a>
+                        </div>";
+                }
+            ?>
+            </div>
+            <div id="footer">
+                <footer>
+                        Copyright &copy; 2016 The Web Development Group. All rights reserved.
+                </footer>
+            </div>
         </div>
-
-        <?php
-            require_once 'config.php';
-            $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-            $publicCharts = $mysqli -> query("SELECT * FROM Charts WHERE Public = 1");
-            while ($row = $publicCharts -> fetch_assoc()){
-                $chartID = $row['chartID'];
-                $symbol = $row['name'];
-                $startDate = date('F d, Y', strtotime($row['startDate']));
-                $endDate = date('F d, Y', strtotime($row['endDate']));
-                $chartName = $row['chartName'];
-                $svg = str_replace("width=\"1000px\"", "width=\"380px\"", $row['svg_string']);
-                $svg = str_replace("height=\"500px\"", "height=\"230px\"", $svg);
-                $svg = str_replace("id=\"newChart\"", "class=\"backgroundSvg\"", $svg);
-
-                echo "
-                    <div class=\"col-md-4\" id=\"stock\">
-                        <a href=\"viewChartPublic.php?chartID=$chartID\">
-                        <h1 class=\"symbol\">$symbol</h1>
-                        <h4 class=\"company\">$chartName</h4>
-                        <p class=\"dates\">$startDate to $endDate</p>
-                        </a>
-                    </div>";
-            }
-
-        ?>
     </div>
-
-    <!--
-    <footer>
-        <div id="copyright">
-            Copyright &copy; 2016 The Web Development Group. All rights reserved.
-        </div>
-	</footer> 
-    -->
-    
 </body>
 </html>

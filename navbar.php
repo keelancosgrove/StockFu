@@ -12,7 +12,7 @@
     if ($IDQuery == false) print("Failed to query userID");
     $row = $IDQuery -> fetch_assoc();
     $userID = strval($row['userID']);
-    $home = 'test.php?userID='.$userID;
+    $home = 'home.php?userID='.$userID;
 	print('
         <div id="header">
             <div id="navigation-bar">

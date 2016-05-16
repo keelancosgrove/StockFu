@@ -56,7 +56,7 @@ function getChartData(callback) {
             console.log(name);
             stock1Name = reversedMap.get(name);
 
-           APICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock1Name + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
+            APICall = 'https://www.quandl.com/api/v3/datasets/WIKI/' + stock1Name + '.json?' + startDate + endDate + '&api_key=KDzspapgf7Mv2zbUmTgd';
 
             var priceYMax = data[2];
 
@@ -71,14 +71,38 @@ function getChartData(callback) {
         });
 }
 
+// Retrieves all relevant stock information for the closest date
+// Date arrays are sorted in descending order,
+// so beforedates[0] is the closest date that it still before date_formatted
+
+/*
+d3.select("#charTooltip")
+.attr("class", "thisText")
+.attr("x", 350)
+.attr("y", 15)
+.attr("fill", "black").style("text-anchor", "middle")
+// Sets text to tooltip with stock information from given date
+.text(date[1] + " " + date[2] + " " + date[3] +
+    " Open: " + dateData[1] +
+    " High: " + dateData[2] + " Low: " + dateData[3] +
+    " Close: " + dateData[4] +
+    " Volume: " + dateData[5])
+.style("font-weight","bold");
+*/
+
+$(document).ready(function() {
+
+});
+
+
 
 $(function() {
-  // Sets global variables, as well as flag to indicate Ajax call has completed
-  returnCompanyMap(function(map, reversed, names) {
-      companyMap = map;
-      reversedMap = reversed;
-      companyNames = names;
-  });
+    // Sets global variables, as well as flag to indicate Ajax call has completed
+    returnCompanyMap(function(map, reversed, names) {
+        companyMap = map;
+        reversedMap = reversed;
+        companyNames = names;
+    });
 
     // Adds datepicker calendar feature to the following input fields
 
@@ -101,23 +125,30 @@ $(function() {
                 var beforedates = dates.filter(function(d) {
                     return d - date_formatted < 0;
                 });
+                var dateData = dateMap.get(beforedates[0]);
+                $("#date").html(date[1] + " " + date[2] + " " + date[3]);
+                $("#open").html(dateData[1].toFixed(2));
+                $("#high").html(dateData[2].toFixed(2));
+                $("#low").html(dateData[3].toFixed(2));
+                $("#close").html(dateData[4].toFixed(2));
+                $("#volume").html(dateData[5]);
 
                 // Retrieves all relevant stock information for the closest date
                 // Date arrays are sorted in descending order,
                 // so beforedates[0] is the closest date that it still before date_formatted
                 var dateData = dateMap.get(beforedates[0]);
-                d3.select("#charTooltip")
-                    .attr("class", "thisText")
-                    .attr("x", 350)
-                    .attr("y", 15)
-                    .attr("fill", "black").style("text-anchor", "middle")
-                    // Sets text to tooltip with stock information from given date
-                    .text(date[1] + " " + date[2] + " " + date[3] +
-                        " Open: " + dateData[1] +
-                        " High: " + dateData[2] + " Low: " + dateData[3] +
-                        " Close: " + dateData[4] +
-                        " Volume: " + dateData[5])
-                    .style("font-weight", "bold");
+                // d3.select("#charTooltip")
+                //     .attr("class", "thisText")
+                //     .attr("x", 350)
+                //     .attr("y", 15)
+                //     .attr("fill", "black").style("text-anchor", "middle")
+                //     // Sets text to tooltip with stock information from given date
+                //     .text(date[1] + " " + date[2] + " " + date[3] +
+                //         " Open: " + dateData[1] +
+                //         " High: " + dateData[2] + " Low: " + dateData[3] +
+                //         " Close: " + dateData[4] +
+                //         " Volume: " + dateData[5])
+                //     .style("font-weight", "bold");
             });
     });
 
@@ -148,7 +179,7 @@ $(function() {
                 .done(function(data) {
                     console.log("Succeeded");
                     console.log(data);
-                    window.location.replace("test.php");
+                    window.location.replace("home.php");
                 })
                 .fail(function(data) {
                     console.log("Failed");

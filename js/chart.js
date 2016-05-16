@@ -214,18 +214,18 @@ function chartCreation(APICall) {
                     var dateData = dateMap.get(beforedates[0]);
                     demo.select("#charTooltip")
 
-                    .attr("class", "thisText")
-                        .attr("x", 320)
-                        .attr("y", 15)
-                        .attr("fill", "black").style("text-anchor", "middle")
-                        // Sets text to tooltip with stock information from given date
-                        .text(date[1] + " " + date[2] + " " + date[3] +
-                            " Open: " + dateData[1] +
-                            " High: " + dateData[2] +
-                            " Low: " + dateData[3] +
-                            " Close: " + dateData[4] +
-                            " Volume: " + dateData[5])
-                        .style("font-weight", "bold");
+                    // .attr("class", "thisText")
+                    //     .attr("x", 320)
+                    //     .attr("y", 15)
+                    //     .attr("fill", "black").style("text-anchor", "middle")
+                    //     // Sets text to tooltip with stock information from given date
+                    //     .text(date[1] + " " + date[2] + " " + date[3] +
+                    //         " Open: " + dateData[1] +
+                    //         " High: " + dateData[2] +
+                    //         " Low: " + dateData[3] +
+                    //         " Close: " + dateData[4] +
+                    //         " Volume: " + dateData[5])
+                    //     .style("font-weight", "bold");
 
                 });
 
