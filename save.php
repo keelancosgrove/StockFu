@@ -14,14 +14,15 @@
     $minDate = $chartData -> minDate;
     $maxDate = $chartData -> maxDate;
     $priceYMax = $chartData -> priceYMax;
-    $public = $chartData -> publicChart;
+    $public = $chartData -> publicBool;
     $dates = $chartData -> dates;
     $dateMap = $chartData -> dateMap;
+    $chartName = $chartData -> chartName
 
     $varQuery = $mysqli -> query("UPDATE Charts SET chartName='$chartName',
     startDate='$startDate',endDate='$endDate',svg_string='$svg_string',
     minDate='$minDate',maxDate='$maxDate',priceYMax='$priceYMax',public='$public',
-    dates='$dates',dateMap='$dateMap' WHERE chartID = $chartID");
+    dates='$dates',dateMap='$dateMap' WHERE chartID = '$chartID'");
 
 
 ?>

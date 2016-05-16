@@ -1,4 +1,3 @@
-chartName = "Chart Name";
 priceOption = 1;
 publicChart = 0;
 makeNew = 0;
@@ -193,7 +192,7 @@ $(function() {
                 maxDate: maxDate.toString(),
                 dates: JSON.stringify(dates),
                 dateMap: JSON.stringify(Array.from(dateMap.entries())),
-                public: publicChart,
+                publicBool: publicChart,
                 priceYMax: priceYMax,
                 chartName: chartName
             })
