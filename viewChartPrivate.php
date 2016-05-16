@@ -79,10 +79,10 @@
                     <td><button id="edit">Edit Chart</button></td>
                     <td><button id="delete">Delete Chart</button></td>
                     <td>
-                        Make chart public?<br>
-                        <input type="checkbox" name="public">
+                        <a href="home.php">
+                            <input type="button" name="finish" value="X">
+                        </a>
                     </td>
-                    <td><button id="save">Save</button></a></td>
                 </tr>
             </table>
         </div>
@@ -105,9 +105,11 @@
                             <input type="text" id="endDatePicker" name="endDate" >
                         </td>
                         <td>
-                            <a href="viewChartPrivate.php">
-                                <input type="button" name="finish" value="Finish">
-                            </a>
+                            Make chart public?<br>
+                            <input type="checkbox" name="public">
+                        </td>
+                        <td>
+                            <button id="save">Save</button>
                         </td>
                     </tr>
                     <tr id="secondOne" style="display: none;">
