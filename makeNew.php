@@ -91,7 +91,7 @@ if (!isset($_SESSION['logged_user'])){
 
         <div class="row" id="chart">
 
-<!--
+
         <div class="row">
             <div class="col-md-6">
                 <table id="tooltip">
@@ -114,7 +114,7 @@ if (!isset($_SESSION['logged_user'])){
                 </table>
             </div>
         </div>
--->
+        
           <p id="noDataMessage" style="color: red; display: none;"> Warning: Graph did not update due to lack of data. </p>
             <p id="charTooltip"></p>
             <svg id="newChart" width="1500px" height="500px"></svg>

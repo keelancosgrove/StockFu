@@ -111,7 +111,7 @@ $(function() {
             })
             .on("mousemove", function() {
                 // Updates position and text in tooltip with correct information based on where mouse is on chart
-                var date = xScale.invert(d3.event.pageX - margins.left - margins.right).toString().split(" ");
+                var date = xScale.invert(d3.event.pageX - 2*margins.left - margins.right).toString().split(" ");
                 var date_formatted = new Date(xScale.invert(d3.event.pageX).toString());
 
                 // Creates an array of all dates before the date on the x scale

@@ -204,13 +204,18 @@ function chartCreation(APICall) {
                 })
                 .on("mousemove", function() {
                     // Updates position and text in tooltip with correct information based on where mouse is on chart
-                    var date = xScale.invert(d3.event.pageX).toString().split(" ");
+                    var date = xScale.invert(d3.event.pageX - 2*margins.left - margins.right).toString().split(" ");
                     var date_formatted = new Date(xScale.invert(d3.event.pageX).toString());
                     var beforedates = dates.filter(function(d) {
                         return d - date_formatted < 0;
                     });
                     var dateData = dateMap.get(beforedates[0]);
-                    demo.select("#charTooltip")
+                    $("#date").html(date[1] + " " + date[2] + " " + date[3]);
+                    $("#open").html(dateData[1].toFixed(2));
+                    $("#high").html(dateData[2].toFixed(2));
+                    $("#low").html(dateData[3].toFixed(2));
+                    $("#close").html(dateData[4].toFixed(2));
+                    $("#volume").html(dateData[5]);
 
                     // .attr("class", "thisText")
                     //     .attr("x", 320)
