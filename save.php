@@ -17,12 +17,11 @@
     $public = $chartData -> publicBool;
     $dates = $chartData -> dates;
     $dateMap = $chartData -> dateMap;
-    $chartName = $chartData -> chartName
+    $chartName = $chartData -> chartName;
 
     $varQuery = $mysqli -> query("UPDATE Charts SET chartName='$chartName',
     startDate='$startDate',endDate='$endDate',svg_string='$svg_string',
     minDate='$minDate',maxDate='$maxDate',priceYMax='$priceYMax',public='$public',
     dates='$dates',dateMap='$dateMap' WHERE chartID = '$chartID'");
-
-
+    print("{}");
 ?>

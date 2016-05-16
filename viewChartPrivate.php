@@ -101,7 +101,7 @@
                         </td>
                         <td>
                             Make chart public?<br>
-                            <input type="checkbox" name="public">
+                            <input type="checkbox" id = "publicChoice" name="public">
                         </td>
                         <td>
                             <button id="save">Save</button>

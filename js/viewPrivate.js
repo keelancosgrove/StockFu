@@ -1,5 +1,4 @@
 priceOption = 1;
-publicChart = 0;
 makeNew = 0;
 
 errorData = 0;
@@ -181,6 +180,7 @@ $(function() {
     });
 
     $('#save').click(function() {
+        publicChart = (document.getElementById("publicChoice").checked) ? 1 : 0;
         if (!errorData) {
             var chartID = location.search.split('chartID=')[1];
             var params = JSON.stringify({
