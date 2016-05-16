@@ -204,7 +204,7 @@ function chartCreation(APICall) {
                 })
                 .on("mousemove", function() {
                     // Updates position and text in tooltip with correct information based on where mouse is on chart
-                    var date = xScale.invert(d3.event.pageX - 2*margins.left - margins.right).toString().split(" ");
+                    var date = xScale.invert(d3.event.pageX - margins.left - margins.right).toString().split(" ");
                     var date_formatted = new Date(xScale.invert(d3.event.pageX).toString());
                     var beforedates = dates.filter(function(d) {
                         return d - date_formatted < 0;
