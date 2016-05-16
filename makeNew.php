@@ -92,10 +92,12 @@ if (!isset($_SESSION['logged_user'])){
                         <td><input type="radio" class="stockValue" name = "stockValue" value=3> Low</td>
 
                     </tr>
+
                 </table>
+
             </div>
         </div>
-
+        <br>
         <div class="row" id="chart">
 
 
